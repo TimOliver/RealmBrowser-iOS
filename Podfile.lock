@@ -1,0 +1,17 @@
+PODS:
+  - Realm (2.1.0):
+    - Realm/Headers (= 2.1.0)
+  - Realm/Headers (2.1.0)
+  - XLForm (3.3.0)
+
+DEPENDENCIES:
+  - Realm
+  - XLForm
+
+SPEC CHECKSUMS:
+  Realm: bc829ad0ef3d4eea70c34cfcc3b1704d18d50df1
+  XLForm: d5c391dfc62865927b5bcab0a5a0dbfb3e02b0ec
+
+PODFILE CHECKSUM: 35f99646baf9f5d61935402cb5a1c35342dd1d07
+
+COCOAPODS: 1.1.1
