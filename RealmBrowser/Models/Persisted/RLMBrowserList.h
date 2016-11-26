@@ -7,7 +7,6 @@
 //
 
 #import <Realm/Realm.h>
-
 #import "RLMBrowserRealm.h"
 
 NS_ASSUME_NONNULL_BEGIN

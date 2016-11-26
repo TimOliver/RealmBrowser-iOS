@@ -10,6 +10,9 @@
 
 @implementation RLMBrowserList
 
-@property (
++ (BOOL)shouldIncludeInDefaultSchema
+{
+    return NO;
+}
 
 @end

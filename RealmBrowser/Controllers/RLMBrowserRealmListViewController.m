@@ -58,7 +58,7 @@
         cell.textLabel.text = realm.name;
     }
     else {
-        cell.textLabel.text = realm.schema[indexPath.row-1].name;
+        cell.textLabel.text = realm.schema[indexPath.row-1].className;
     }
     
     return cell;

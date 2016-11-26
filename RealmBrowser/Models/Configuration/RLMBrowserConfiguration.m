@@ -7,6 +7,9 @@
 //
 
 #import "RLMBrowserConfiguration.h"
+#import "RLMBrowserConstants.h"
+
+#import "RLMBrowserList.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserSchema.h"
 
@@ -18,14 +21,17 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *applicationSupportDirectory = [paths firstObject];
     
-    NSString *browserRealmDirectory = [applicationSupportDirectory stringByAppendingPathComponent:@"io.realm.browser"];
+    // Create a uniquely named folder to store the Browser Realm
+    NSString *browserRealmDirectory = [applicationSupportDirectory stringByAppendingPathComponent:kRLMBrowserIdentifier];
     [[NSFileManager defaultManager] createDirectoryAtPath:browserRealmDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     
+    // Build the final file path to the Realm file
     NSString *browserRealmPath = [browserRealmDirectory stringByAppendingPathComponent:@"browser.realm"];
     
+    // Generate the Realm Configuration
     RLMRealmConfiguration *configuration = [[RLMRealmConfiguration alloc] init];
     configuration.fileURL = [NSURL fileURLWithPath:browserRealmPath];
-    configuration.objectClasses = @[[RLMBrowserRealm class], [RLMBrowserSchema class]];
+    configuration.objectClasses = @[[RLMBrowserSchema class], [RLMBrowserRealm class], [RLMBrowserList class]];
     configuration.deleteRealmIfMigrationNeeded = YES;
     return configuration;
 }
