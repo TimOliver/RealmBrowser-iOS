@@ -20,7 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) RLMArray<RLMBrowserRealm *><RLMBrowserRealm> *starredRealms;
 
 /** The remaining list of Realms, ordered by most recently touched */
-@property (nonatomic, strong) RLMArray<RLMBrowserRealm *><RLMBrowserRealm> *orderedRealms;
+@property (nonatomic, strong) RLMArray<RLMBrowserRealm *><RLMBrowserRealm> *allRealms;
+
++ (instancetype)defaultListInRealm:(RLMRealm *)realm;
 
 @end
 

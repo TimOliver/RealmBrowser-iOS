@@ -8,12 +8,19 @@
 
 #import "RLMBrowserRealmListViewController.h"
 
+#import "RLMBrowserList.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserConfiguration.h"
 
 @interface RLMBrowserRealmListViewController ()
 
-@property (nonatomic, strong) RLMResults<RLMBrowserRealm *> *realms;
+@property (nonatomic, strong) RLMBrowserList *realmList;
+
+@property (nonatomic, strong) RLMBrowserRealm *defaultRealm;
+@property (nonatomic, strong) RLMArray<RLMBrowserRealm *> *starredRealms;
+@property (nonatomic, strong) RLMResults<RLMBrowserRealm *> *filteredRealms;
+
+- (RLMBrowserRealm *)itemForSection:(NSInteger)index;
 
 @end
 
@@ -33,17 +40,50 @@
     self.title = @"Realms";
     
     RLMRealm *realm = [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
-    self.realms = [RLMBrowserRealm allObjectsInRealm:realm];
+    self.realmList = [RLMBrowserList defaultListInRealm:realm];
+    
+    self.defaultRealm = self.realmList.defaultRealm;
+    self.starredRealms = self.realmList.starredRealms;
+    self.filteredRealms = [self.realmList.allRealms objectsWhere:@"(self.uuid != %@) AND NOT (self.uuid in %@)",
+                                                                    self.defaultRealm.uuid, self.starredRealms];
+}
+
+#pragma mark - Data Handling -
+- (RLMBrowserRealm *)itemForSection:(NSInteger)index
+{
+    if (self.defaultRealm && index == 0) {
+        return self.defaultRealm;
+    }
+    
+    NSInteger offset = self.defaultRealm ? 1 : 0;
+    
+    if (self.starredRealms.count && index < self.starredRealms.count - offset) {
+        return self.starredRealms[index - offset];
+    }
+    
+    offset += self.starredRealms.count;
+    
+    if (self.filteredRealms.count == 0) {
+        return nil;
+    }
+    
+    return self.filteredRealms[index - offset];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.realms.count;
+    NSInteger numberOfSections = 0;
+    
+    if (self.defaultRealm) { numberOfSections += 1; }
+    numberOfSections += self.starredRealms.count;
+    numberOfSections += self.filteredRealms.count;
+    
+    return numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1 + self.realms[section].schema.count;
+    return 1 + [self itemForSection:section].schema.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,7 +93,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    RLMBrowserRealm *realm = self.realms[indexPath.section];
+    RLMBrowserRealm *realm = [self itemForSection:indexPath.section];
     if (indexPath.row == 0) {
         cell.textLabel.text = realm.name;
     }

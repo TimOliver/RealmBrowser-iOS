@@ -10,6 +10,26 @@
 
 @implementation RLMBrowserRealm
 
++ (NSString *)contentDirectoryPath
+{
+    static NSString *contentDirectoryPath = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *documentsDirectory = [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                                               inDomains:NSUserDomainMask] lastObject] path];
+        contentDirectoryPath = [documentsDirectory stringByDeletingLastPathComponent];
+    });
+    
+    return contentDirectoryPath;
+}
+
++ (NSString *)relativeFilePathFromAbsolutePath:(NSString *)path
+{
+    return [path stringByReplacingOccurrencesOfString:[RLMBrowserRealm contentDirectoryPath] withString:@""];
+}
+
+#pragma mark - Realm Overrides -
+
 + (NSArray<NSString *> *)indexedProperties
 {
     return @[@"filePath", @"inMemoryIdentifier", @"syncURL"];
@@ -27,7 +47,11 @@
 
 + (NSDictionary *)defaultPropertyValues
 {
-    return @{@"uuid": [NSUUID UUID].UUIDString};
+    return @{
+                @"uuid": [NSUUID UUID].UUIDString,
+                @"readOnly": @0,
+                @"schemaVersion": @-1
+            };
 }
 
 @end

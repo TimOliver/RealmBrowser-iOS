@@ -8,6 +8,6 @@
 
 #import <Realm/Realm.h>
 
-@interface RLMRealm (Capture)
+@interface RLMRealm (BrowserCapture)
 
 @end

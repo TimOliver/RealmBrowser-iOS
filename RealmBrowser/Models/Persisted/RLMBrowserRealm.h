@@ -31,12 +31,17 @@ NS_ASSUME_NONNULL_BEGIN
 /* Read-Write state of Realm file */
 @property (nonatomic, assign) BOOL readOnly;
 
-/* Sorting Properties of the Realm */
-@property (nonatomic, assign) BOOL isDefaultRealm;
-@property (nonatomic, assign) BOOL isFavorite;
+/* A copy of the schema version */
+@property (nonatomic, assign) NSInteger schemaVersion;
 
 /* The schema in this Realm file */
 @property (nonatomic, strong) RLMArray<RLMBrowserSchema *><RLMBrowserSchema> *schema;
+
+/* The absolute file path to this Realm */
+@property (nonatomic, readonly) NSString *absoluteFilePath;
+
+/* Convert any absolute file paths to relative before saving */
++ (NSString *)relativeFilePathFromAbsolutePath:(NSString *)path;
 
 @end
 

@@ -20,7 +20,7 @@
             [realm addObjects:[Person generateTestData]];
         }];
     }
-    
+
     return YES;
 }
 

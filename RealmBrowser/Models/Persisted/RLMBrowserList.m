@@ -10,6 +10,11 @@
 
 @implementation RLMBrowserList
 
++ (instancetype)defaultListInRealm:(RLMRealm *)realm
+{
+    return [RLMBrowserList allObjectsInRealm:realm].firstObject;
+}
+
 + (BOOL)shouldIncludeInDefaultSchema
 {
     return NO;
