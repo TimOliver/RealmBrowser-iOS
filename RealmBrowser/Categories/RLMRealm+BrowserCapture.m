@@ -34,15 +34,12 @@
         Method originalMethod = class_getClassMethod(class, originalSelector);
         Method swizzledMethod = class_getClassMethod(class, swizzledSelector);
         
-        BOOL didAddMethod =
-        class_addMethod(class,
-                        originalSelector,
-                        method_getImplementation(swizzledMethod),
-                        method_getTypeEncoding(swizzledMethod));
+        BOOL didAddMethod =  class_addMethod(class, originalSelector,
+                                            method_getImplementation(swizzledMethod),
+                                            method_getTypeEncoding(swizzledMethod));
         
         if (didAddMethod) {
-            class_replaceMethod(class,
-                                swizzledSelector,
+            class_replaceMethod(class, swizzledSelector,
                                 method_getImplementation(originalMethod),
                                 method_getTypeEncoding(originalMethod));
         } else {
@@ -73,7 +70,7 @@
     // Set up the Realm file that will store the state of all captured Realms for the Browser
     RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
     
-    // Query for an existing reference to this Realm
+    // Query for an existing object representing this Realm
     RLMBrowserRealm *capturedRealm = [RLMRealm RLMBrowser_capturedRealmObjectInRealm:browserRealm forConfiguration:configuration];
     
     // Create an NSDictionary that will contain all necessary changes needed to be saved
@@ -83,23 +80,26 @@
     if (capturedRealm == nil) {
         [capturedRealmChanges addEntriesFromDictionary:[RLMRealm RLMBrowser_createNewCapturedRealmDictionaryForRealm:realm]];
     }
-    else {
-        // Check if any state changes have occurred
+    else { // Otherwise compare the two to ensure nothing has changed
         [capturedRealmChanges addEntriesFromDictionary:[RLMRealm RLMBrowser_stateChangesBetweenCapturedRealm:capturedRealm andCurrentRealm:realm]];
     }
     
     [RLMRealm RLMBrowser_saveChanges:capturedRealmChanges forCapturedRealm:capturedRealm inBrowserRealm:browserRealm fromCurrentRealm:realm];
 }
 
-#pragma mark - Realm Capture Handling -
 
-+ (RLMBrowserRealm *)RLMBrowser_capturedRealmObjectInRealm:(RLMRealm *)realm forConfiguration:(RLMRealmConfiguration *)configuration
+#pragma mark - New Object Creation -
+
+/** Return (or create on the first time) the master list object that stores a reference to these Realms */
++ (RLMBrowserList *)RLMBrowser_defaultRealmBrowserListObjectInRealm:(RLMRealm *)browserRealm
 {
-    RLMResults *allRealmObjects = [RLMBrowserRealm allObjectsInRealm:realm];
-    return [allRealmObjects objectsWhere:@"filePath == %@ AND inMemoryIdentifier == %@ AND syncURL == %@",
-            [RLMBrowserRealm relativeFilePathFromAbsolutePath:configuration.fileURL.path],
-            configuration.inMemoryIdentifier,
-            configuration.syncConfiguration.realmURL.absoluteString].firstObject;
+    // Create a new list object if one doesn't already exist
+    RLMBrowserList *list = [RLMBrowserList allObjectsInRealm:browserRealm].firstObject;
+    if (list == nil) {
+        list = [[RLMBrowserList alloc] init];
+    }
+    
+    return list;
 }
 
 /** Create a new instance of `RLMBrowserRealm` to save to the Browser Realm file. */
@@ -134,6 +134,18 @@
     return newRealm;
 }
 
+#pragma mark - Present State Checking -
+
++ (RLMBrowserRealm *)RLMBrowser_capturedRealmObjectInRealm:(RLMRealm *)realm forConfiguration:(RLMRealmConfiguration *)configuration
+{
+    RLMResults *allRealmObjects = [RLMBrowserRealm allObjectsInRealm:realm];
+    return [allRealmObjects objectsWhere:@"filePath == %@ AND inMemoryIdentifier == %@ AND syncURL == %@",
+            [RLMBrowserRealm relativeFilePathFromAbsolutePath:configuration.fileURL.path],
+            configuration.inMemoryIdentifier,
+            configuration.syncConfiguration.realmURL.absoluteString].firstObject;
+}
+
+/* Go through each property and check that it hasn't changed */
 + (NSDictionary *)RLMBrowser_stateChangesBetweenCapturedRealm:(RLMBrowserRealm *)capturedRealm andCurrentRealm:(RLMRealm *)realm
 {
     RLMRealmConfiguration *configuration = realm.configuration;
@@ -150,29 +162,6 @@
     }
     
     return changes;
-}
-
-+ (BOOL)RLMBrowser_capturedRealm:(RLMBrowserRealm *)capturedRealm forRealm:(RLMRealm *)realm isInCorrectPositionInList:(RLMBrowserList *)list
-{
-    // See if this object needs to be set as the default Realm
-    if (![capturedRealm isEqual:list.defaultRealm]) {
-        if ([realm.configuration isEqual:[RLMRealmConfiguration defaultConfiguration]]) {
-            return NO;
-        }
-    }
-    
-    return YES;
-}
-
-+ (RLMBrowserList *)RLMBrowser_defaultRealmBrowserListObjectInRealm:(RLMRealm *)browserRealm
-{
-    // Create a new lsit object if one doesn't already exist
-    RLMBrowserList *list = [RLMBrowserList allObjectsInRealm:browserRealm].firstObject;
-    if (list == nil) {
-        list = [[RLMBrowserList alloc] init];
-    }
-    
-    return list;
 }
 
 #pragma mark - Realm Write Transactions -
