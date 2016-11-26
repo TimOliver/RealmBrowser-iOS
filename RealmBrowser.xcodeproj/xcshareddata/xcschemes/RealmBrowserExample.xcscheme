@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "220D91B91DE6BE6F007CFF2A"
-            BuildableName = "realm-browser-ios.app"
-            BlueprintName = "realm-browser-ios"
-            ReferencedContainer = "container:realm-browser-ios.xcodeproj">
+            BuildableName = "RealmBrowserExample.app"
+            BlueprintName = "RealmBrowserExample"
+            ReferencedContainer = "container:RealmBrowser.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
