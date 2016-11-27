@@ -28,6 +28,11 @@
     return [path stringByReplacingOccurrencesOfString:[RLMBrowserRealm contentDirectoryPath] withString:@""];
 }
 
+- (NSString *)absoluteFilePath
+{
+    return [[RLMBrowserRealm contentDirectoryPath] stringByAppendingPathComponent:self.filePath];
+}
+
 #pragma mark - Realm Overrides -
 
 + (NSArray<NSString *> *)indexedProperties

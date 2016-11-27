@@ -188,7 +188,7 @@
     }
     
     // If the captured Realm's schema account has more entries than the current Realm, only
-    // the properties on the end will be invalid. They can be safely removed to ensure parity.
+    // the properties on the end will be redundant. They can be safely backtracked until parity.
     while (capturedRealm.schema.count > realm.schema.objectSchema.count) {
         [capturedRealm.realm deleteObject:capturedRealm.schema.lastObject];
     }

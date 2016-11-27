@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL readOnly;
 
 /* A copy of the schema version */
-@property (nonatomic, assign) NSInteger schemaVersion;
+@property (nonatomic, assign) long long schemaVersion;
 
 /* The schema in this Realm file */
 @property (nonatomic, strong) RLMArray<RLMBrowserSchema *><RLMBrowserSchema> *schema;

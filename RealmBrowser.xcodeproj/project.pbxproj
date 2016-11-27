@@ -20,7 +20,6 @@
 		220D92191DE6E5A2007CFF2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 220D92101DE6E5A2007CFF2A /* Assets.xcassets */; };
 		220D921A1DE6E5A2007CFF2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220D92111DE6E5A2007CFF2A /* LaunchScreen.storyboard */; };
 		220D921B1DE6E5A2007CFF2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220D92131DE6E5A2007CFF2A /* Main.storyboard */; };
-		220D921C1DE6E5A2007CFF2A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 220D92161DE6E5A2007CFF2A /* Info.plist */; };
 		220D921D1DE6E5A2007CFF2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 220D92171DE6E5A2007CFF2A /* main.m */; };
 		220D92201DE6E9A3007CFF2A /* RLMRealmMonochromeLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 220D921F1DE6E9A3007CFF2A /* RLMRealmMonochromeLogoView.m */; };
 		226EBA661DE966BD006C35D3 /* RLMRealmConfiguration+BrowserCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = 226EBA651DE966BD006C35D3 /* RLMRealmConfiguration+BrowserCompare.m */; };
@@ -163,12 +162,12 @@
 			children = (
 				220D91EC1DE6C961007CFF2A /* AccessoryControllers */,
 				220D91EF1DE6C961007CFF2A /* BaseControllers */,
+				220D91F61DE6C961007CFF2A /* RLMBrowserRealmListViewController.h */,
+				220D91F71DE6C961007CFF2A /* RLMBrowserRealmListViewController.m */,
 				220D91F21DE6C961007CFF2A /* RLMBrowserObjectListViewController.h */,
 				220D91F31DE6C961007CFF2A /* RLMBrowserObjectListViewController.m */,
 				220D91F41DE6C961007CFF2A /* RLMBrowserObjectViewController.h */,
 				220D91F51DE6C961007CFF2A /* RLMBrowserObjectViewController.m */,
-				220D91F61DE6C961007CFF2A /* RLMBrowserRealmListViewController.h */,
-				220D91F71DE6C961007CFF2A /* RLMBrowserRealmListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -350,7 +349,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				220D921C1DE6E5A2007CFF2A /* Info.plist in Resources */,
 				220D921B1DE6E5A2007CFF2A /* Main.storyboard in Resources */,
 				220D92191DE6E5A2007CFF2A /* Assets.xcassets in Resources */,
 				220D921A1DE6E5A2007CFF2A /* LaunchScreen.storyboard in Resources */,

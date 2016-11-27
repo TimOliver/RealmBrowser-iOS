@@ -12,6 +12,8 @@
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserConfiguration.h"
 
+#import "RLMBrowserObjectListViewController.h"
+
 @interface RLMBrowserRealmListViewController ()
 
 @property (nonatomic, strong) RLMBrowserList *realmList;
@@ -51,18 +53,23 @@
 #pragma mark - Data Handling -
 - (RLMBrowserRealm *)itemForSection:(NSInteger)index
 {
+    // Easiest is to return the default Realm
     if (self.defaultRealm && index == 0) {
         return self.defaultRealm;
     }
     
+    // Account for the offset the default Realm produces
     NSInteger offset = self.defaultRealm ? 1 : 0;
     
+    // If there are any starred Realms, check if the index is in that range
     if (self.starredRealms.count && index < self.starredRealms.count - offset) {
         return self.starredRealms[index - offset];
     }
     
+    // Account for the starred Realms offset
     offset += self.starredRealms.count;
     
+    // Ensure we don't try and access an empty array
     if (self.filteredRealms.count == 0) {
         return nil;
     }
@@ -91,6 +98,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     
     RLMBrowserRealm *realm = [self itemForSection:indexPath.section];
@@ -104,41 +112,18 @@
     return cell;
 }
 
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RLMBrowserRealm *realm = [self itemForSection:indexPath.section];
+    
+    // The user tapped a schema row
+    if (indexPath.row > 0) {
+        RLMBrowserSchema *schema = realm.schema[indexPath.row - 1];
+        RLMBrowserObjectListViewController *controller = [[RLMBrowserObjectListViewController alloc] initWithBrowserRealm:realm
+                                                                                                                   schema:schema];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

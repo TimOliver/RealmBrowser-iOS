@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class RLMBrowserRealm;
+@class RLMBrowserSchema;
+
 @interface RLMBrowserObjectListViewController : UITableViewController
+
+- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm schema:(RLMBrowserSchema *)schema;
 
 @end
