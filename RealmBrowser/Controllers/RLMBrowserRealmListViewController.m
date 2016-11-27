@@ -77,7 +77,17 @@
     return self.filteredRealms[index - offset];
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View Delegate -
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (self.defaultRealm && section == 0) {
+        return @"DEFAULT REALM";
+    }
+    
+    return nil;
+}
+
+#pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger numberOfSections = 0;
@@ -98,7 +108,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     RLMBrowserRealm *realm = [self itemForSection:indexPath.section];
