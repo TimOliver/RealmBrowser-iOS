@@ -8,11 +8,18 @@
 
 #import "RLMBrowserObjectListViewController.h"
 #import "RLMBrowserRealm.h"
+#import "RLMBrowserTableHeaderView.h"
+
+#import "RLMBrowserObjectListTableViewCell.h"
 
 #import <Realm/Realm.h>
 #import <Realm/RLMRealm_Dynamic.h>
 
+ NSString * const kRLMBrowserTableViewCellIdentifier = @"ObjectListCell";
+
 @interface RLMBrowserObjectListViewController()
+
+@property (nonatomic, strong) RLMBrowserTableHeaderView *headerView;
 
 @property (nonatomic, strong) RLMBrowserRealm *browserRealm;
 @property (nonatomic, strong) RLMBrowserSchema *browserSchema;
@@ -53,8 +60,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
  
+    UINib *nib = [UINib nibWithNibName:@"RLMBrowserObjectListTableViewCell" bundle:[NSBundle mainBundle]];
+    [self.tableView registerNib:nib forCellReuseIdentifier:kRLMBrowserTableViewCellIdentifier];
+    
+    // Set the title as the schema name
     self.title = self.browserSchema.className;
     
+    // Set up the header search bar
+    self.headerView = [[RLMBrowserTableHeaderView alloc] init];
+    self.tableView.tableHeaderView = self.headerView;
+    
+    // Attempt to open the Realm file
     if ([self setUpRealm] == NO) {
         return;
     }
@@ -186,24 +202,24 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *identifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
-    }
     
+    RLMBrowserObjectListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserTableViewCellIdentifier];
+
     // Get the object
     RLMObject *object = self.objects[indexPath.row];
     id value = object[self.preferredProperty.name];
     
     if (value) {
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@", value];
+        cell.titleLabel.textColor = [UIColor blackColor];
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@", value];
     }
     else {
-        cell.textLabel.textColor = [UIColor grayColor];
-        cell.textLabel.text = @"NULL";
+        cell.titleLabel.textColor = [UIColor grayColor];
+        cell.titleLabel.text = @"NULL";
     }
+    
+    cell.subtitleLabel.text = @"UserId: 1 • Email: info@realm.io • Address: 148 Townsend";
+    cell.indexLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row + 1];
     
     return cell;
 }

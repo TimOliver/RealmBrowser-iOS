@@ -8,13 +8,18 @@
 
 #import "RLMBrowserRealmListViewController.h"
 
+// Models
 #import "RLMBrowserList.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserConfiguration.h"
 
+#import "RLMBrowserTableHeaderView.h"
+
 #import "RLMBrowserObjectListViewController.h"
 
 @interface RLMBrowserRealmListViewController ()
+
+@property (nonatomic, strong) RLMBrowserTableHeaderView *headerView;
 
 @property (nonatomic, strong) RLMBrowserList *realmList;
 
@@ -40,6 +45,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Realms";
+    
+    self.headerView = [[RLMBrowserTableHeaderView alloc] initWithStyle:RLMTableHeaderViewStyleFixed];
+    self.tableView.tableHeaderView = self.headerView;
     
     RLMRealm *realm = [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
     self.realmList = [RLMBrowserList defaultListInRealm:realm];
@@ -85,6 +93,12 @@
     }
     
     return nil;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.headerView adjustFrameForScrollView:scrollView];
+    [self.headerView dismissKeyboardForSearchBar];
 }
 
 #pragma mark - Table View Data Source

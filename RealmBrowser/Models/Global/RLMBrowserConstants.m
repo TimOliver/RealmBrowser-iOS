@@ -9,3 +9,11 @@
 #import "RLMBrowserConstants.h"
 
 NSString * const kRLMBrowserIdentifier = @"io.realm.browser";
+
+@implementation UIColor(RLMBrowserColors)
+
++ (UIColor *)RLMBrowser_tableBackgroundColor {
+    return [UIColor colorWithRed:238.0f/255.0f green:239.0f/255.0f blue:244.0f/255.0f alpha:1.0f];
+}
+
+@end

@@ -10,3 +10,7 @@
 #import <UIKit/UIKit.h>
 
 extern NSString * const kRLMBrowserIdentifier;
+
+@interface UIColor (RLMBrowserColors)
++ (UIColor *)RLMBrowser_tableBackgroundColor;
+@end
