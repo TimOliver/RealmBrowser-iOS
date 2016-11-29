@@ -2,16 +2,19 @@ PODS:
   - Realm (2.1.0):
     - Realm/Headers (= 2.1.0)
   - Realm/Headers (2.1.0)
+  - Reveal-SDK (4)
   - XLForm (3.3.0)
 
 DEPENDENCIES:
   - Realm
+  - Reveal-SDK
   - XLForm
 
 SPEC CHECKSUMS:
   Realm: bc829ad0ef3d4eea70c34cfcc3b1704d18d50df1
+  Reveal-SDK: 178c927f1a3230648d3a92b96f6e730a35b2750a
   XLForm: d5c391dfc62865927b5bcab0a5a0dbfb3e02b0ec
 
-PODFILE CHECKSUM: 35f99646baf9f5d61935402cb5a1c35342dd1d07
+PODFILE CHECKSUM: 93f7aa9522bd98051ba54b886270299c6c2adb2a
 
 COCOAPODS: 1.1.1

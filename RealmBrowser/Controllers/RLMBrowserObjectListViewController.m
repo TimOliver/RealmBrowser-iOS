@@ -9,6 +9,7 @@
 #import "RLMBrowserObjectListViewController.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserTableHeaderView.h"
+#import "RLMBrowserNavigationTitleView.h"
 
 #import "RLMBrowserObjectListTableViewCell.h"
 
@@ -19,7 +20,8 @@
 
 @interface RLMBrowserObjectListViewController()
 
-@property (nonatomic, strong) RLMBrowserTableHeaderView *headerView;
+@property (nonatomic, strong) RLMBrowserTableHeaderView *tableHeaderView;
+@property (nonatomic, strong) RLMBrowserNavigationTitleView *titleView;
 
 @property (nonatomic, strong) RLMBrowserRealm *browserRealm;
 @property (nonatomic, strong) RLMBrowserSchema *browserSchema;
@@ -60,6 +62,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
  
+    // Set up the header for this view controller
+    self.titleView = [[RLMBrowserNavigationTitleView alloc] init];
+    self.titleView.titleLabel.text = self.browserSchema.className;
+    
+    // Set the custom NIB as the default table view cell
     UINib *nib = [UINib nibWithNibName:@"RLMBrowserObjectListTableViewCell" bundle:[NSBundle mainBundle]];
     [self.tableView registerNib:nib forCellReuseIdentifier:kRLMBrowserTableViewCellIdentifier];
     
@@ -67,8 +74,8 @@
     self.title = self.browserSchema.className;
     
     // Set up the header search bar
-    self.headerView = [[RLMBrowserTableHeaderView alloc] init];
-    self.tableView.tableHeaderView = self.headerView;
+    self.tableHeaderView = [[RLMBrowserTableHeaderView alloc] init];
+    self.tableView.tableHeaderView = self.tableHeaderView;
     
     // Attempt to open the Realm file
     if ([self setUpRealm] == NO) {
@@ -81,6 +88,12 @@
     // Calculate the most appropriate property to initially display
     self.preferredProperty = [self determineBestDisplayedPropertyWithSchema:self.schema
                                                               preferredName:self.browserSchema.preferredPropertyName];
+    
+    self.titleView.subtitleLabel.text = [NSString stringWithFormat:@"%ld Object%@", self.objects.count, self.objects.count == 1 ? @"" : @"s"];
+    [self.titleView sizeToFit];
+
+    self.navigationItem.titleView = self.titleView;
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -219,7 +232,7 @@
     }
     
     cell.subtitleLabel.text = @"UserId: 1 • Email: info@realm.io • Address: 148 Townsend";
-    cell.indexLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row + 1];
+    cell.indexLabel.text = [NSString stringWithFormat:@"%ld", [self.objects indexOfObject:object] + 1];
     
     return cell;
 }
