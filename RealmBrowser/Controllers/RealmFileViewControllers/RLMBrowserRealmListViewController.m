@@ -15,7 +15,7 @@
 
 #import "RLMBrowserTableHeaderView.h"
 
-#import "RLMBrowserObjectListViewController.h"
+#import "RLMBrowserObjectListContainerViewController.h"
 
 @interface RLMBrowserRealmListViewController ()
 
@@ -56,6 +56,12 @@
     self.starredRealms = self.realmList.starredRealms;
     self.filteredRealms = [self.realmList.allRealms objectsWhere:@"(self.uuid != %@) AND NOT (self.uuid in %@)",
                                                                     self.defaultRealm.uuid, self.starredRealms];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
 #pragma mark - Data Handling -
@@ -143,8 +149,8 @@
     // The user tapped a schema row
     if (indexPath.row > 0) {
         RLMBrowserSchema *schema = realm.schema[indexPath.row - 1];
-        RLMBrowserObjectListViewController *controller = [[RLMBrowserObjectListViewController alloc] initWithBrowserRealm:realm
-                                                                                                                   schema:schema];
+        RLMBrowserObjectListContainerViewController *controller = [[RLMBrowserObjectListContainerViewController alloc] initWithBrowserRealm:realm
+                                                                                                                                     browserSchema:schema];
         [self.navigationController pushViewController:controller animated:YES];
     }
 }

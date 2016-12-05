@@ -16,7 +16,11 @@
 #import <Realm/Realm.h>
 #import <Realm/RLMRealm_Dynamic.h>
 
- NSString * const kRLMBrowserTableViewCellIdentifier = @"ObjectListCell";
+// ------------------------------------------------------------------
+
+NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell";
+
+// ------------------------------------------------------------------
 
 @interface RLMBrowserObjectListViewController()
 
@@ -32,26 +36,22 @@
 
 @property (nonatomic, strong) RLMProperty *preferredProperty;
 
-/* Realm */
-- (BOOL)setUpRealm;
-- (RLMRealm *)openRealmForBrowserRealm:(RLMBrowserRealm *)browserRealm error:(NSError **)error;
 - (RLMProperty *)determineBestDisplayedPropertyWithSchema:(RLMObjectSchema *)schema preferredName:(NSString *)preferredName;
-
-/* Error Handling */
-- (void)showErrorWithTitle:(NSString *)title description:(NSString *)description;
 
 /* Callback Handling */
 - (void)splitViewControllerDetailStateChanged:(NSNotification *)notification;
 
 @end
 
+// ------------------------------------------------------------------
+
 @implementation RLMBrowserObjectListViewController
 
-- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)browserRealm schema:(RLMBrowserSchema *)browserSchema
+- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema
 {
     if (self = [super init]) {
-        _browserRealm = browserRealm;
-        _browserSchema = browserSchema;
+        _browserRealm = realm;
+        _browserSchema = schema;
     }
     
     return self;
@@ -68,7 +68,7 @@
     
     // Set the custom NIB as the default table view cell
     UINib *nib = [UINib nibWithNibName:@"RLMBrowserObjectListTableViewCell" bundle:[NSBundle mainBundle]];
-    [self.tableView registerNib:nib forCellReuseIdentifier:kRLMBrowserTableViewCellIdentifier];
+    [self.tableView registerNib:nib forCellReuseIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
     
     // Set the title as the schema name
     self.title = self.browserSchema.className;
@@ -77,10 +77,9 @@
     self.tableHeaderView = [[RLMBrowserTableHeaderView alloc] init];
     self.tableView.tableHeaderView = self.tableHeaderView;
     
-    // Attempt to open the Realm file
-    if ([self setUpRealm] == NO) {
-        return;
-    }
+    // Load the Realm file
+    self.realm = [RLMRealm realmWithConfiguration:self.browserRealm.realmConfiguration error:nil];
+    self.schema = [self.realm.schema schemaForClassName:self.browserSchema.className];
     
     // Use the dynamic API to pull all objects from the Realm for this schema
     self.objects = [self.realm allObjects:self.browserSchema.className];
@@ -123,53 +122,6 @@
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         [self tableView:self.tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     }
-}
-
-#pragma mark - Realm Set-up -
-- (BOOL)setUpRealm
-{
-    // Try to open the Realm file
-    NSError *error = nil;
-    self.realm = [self openRealmForBrowserRealm:self.browserRealm error:&error];
-    if (error) {
-        [self showErrorWithTitle:@"Unable to Open Realm" description:error.localizedDescription];
-        return NO;
-    }
-    
-    // Fetch the schema from the Realm file
-    self.schema = [self.realm.schema schemaForClassName:self.browserSchema.className];
-    if (self.schema == nil) {
-        NSString *errorMessage = [NSString stringWithFormat:@"The schema '%@' wasn't in this Realm file.",
-                                                                        self.browserSchema.className];
-        [self showErrorWithTitle:@"Unable to Find Schema" description:errorMessage];
-        return NO;
-    }
-    
-    return YES;
-}
-
-- (RLMRealm *)openRealmForBrowserRealm:(RLMBrowserRealm *)browserRealm error:(NSError **)error
-{
-    RLMRealmConfiguration *configuration = [[RLMRealmConfiguration alloc] init];
-    
-    // Set the appropriate source for this Realm
-    if (browserRealm.filePath.length) { // Standard on disk
-        configuration.fileURL = [NSURL fileURLWithPath:browserRealm.absoluteFilePath];
-    }
-    else if (browserRealm.inMemoryIdentifier) { // In-Memory Realm
-        configuration.inMemoryIdentifier = browserRealm.inMemoryIdentifier;
-    }
-    else if (browserRealm.syncURL) { // Remote sync Realm
-        RLMSyncConfiguration *syncConfig = [[RLMSyncConfiguration alloc] initWithUser:[RLMSyncUser currentUser]
-                                                            realmURL:[NSURL URLWithString:browserRealm.syncURL]];
-        configuration.syncConfiguration = syncConfig;
-    }
-    
-    configuration.encryptionKey = browserRealm.encryptionKey;
-    configuration.readOnly = browserRealm.readOnly;
-    [configuration setValue:@(YES) forKey:@"dynamic"];
-    
-    return [RLMRealm realmWithConfiguration:configuration error:error];
 }
 
 - (RLMProperty *)determineBestDisplayedPropertyWithSchema:(RLMObjectSchema *)schema preferredName:(NSString *)preferredName
@@ -216,7 +168,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    RLMBrowserObjectListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserTableViewCellIdentifier];
+    RLMBrowserObjectListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
 
     // Get the object
     RLMObject *object = self.objects[indexPath.row];
@@ -251,21 +203,6 @@
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
-}
-
-#pragma mark - Error Handling -
-- (void)showErrorWithTitle:(NSString *)title description:(NSString *)description
-{
-    UIAlertController *errorAlertController = [UIAlertController alertControllerWithTitle:title
-                                                                                  message:description
-                                                                           preferredStyle:UIAlertControllerStyleAlert];
-    
-    id closeHandler = ^(UIPreviewAction *action, UIViewController *previewViewController) {
-        [self.navigationController popViewControllerAnimated:YES];
-    };
-    
-    [errorAlertController addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:closeHandler]];
-    [self showViewController:errorAlertController sender:self];
 }
 
 @end

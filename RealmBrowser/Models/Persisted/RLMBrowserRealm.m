@@ -10,6 +10,36 @@
 
 @implementation RLMBrowserRealm
 
+#pragma mark - Realm Configuration -
+- (RLMRealmConfiguration *)realmConfiguration
+{
+    RLMRealmConfiguration *configuration = [[RLMRealmConfiguration alloc] init];
+    
+    // Set the appropriate source for the Realm
+    if (self.filePath.length) { // Standard on disk
+        configuration.fileURL = [NSURL fileURLWithPath:self.absoluteFilePath];
+    }
+    else if (self.inMemoryIdentifier) { // In-Memory Realm
+        configuration.inMemoryIdentifier = self.inMemoryIdentifier;
+    }
+    else if (self.syncURL) { // Remote sync Realm
+        RLMSyncConfiguration *syncConfig = [[RLMSyncConfiguration alloc] initWithUser:[RLMSyncUser currentUser]
+                                                                             realmURL:[NSURL URLWithString:self.syncURL]];
+        configuration.syncConfiguration = syncConfig;
+    }
+    
+    // Set additional state that may be needed to open this Realm
+    configuration.encryptionKey = self.encryptionKey;
+    configuration.readOnly = self.readOnly;
+    
+    // Set the internal dynamic flag that lets us open it without a schema
+    [configuration setValue:@(YES) forKey:@"dynamic"];
+    
+    return configuration;
+}
+
+#pragma mark - File Path Formatting -
+
 + (NSString *)contentDirectoryPath
 {
     static NSString *contentDirectoryPath = nil;

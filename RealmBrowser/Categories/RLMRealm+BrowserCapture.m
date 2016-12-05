@@ -62,8 +62,9 @@
 {
     RLMRealmConfiguration *configuration = realm.configuration;
     
-    // Exit if this is for one of the Realms that manages the Browser's data
-    if ([configuration.fileURL.path rangeOfString:kRLMBrowserIdentifier].location != NSNotFound) {
+    // Exit if this is for one of the Realms that manages the Browser's data,
+    // or if it was dynamically opened (Most likely via the Browser)
+    if ([[configuration valueForKey:@"dynamic"] boolValue] || [configuration.fileURL.path rangeOfString:kRLMBrowserIdentifier].location != NSNotFound) {
         return;
     }
     

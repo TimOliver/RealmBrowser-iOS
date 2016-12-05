@@ -13,6 +13,6 @@
 
 @interface RLMBrowserObjectListViewController : UITableViewController
 
-- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm schema:(RLMBrowserSchema *)schema;
+- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema;
 
 @end

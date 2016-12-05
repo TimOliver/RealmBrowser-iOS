@@ -7,5 +7,6 @@ target 'RealmBrowserExample' do
  	pod 'Realm'
  	pod 'XLForm'
 	pod 'Reveal-SDK', :configurations => ['Debug']
+	pod 'TORoundedTableView'
 
 end

@@ -40,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 /* The absolute file path to this Realm */
 @property (nonatomic, readonly) NSString *absoluteFilePath;
 
+/* An appropriately formatted configuration file to open this Realm. */
+@property (nonatomic, readonly) RLMRealmConfiguration *realmConfiguration;
+
 /* Convert any absolute file paths to relative before saving */
 + (NSString *)relativeFilePathFromAbsolutePath:(NSString *)path;
 
