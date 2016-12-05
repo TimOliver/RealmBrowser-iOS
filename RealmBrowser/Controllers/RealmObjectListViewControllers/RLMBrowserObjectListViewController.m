@@ -12,6 +12,7 @@
 #import "RLMBrowserNavigationTitleView.h"
 
 #import "RLMBrowserObjectListTableViewCell.h"
+#import "UIColor+BrowserRealmColors.h"
 
 #import <Realm/Realm.h>
 #import <Realm/RLMRealm_Dynamic.h>
@@ -35,6 +36,8 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
 @property (nonatomic, strong) RLMResults *objects;
 
 @property (nonatomic, strong) RLMProperty *preferredProperty;
+
+@property (nonatomic, strong) NSArray *realmColors;
 
 - (RLMProperty *)determineBestDisplayedPropertyWithSchema:(RLMObjectSchema *)schema preferredName:(NSString *)preferredName;
 
@@ -93,6 +96,7 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
 
     self.navigationItem.titleView = self.titleView;
     
+    self.realmColors = [UIColor RLMBrowser_realmColorsInvertedRepeating];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -184,7 +188,9 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
     }
     
     cell.subtitleLabel.text = @"UserId: 1 • Email: info@realm.io • Address: 148 Townsend";
+    
     cell.indexLabel.text = [NSString stringWithFormat:@"%ld", [self.objects indexOfObject:object] + 1];
+    cell.indexLabel.textColor = self.realmColors[indexPath.row % self.realmColors.count];
     
     return cell;
 }

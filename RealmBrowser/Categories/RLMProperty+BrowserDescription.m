@@ -10,7 +10,7 @@
 
 @implementation RLMProperty (BrowserDescription)
 
-- (NSString *)RLMBrowser_formattedDescription
+- (NSString *)RLMBrowser_typeDescription
 {
     switch (self.type) {
         case RLMPropertyTypeInt:
@@ -30,12 +30,22 @@
         case RLMPropertyTypeObject:
             return self.objectClassName;
         case RLMPropertyTypeArray:
-            return [NSString stringWithFormat:@"Array<%@>", self.objectClassName];
+            return [NSString stringWithFormat:@"Array <%@>", self.objectClassName];
         case RLMPropertyTypeLinkingObjects:
-            return [NSString stringWithFormat:@"LinkingObjects<%@>", self.objectClassName];
+            return [NSString stringWithFormat:@"LinkingObjects <%@>", self.objectClassName];
         default:
             return @"Unknown";
     }
+}
+
+- (NSString *)RLMBrowser_configurationDescription
+{
+    NSString *description = self.optional ? @"Optional" : @"Non-Optional";
+    if (self.indexed) {
+        description = [description stringByAppendingString:@" • Indexed"];
+    }
+    
+    return description;
 }
 
 @end

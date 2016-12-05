@@ -12,7 +12,8 @@
 
 // Categories
 #import "RLMProperty+BrowserDescription.h"
-#import "UIImage+BrowserTagIcons.h"
+#import "UIImage+BrowserIcons.h"
+#import "UIColor+BrowserRealmColors.h""
 
 // Realm Model Objects
 #import "RLMBrowserRealm.h"
@@ -38,8 +39,10 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 @property (nonatomic, strong) RLMRealm *realm;
 @property (nonatomic, strong) RLMObjectSchema *schema;
 
-@property (nonatomic, strong) UIImage *optionalTagIcon;
-@property (nonatomic, strong) UIImage *indexedTagIcon;
+@property (nonatomic, strong) UIImage *circleIcon;
+@property (nonatomic, strong) NSArray *realmColors;
+
+- (void)setUpRealmColors;
 
 @end
 
@@ -80,9 +83,9 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     [self.titleView sizeToFit];
     self.navigationItem.titleView = self.titleView;
     
-    // Load tag icons
-    self.indexedTagIcon = [UIImage RLMBrowser_indexedTagIcon];
-    self.optionalTagIcon = [UIImage RLMBrowser_optionalTagIcon];
+    self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:20.0f];
+    
+    self.realmColors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -95,28 +98,16 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     return self.schema.properties.count;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(RLMBrowserPropertyTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Set the commonly shared icons if they haven't already
-    if (cell.indexedTagView.image == nil) {
-        cell.indexedTagView.image = self.indexedTagIcon;
-    }
-    
-    if (cell.optionalTagView.image == nil) {
-        cell.optionalTagView.image = self.optionalTagIcon;
-    }
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RLMBrowserPropertyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectSchemaTableViewCellIdentifier];
 
     RLMProperty *property = self.schema.properties[indexPath.row];
+    cell.iconView.image = self.circleIcon;
+    cell.iconView.tintColor = self.realmColors[indexPath.row % self.realmColors.count];
     cell.titleLabel.text = property.name;
-    cell.subtitleLabel.text = property.RLMBrowser_formattedDescription;
-    cell.indexedTagView.hidden = !property.indexed;
-    cell.optionalTagView.hidden = !property.optional;
-    
+    cell.subtitleLabel.text = property.RLMBrowser_configurationDescription;
+    cell.typeLabel.text = property.RLMBrowser_typeDescription;
     return cell;
 }
 

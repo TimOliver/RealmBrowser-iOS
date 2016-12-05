@@ -25,7 +25,8 @@
 		225EFBC71DF535FD00DF649B /* RLMBrowserRealmTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 225EFBC31DF535FD00DF649B /* RLMBrowserRealmTableViewCell.xib */; };
 		225EFBCB1DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 225EFBC91DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.m */; };
 		225EFBCC1DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 225EFBCA1DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.xib */; };
-		225EFBCF1DF53D2A00DF649B /* UIImage+BrowserTagIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 225EFBCE1DF53D2A00DF649B /* UIImage+BrowserTagIcons.m */; };
+		225EFBCF1DF53D2A00DF649B /* UIImage+BrowserIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 225EFBCE1DF53D2A00DF649B /* UIImage+BrowserIcons.m */; };
+		225EFBD21DF5591500DF649B /* UIColor+BrowserRealmColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 225EFBD11DF5591500DF649B /* UIColor+BrowserRealmColors.m */; };
 		226EBA661DE966BD006C35D3 /* RLMRealmConfiguration+BrowserCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = 226EBA651DE966BD006C35D3 /* RLMRealmConfiguration+BrowserCompare.m */; };
 		22C75DDE1DEC090B0078624E /* RLMRealmLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C75DD91DEC090B0078624E /* RLMRealmLogoView.m */; };
 		22C75DDF1DEC090B0078624E /* RLMRealmMonochromeLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C75DDB1DEC090B0078624E /* RLMRealmMonochromeLogoView.m */; };
@@ -76,8 +77,10 @@
 		225EFBC81DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLMBrowserPropertyTableViewCell.h; sourceTree = "<group>"; };
 		225EFBC91DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLMBrowserPropertyTableViewCell.m; sourceTree = "<group>"; };
 		225EFBCA1DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RLMBrowserPropertyTableViewCell.xib; sourceTree = "<group>"; };
-		225EFBCD1DF53D2A00DF649B /* UIImage+BrowserTagIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BrowserTagIcons.h"; sourceTree = "<group>"; };
-		225EFBCE1DF53D2A00DF649B /* UIImage+BrowserTagIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BrowserTagIcons.m"; sourceTree = "<group>"; };
+		225EFBCD1DF53D2A00DF649B /* UIImage+BrowserIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BrowserIcons.h"; sourceTree = "<group>"; };
+		225EFBCE1DF53D2A00DF649B /* UIImage+BrowserIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BrowserIcons.m"; sourceTree = "<group>"; };
+		225EFBD01DF5591500DF649B /* UIColor+BrowserRealmColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BrowserRealmColors.h"; sourceTree = "<group>"; };
+		225EFBD11DF5591500DF649B /* UIColor+BrowserRealmColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BrowserRealmColors.m"; sourceTree = "<group>"; };
 		226EBA641DE966BD006C35D3 /* RLMRealmConfiguration+BrowserCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RLMRealmConfiguration+BrowserCompare.h"; sourceTree = "<group>"; };
 		226EBA651DE966BD006C35D3 /* RLMRealmConfiguration+BrowserCompare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RLMRealmConfiguration+BrowserCompare.m"; sourceTree = "<group>"; };
 		22C75DD81DEC090B0078624E /* RLMRealmLogoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLMRealmLogoView.h; sourceTree = "<group>"; };
@@ -187,8 +190,10 @@
 				226EBA651DE966BD006C35D3 /* RLMRealmConfiguration+BrowserCompare.m */,
 				225EFBB71DF52BEC00DF649B /* RLMProperty+BrowserDescription.h */,
 				225EFBB81DF52BEC00DF649B /* RLMProperty+BrowserDescription.m */,
-				225EFBCD1DF53D2A00DF649B /* UIImage+BrowserTagIcons.h */,
-				225EFBCE1DF53D2A00DF649B /* UIImage+BrowserTagIcons.m */,
+				225EFBCD1DF53D2A00DF649B /* UIImage+BrowserIcons.h */,
+				225EFBCE1DF53D2A00DF649B /* UIImage+BrowserIcons.m */,
+				225EFBD01DF5591500DF649B /* UIColor+BrowserRealmColors.h */,
+				225EFBD11DF5591500DF649B /* UIColor+BrowserRealmColors.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -533,6 +538,7 @@
 				22E509201DE83CCD000B7537 /* RLMBrowserList.m in Sources */,
 				225EFBB91DF52BEC00DF649B /* RLMProperty+BrowserDescription.m in Sources */,
 				F12252EF1DF4C89400F7BB44 /* RLMBrowserObjectListContainerViewController.m in Sources */,
+				225EFBD21DF5591500DF649B /* UIColor+BrowserRealmColors.m in Sources */,
 				22576FA91DED59600001586A /* RLMBrowserTableHeaderView.m in Sources */,
 				22C75DDE1DEC090B0078624E /* RLMRealmLogoView.m in Sources */,
 				F12252EB1DF4C85D00F7BB44 /* RLMBrowserObjectListViewController.m in Sources */,
@@ -542,7 +548,7 @@
 				226EBA661DE966BD006C35D3 /* RLMRealmConfiguration+BrowserCompare.m in Sources */,
 				22E509141DE832D7000B7537 /* RLMBrowserConstants.m in Sources */,
 				225EFBC41DF535FD00DF649B /* RLMBrowserObjectListTableViewCell.m in Sources */,
-				225EFBCF1DF53D2A00DF649B /* UIImage+BrowserTagIcons.m in Sources */,
+				225EFBCF1DF53D2A00DF649B /* UIImage+BrowserIcons.m in Sources */,
 				F12252E91DF4C85D00F7BB44 /* RLMBrowserLogoViewController.m in Sources */,
 				220D92021DE6C961007CFF2A /* RLMRealm+BrowserCapture.m in Sources */,
 				22E509131DE832D7000B7537 /* RLMBrowserConfiguration.m in Sources */,

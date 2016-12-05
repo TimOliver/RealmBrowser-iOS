@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (BrowserTagIcons)
+@interface UIImage (BrowserIcons)
 
-+ (UIImage *)RLMBrowser_optionalTagIcon;
-+ (UIImage *)RLMBrowser_indexedTagIcon;
++ (UIImage *)RLMBrowser_tintedCircleImageForRadius:(CGFloat)radius;
 
 @end

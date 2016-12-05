@@ -11,6 +11,7 @@
 
 @interface RLMProperty (BrowserDescription)
 
-- (NSString *)RLMBrowser_formattedDescription;
+- (NSString *)RLMBrowser_typeDescription;
+- (NSString *)RLMBrowser_configurationDescription;
 
 @end
