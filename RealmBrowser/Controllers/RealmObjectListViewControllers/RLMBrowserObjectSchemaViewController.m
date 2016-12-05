@@ -6,14 +6,20 @@
 //  Copyright © 2016 Tim Oliver. All rights reserved.
 //
 
+#import <Realm/Realm.h>
+
 #import "RLMBrowserObjectSchemaViewController.h"
 
-#import <Realm/Realm.h>
+// Categories
+#import "RLMProperty+BrowserDescription.h"
+#import "UIImage+BrowserTagIcons.h"
 
 // Realm Model Objects
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserSchema.h"
 
+// Views
+#import "RLMBrowserPropertyTableViewCell.h"
 #import "RLMBrowserNavigationTitleView.h"
 
 // ------------------------------------------------------------------
@@ -31,6 +37,9 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 
 @property (nonatomic, strong) RLMRealm *realm;
 @property (nonatomic, strong) RLMObjectSchema *schema;
+
+@property (nonatomic, strong) UIImage *optionalTagIcon;
+@property (nonatomic, strong) UIImage *indexedTagIcon;
 
 @end
 
@@ -50,8 +59,12 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.tableView.rowHeight = 50.0f;
     
-    self.tableView.rowHeight = 64.0f;
+    // Configure table cell
+    UINib *tableNib = [UINib nibWithNibName:@"RLMBrowserPropertyTableViewCell" bundle:nil];
+    [self.tableView registerNib:tableNib forCellReuseIdentifier:kRLMBrowserObjectSchemaTableViewCellIdentifier];
     
     // Load Realm and the schema
     self.realm = [RLMRealm realmWithConfiguration:self.browserRealm.realmConfiguration error:nil];
@@ -61,10 +74,15 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     self.titleView = [[RLMBrowserNavigationTitleView alloc] init];
     self.titleView.titleLabel.text = self.browserSchema.className;
     
+    // Configure header view
     NSInteger count = self.schema.properties.count;
     self.titleView.subtitleLabel.text = [NSString stringWithFormat:@"%ld Schema %@", count, count != 1 ? @"Properties" : @"Property"];
     [self.titleView sizeToFit];
     self.navigationItem.titleView = self.titleView;
+    
+    // Load tag icons
+    self.indexedTagIcon = [UIImage RLMBrowser_indexedTagIcon];
+    self.optionalTagIcon = [UIImage RLMBrowser_optionalTagIcon];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -77,21 +95,27 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     return self.schema.properties.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView willDisplayCell:(RLMBrowserPropertyTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectSchemaTableViewCellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kRLMBrowserObjectSchemaTableViewCellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.font = [UIFont systemFontOfSize:22.0f weight:UIFontWeightRegular];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0f];
-        cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.4f alpha:1.0f];
+    // Set the commonly shared icons if they haven't already
+    if (cell.indexedTagView.image == nil) {
+        cell.indexedTagView.image = self.indexedTagIcon;
     }
     
-    RLMProperty *property = self.schema.properties[indexPath.row];
+    if (cell.optionalTagView.image == nil) {
+        cell.optionalTagView.image = self.optionalTagIcon;
+    }
+}
 
-    cell.textLabel.text = property.name;
-    cell.detailTextLabel.text = @"String";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RLMBrowserPropertyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectSchemaTableViewCellIdentifier];
+
+    RLMProperty *property = self.schema.properties[indexPath.row];
+    cell.titleLabel.text = property.name;
+    cell.subtitleLabel.text = property.RLMBrowser_formattedDescription;
+    cell.indexedTagView.hidden = !property.indexed;
+    cell.optionalTagView.hidden = !property.optional;
     
     return cell;
 }
