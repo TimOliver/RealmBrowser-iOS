@@ -80,11 +80,12 @@
     
     // Set up the tool bar
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    self.toolbarItems = @[spaceItem, segmentedControlbarItem, spaceItem];
+    [self setToolbarItems: @[spaceItem, segmentedControlbarItem, spaceItem] animated:YES];
     
     // Add the initial child view controller
     [self setVisibleViewControllerForSegmentedIndex:0];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -97,13 +98,16 @@
     }
     
     [self.navigationController setToolbarHidden:NO animated:animated];
-
 }
 
 #pragma mark - Visible Controller Management -
 - (void)segmentedControlChanged:(id)sender
 {
     [self setVisibleViewControllerForSegmentedIndex:self.segmentedControl.selectedSegmentIndex];
+    
+    // Force the navigation bar to re-apply its translucent content insets
+    self.navigationController.toolbarHidden = YES;
+    self.navigationController.toolbarHidden = NO;
 }
 
 - (void)setVisibleViewControllerForSegmentedIndex:(NSInteger)index
@@ -120,14 +124,14 @@
         [childController.view removeFromSuperview];
     }
     
-    // Add the new controller
-    [self addChildViewController:targetController];
-    [targetController didMoveToParentViewController:self];
-    
     // Add the view to our view
     targetController.view.frame = self.view.bounds;
     [self.view addSubview:targetController.view];
     
+    // Add the new controller
+    [self addChildViewController:targetController];
+    [targetController didMoveToParentViewController:self];
+
     // Change our title to match the new controller's title
     self.title = targetController.title;
     
@@ -138,7 +142,6 @@
     self.visibleViewController = targetController;
 }
 
-#pragma mark - Error Handling -
 #pragma mark - Error Handling -
 - (void)showErrorWithTitle:(NSString *)title description:(NSString *)description
 {
