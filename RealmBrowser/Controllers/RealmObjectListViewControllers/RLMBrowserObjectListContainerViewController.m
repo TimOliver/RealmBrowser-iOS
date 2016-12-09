@@ -35,10 +35,6 @@
 @property (nonatomic, strong) RLMBrowserObjectListViewController   *listViewController;
 @property (nonatomic, strong) RLMBrowserObjectSchemaViewController *schemaViewController;
 
-- (void)segmentedControlChanged:(id)sender;
-- (void)setVisibleViewControllerForSegmentedIndex:(NSInteger)index;
-- (void)showErrorWithTitle:(NSString *)title description:(NSString *)description;
-
 @end
 
 @implementation RLMBrowserObjectListContainerViewController

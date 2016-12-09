@@ -6,8 +6,11 @@
 //  Copyright © 2016 Timothy Oliver. All rights reserved.
 //
 
-#import <XLForm/XLForm.h>
+#import <UIKit/UIKit.h>
+#import <Realm/Realm.h>
 
-@interface RLMBrowserObjectViewController : XLFormViewController
+@interface RLMBrowserObjectViewController : UITableViewController
+
+- (instancetype)initWithObject:(RLMObject *)realmObject;
 
 @end

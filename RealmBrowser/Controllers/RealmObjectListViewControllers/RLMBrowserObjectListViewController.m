@@ -10,6 +10,7 @@
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserTableHeaderView.h"
 #import "RLMBrowserNavigationTitleView.h"
+#import "RLMBrowserObjectViewController.h"
 
 #import "RLMBrowserObjectListTableViewCell.h"
 #import "UIColor+BrowserRealmColors.h"
@@ -38,11 +39,6 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
 @property (nonatomic, strong) RLMProperty *preferredProperty;
 
 @property (nonatomic, strong) NSArray *realmColors;
-
-- (RLMProperty *)determineBestDisplayedPropertyWithSchema:(RLMObjectSchema *)schema preferredName:(NSString *)preferredName;
-
-/* Callback Handling */
-- (void)splitViewControllerDetailStateChanged:(NSNotification *)notification;
 
 @end
 
@@ -195,20 +191,12 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
     return cell;
 }
 
-
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RLMObject *object = self.objects[indexPath.row];
+    RLMBrowserObjectViewController *objectController = [[RLMBrowserObjectViewController alloc] initWithObject:object];
+    UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:objectController];
+    [self.splitViewController showDetailViewController:controller sender:self];
 }
 
 @end

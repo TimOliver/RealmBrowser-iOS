@@ -42,8 +42,6 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 @property (nonatomic, strong) UIImage *circleIcon;
 @property (nonatomic, strong) NSArray *realmColors;
 
-- (void)setUpRealmColors;
-
 @end
 
 // ------------------------------------------------------------------
