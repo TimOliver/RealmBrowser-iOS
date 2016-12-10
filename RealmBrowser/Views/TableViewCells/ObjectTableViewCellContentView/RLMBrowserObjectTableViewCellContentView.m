@@ -31,17 +31,19 @@
 {
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
-    self.propertyNameLabel = [[UILabel alloc] init];
+    self.propertyNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 20)];
     self.propertyNameLabel.font = [UIFont systemFontOfSize:17.0f weight:UIFontWeightMedium];
+    self.propertyNameLabel.textAlignment = NSTextAlignmentRight;
     [self addSubview:self.propertyNameLabel];
     
-    self.propertyStatsLabel = [[UILabel alloc] init];
+    self.propertyStatsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 15)];
     self.propertyStatsLabel.font = [UIFont systemFontOfSize:11.0f];
+    self.propertyStatsLabel.textAlignment = NSTextAlignmentRight;
     self.propertyStatsLabel.textColor = [UIColor colorWithWhite:0.3f alpha:1.0f];
     [self addSubview:self.propertyStatsLabel];
     
     self.objectValueLabel = [[UILabel alloc] init];
-    self.objectValueLabel.textAlignment = NSTextAlignmentRight;
+    self.objectValueLabel.textAlignment = NSTextAlignmentLeft;
     self.objectValueLabel.font = [UIFont systemFontOfSize:17.0f];
     [self addSubview:self.objectValueLabel];
 }
@@ -49,22 +51,20 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    [self.propertyStatsLabel sizeToFit];
-    [self.propertyNameLabel sizeToFit];
+
     
     CGFloat midHeight = self.frame.size.height * 0.5f;
     UIView *widerView = nil;
     
     CGRect frame = self.propertyNameLabel.frame;
     frame.origin.x = 10.0f;
-    frame.origin.y = midHeight - ((frame.size.height));
+    frame.origin.y = midHeight - ((frame.size.height)-3);
     widerView = self.propertyNameLabel;
     self.propertyNameLabel.frame = frame;
     
     frame = self.propertyStatsLabel.frame;
     frame.origin.x = 10.0f;
-    frame.origin.y = midHeight;
+    frame.origin.y = midHeight + 3;
     if (frame.size.width > widerView.frame.size.width) { widerView = self.propertyStatsLabel; }
     self.propertyStatsLabel.frame = frame;
     
