@@ -13,7 +13,7 @@
 // Categories
 #import "RLMProperty+BrowserDescription.h"
 #import "UIImage+BrowserIcons.h"
-#import "UIColor+BrowserRealmColors.h""
+#import "UIColor+BrowserRealmColors.h"
 
 // Realm Model Objects
 #import "RLMBrowserRealm.h"
@@ -81,8 +81,7 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     [self.titleView sizeToFit];
     self.navigationItem.titleView = self.titleView;
     
-    self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:20.0f];
-    
+    self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:12.0f];
     self.realmColors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
 }
 

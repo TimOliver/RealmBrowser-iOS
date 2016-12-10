@@ -10,10 +10,19 @@
 #import "TORoundedTableView.h"
 #import "TORoundedTableViewCell.h"
 #import "TORoundedTableViewCapCell.h"
+#import "RLMBrowserObjectTableViewCellContentView.h"
+
+#import "UIImage+BrowserIcons.h"
+#import "UIColor+BrowserRealmColors.h"
+
+const NSInteger kRLMBrowserObjectViewTag = 101;
 
 @interface RLMBrowserObjectViewController ()
 
 @property (nonatomic, strong) RLMObject *realmObject;
+
+@property (nonatomic, strong) UIImage *circleIcon;
+@property (nonatomic, strong) NSArray *realmColors;
 
 @end
 
@@ -33,6 +42,10 @@
     
     self.tableView = [[TORoundedTableView alloc] init];
     self.title = self.realmObject.objectSchema.className;
+    self.tableView.rowHeight = 54.0f;
+    
+    self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:12.0f];
+    self.realmColors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,7 +80,7 @@
     if (!isTop && !isBottom) {
         TORoundedTableViewCell *normalCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (normalCell == nil) {
-            normalCell = [[TORoundedTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+            normalCell = [[TORoundedTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         
         cell = normalCell;
@@ -76,7 +89,7 @@
         // If the cell is indeed one that needs rounded corners, dequeue from the pool of cap cells
         TORoundedTableViewCapCell *capCell = [tableView dequeueReusableCellWithIdentifier:capCellIdentifier];
         if (capCell == nil) {
-            capCell = [[TORoundedTableViewCapCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:capCellIdentifier];
+            capCell = [[TORoundedTableViewCapCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:capCellIdentifier];
         }
         
         // Configure the cell to set the appropriate corners as rounded
@@ -85,16 +98,20 @@
         cell = capCell;
     }
     
+    // Set up the content view
+    RLMBrowserObjectTableViewCellContentView *contentView = [cell.contentView viewWithTag:kRLMBrowserObjectViewTag];
+    if (contentView == nil) {
+        contentView = [[RLMBrowserObjectTableViewCellContentView alloc] initWithFrame:cell.contentView.bounds];
+        contentView.tag = kRLMBrowserObjectViewTag;
+        [cell.contentView addSubview:contentView];
+    }
+    
     RLMProperty *property = self.realmObject.objectSchema.properties[indexPath.row];
     
-    
     // Configure the cell's label
-    cell.textLabel.text = property.name;
-    cell.detailTextLabel.text = [self.realmObject[property.name] description];
-    
-    // Since we know the background is white, set the label's background to also be white for performance optimizations
-    cell.textLabel.backgroundColor = [UIColor whiteColor];
-    cell.textLabel.opaque = YES;
+    contentView.propertyName = property.name;
+    contentView.propertyStats = @"String";
+    contentView.objectValue = [self.realmObject[property.name] description];
     
     // Return the cell
     return cell;
