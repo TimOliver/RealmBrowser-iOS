@@ -42,7 +42,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     
     self.tableView = [[TORoundedTableView alloc] init];
     self.title = self.realmObject.objectSchema.className;
-    self.tableView.rowHeight = 54.0f;
+    self.tableView.rowHeight = 64.0f;
     
     self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:12.0f];
     self.realmColors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
@@ -101,7 +101,10 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     // Set up the content view
     RLMBrowserObjectTableViewCellContentView *contentView = [cell.contentView viewWithTag:kRLMBrowserObjectViewTag];
     if (contentView == nil) {
-        contentView = [[RLMBrowserObjectTableViewCellContentView alloc] initWithFrame:cell.contentView.bounds];
+        CGRect frame = cell.contentView.bounds;
+        frame.origin.x = self.tableView.separatorInset.left;
+        frame.size.width -= self.tableView.separatorInset.left;
+        contentView = [[RLMBrowserObjectTableViewCellContentView alloc] initWithFrame:frame];
         contentView.tag = kRLMBrowserObjectViewTag;
         [cell.contentView addSubview:contentView];
     }
