@@ -98,16 +98,23 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
         cell = capCell;
     }
     
+    // Make sure the cell has a width greater than 0 to ensure proper content layout
+    cell.frame = CGRectMake(0, 0, 320.0f, 44.0f);
+    
     // Set up the content view
     RLMBrowserObjectTableViewCellContentView *contentView = [cell.contentView viewWithTag:kRLMBrowserObjectViewTag];
     if (contentView == nil) {
-        CGRect frame = cell.contentView.bounds;
-        frame.origin.x = self.tableView.separatorInset.left;
-        frame.size.width -= self.tableView.separatorInset.left;
-        contentView = [[RLMBrowserObjectTableViewCellContentView alloc] initWithFrame:frame];
+        cell.contentView.frame = cell.bounds;
+        contentView = [[RLMBrowserObjectTableViewCellContentView alloc] initWithFrame:cell.bounds];
         contentView.tag = kRLMBrowserObjectViewTag;
         [cell.contentView addSubview:contentView];
     }
+    
+    // Reset the content view frame each time
+    CGRect frame = cell.contentView.bounds;
+    frame.origin.x = self.tableView.separatorInset.left;
+    frame.size.width -= (self.tableView.separatorInset.left + 20.0f);
+    contentView.frame = frame;
     
     RLMProperty *property = self.realmObject.objectSchema.properties[indexPath.row];
     

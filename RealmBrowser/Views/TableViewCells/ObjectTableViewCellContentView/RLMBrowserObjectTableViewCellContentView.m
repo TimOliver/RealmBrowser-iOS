@@ -37,9 +37,9 @@
     [self addSubview:self.propertyNameLabel];
     
     self.propertyStatsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.propertyStatsLabel.font = [UIFont systemFontOfSize:14.0f];
-    self.propertyStatsLabel.textAlignment = NSTextAlignmentLeft;
-    self.propertyStatsLabel.textColor = [UIColor colorWithWhite:0.7f alpha:1.0f];
+    self.propertyStatsLabel.font = [UIFont systemFontOfSize:15.0f];
+    self.propertyStatsLabel.textAlignment = NSTextAlignmentRight;
+    self.propertyStatsLabel.textColor = [UIColor colorWithWhite:0.5f alpha:1.0f];
     [self addSubview:self.propertyStatsLabel];
     
     self.objectValueLabel = [[UILabel alloc] init];
@@ -66,7 +66,7 @@
     CGFloat titleLineY = CGRectGetMaxY(frame) + self.propertyNameLabel.font.descender;
     
     frame = self.propertyStatsLabel.frame;
-    frame.origin.x = CGRectGetMaxX(self.propertyNameLabel.frame) + 3.0f;
+    frame.origin.x = self.frame.size.width - 100.0f;//CGRectGetMaxX(self.propertyNameLabel.frame) + 3.0f;
     frame.size.width = 100.0f;
     frame.size.height = self.propertyStatsLabel.font.lineHeight;
     frame.origin.y = titleLineY - (frame.size.height + self.propertyStatsLabel.font.descender);
@@ -74,7 +74,7 @@
     
     frame = self.objectValueLabel.frame;
     frame.size.height = self.objectValueLabel.font.lineHeight;
-    frame.size.width = self.frame.size.width;
+    frame.size.width = self.frame.size.width - 20.0f;
     frame.origin.x = 0.0f;
     frame.origin.y = CGRectGetMaxY(self.propertyNameLabel.frame);
     self.objectValueLabel.frame = frame;

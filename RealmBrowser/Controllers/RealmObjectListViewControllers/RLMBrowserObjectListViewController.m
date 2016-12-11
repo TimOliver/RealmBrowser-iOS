@@ -61,6 +61,8 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
 - (void)viewDidLoad {
     [super viewDidLoad];
  
+    self.clearsSelectionOnViewWillAppear = NO;
+    
     // Set up the header for this view controller
     self.titleView = [[RLMBrowserNavigationTitleView alloc] init];
     self.titleView.titleLabel.text = self.browserSchema.className;

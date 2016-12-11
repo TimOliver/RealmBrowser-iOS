@@ -16,6 +16,7 @@
 		220D921B1DE6E5A2007CFF2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220D92131DE6E5A2007CFF2A /* Main.storyboard */; };
 		220D921D1DE6E5A2007CFF2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 220D92171DE6E5A2007CFF2A /* main.m */; };
 		2239004E1DFBE7B000FE2882 /* RLMBrowserObjectTableViewCellContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2239004D1DFBE7B000FE2882 /* RLMBrowserObjectTableViewCellContentView.m */; };
+		223900531DFCFC8700FE2882 /* RLMBrowserObjectTableViewCellContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 223900521DFCFC8700FE2882 /* RLMBrowserObjectTableViewCellContentView.xib */; };
 		22576FA91DED59600001586A /* RLMBrowserTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22576FA81DED59600001586A /* RLMBrowserTableHeaderView.m */; };
 		22576FAC1DED5A6C0001586A /* RLMBrowserNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22576FAB1DED5A6C0001586A /* RLMBrowserNavigationTitleView.m */; };
 		22576FAE1DED5B030001586A /* RLMBrowserNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22576FAD1DED5B030001586A /* RLMBrowserNavigationTitleView.xib */; };
@@ -64,6 +65,7 @@
 		220D92171DE6E5A2007CFF2A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2239004C1DFBE7B000FE2882 /* RLMBrowserObjectTableViewCellContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMBrowserObjectTableViewCellContentView.h; path = ObjectTableViewCellContentView/RLMBrowserObjectTableViewCellContentView.h; sourceTree = "<group>"; };
 		2239004D1DFBE7B000FE2882 /* RLMBrowserObjectTableViewCellContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMBrowserObjectTableViewCellContentView.m; path = ObjectTableViewCellContentView/RLMBrowserObjectTableViewCellContentView.m; sourceTree = "<group>"; };
+		223900521DFCFC8700FE2882 /* RLMBrowserObjectTableViewCellContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RLMBrowserObjectTableViewCellContentView.xib; path = ObjectTableViewCellContentView/RLMBrowserObjectTableViewCellContentView.xib; sourceTree = "<group>"; };
 		22576FA71DED59600001586A /* RLMBrowserTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMBrowserTableHeaderView.h; path = HeaderViews/RLMBrowserTableHeaderView.h; sourceTree = "<group>"; };
 		22576FA81DED59600001586A /* RLMBrowserTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMBrowserTableHeaderView.m; path = HeaderViews/RLMBrowserTableHeaderView.m; sourceTree = "<group>"; };
 		22576FAA1DED5A6C0001586A /* RLMBrowserNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMBrowserNavigationTitleView.h; path = HeaderViews/RLMBrowserNavigationTitleView.h; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 			children = (
 				2239004C1DFBE7B000FE2882 /* RLMBrowserObjectTableViewCellContentView.h */,
 				2239004D1DFBE7B000FE2882 /* RLMBrowserObjectTableViewCellContentView.m */,
+				223900521DFCFC8700FE2882 /* RLMBrowserObjectTableViewCellContentView.xib */,
 			);
 			name = ObjectTableViewCellContentView;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				220D92191DE6E5A2007CFF2A /* Assets.xcassets in Resources */,
 				225EFBCC1DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.xib in Resources */,
 				225EFBC71DF535FD00DF649B /* RLMBrowserRealmTableViewCell.xib in Resources */,
+				223900531DFCFC8700FE2882 /* RLMBrowserObjectTableViewCellContentView.xib in Resources */,
 				220D921A1DE6E5A2007CFF2A /* LaunchScreen.storyboard in Resources */,
 				22576FAE1DED5B030001586A /* RLMBrowserNavigationTitleView.xib in Resources */,
 				225EFBC51DF535FD00DF649B /* RLMBrowserObjectListTableViewCell.xib in Resources */,
