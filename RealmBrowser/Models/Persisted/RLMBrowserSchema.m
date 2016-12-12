@@ -10,7 +10,7 @@
 
 @implementation RLMBrowserSchema
 
-+ (RLMProperty *)preferredPropertyFromProperties:(NSArray *)properties
++ (NSString *)preferredPropertyClassNameFromProperties:(NSArray *)properties
 {
     for (RLMProperty *property in properties) {
         // Skip if not a string
@@ -22,21 +22,21 @@
             continue;
         }
         
-        return property;
+        return property.name;
     }
     
     // If all else fails, default to the first property
-    return properties.firstObject;
+    return [properties.firstObject name];
 }
 
-+ (NSArray *)preferredSecondaryPropertiesFromProperties:(NSArray *)properties
-                                           maximumCount:(NSInteger) maximumCount
-                             excludingPropertyClassName:(NSString *)excludedName
++ (NSArray *)preferredSecondaryPropertyClassNamesFromProperties:(NSArray *)properties
+                                                   maximumCount:(NSInteger)maximumCount
+                                     excludingPropertyClassName:(NSString *)excludedName
 {
     NSMutableArray *newProperties = [NSMutableArray array];
     for (RLMProperty *property in properties) {
         if ([property.name isEqualToString:excludedName]) { continue; }
-        [newProperties addObject:property];
+        [newProperties addObject:property.name];
         if (newProperties.count >= maximumCount) { break; }
     }
     

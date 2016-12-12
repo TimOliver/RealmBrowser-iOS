@@ -37,7 +37,8 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 @property (nonatomic, strong) RLMObjectSchema *schema;
 @property (nonatomic, strong) RLMResults *objects;
 
-@property (nonatomic, strong) RLMProperty *preferredProperty;
+@property (nonatomic, strong) NSString *preferredPropertyName;
+@property (nonatomic, strong) RLMArray *preferredSecondaryPropertyNames;
 
 @property (nonatomic, strong) NSArray *realmColors;
 
@@ -82,8 +83,8 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     self.objects = [self.realm allObjects:self.browserSchema.className];
     
     // Calculate the most appropriate property to initially display
-    self.preferredProperty = [self determineBestDisplayedPropertyWithSchema:self.schema
-                                                              preferredName:self.browserSchema.preferredPropertyName];
+    self.preferredPropertyName = self.browserSchema.preferredPropertyName;
+    self.preferredSecondaryPropertyNames = self.browserSchema.secondaryPropertyNames;
 
     // Get Realm colours to theme the numbers
     self.realmColors = [UIColor RLMBrowser_realmColorsInvertedRepeating];
@@ -177,7 +178,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     
     // Get the object
     RLMObject *object = self.objects[indexPath.row];
-    id value = object[self.preferredProperty.name];
+    id value = object[self.preferredPropertyName];
     
     if (value) {
         contentView.titleLabel.textColor = [UIColor blackColor];
@@ -188,7 +189,19 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
         contentView.titleLabel.text = @"NULL";
     }
     
-    contentView.subtitleLabel.text = @"UserId: 1 • Email: info@realm.io • Address: 148 Townsend";
+    NSString *subtitle = @"";
+    if (self.preferredSecondaryPropertyNames.count) {
+        for (RLMBrowserObjectProperty *propertyName in self.preferredSecondaryPropertyNames) {
+            NSString *propertyValue = [object[propertyName.name] description];
+            subtitle = [subtitle stringByAppendingFormat:@"%@: %@", propertyName.name, propertyValue];
+            
+            if (propertyName != self.preferredSecondaryPropertyNames.lastObject) {
+                subtitle = [subtitle stringByAppendingString:@" • "];
+            }
+        }
+    }
+    
+    contentView.subtitleLabel.text = subtitle;
     
     contentView.indexLabel.text = [NSString stringWithFormat:@"%ld", [self.objects indexOfObject:object] + 1];
     contentView.indexLabel.textColor = self.realmColors[indexPath.row % self.realmColors.count];

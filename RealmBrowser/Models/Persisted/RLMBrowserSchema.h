@@ -25,10 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) RLMArray<RLMBrowserObjectProperty *><RLMBrowserObjectProperty> *secondaryPropertyNames;
 
 /** Given a list of properties, work out the most appropriate for display as the main property */
-+ (RLMProperty *)preferredPropertyFromProperties:(NSArray *)proeprties;
++ (NSString *)preferredPropertyClassNameFromProperties:(NSArray *)properties;
 
 /** Given a list of properties, work out the best ones for display under the main property. */
-+ (NSArray *)preferredSecondaryPropertiesFromProperties:(NSArray *)properties maximumCount:(NSInteger)maximumCount excludingPropertyClassName:(NSString *)excludedName;
++ (NSArray *)preferredSecondaryPropertyClassNamesFromProperties:(NSArray *)properties maximumCount:(NSInteger)maximumCount excludingPropertyClassName:(NSString *)excludedName;
 
 @end
 

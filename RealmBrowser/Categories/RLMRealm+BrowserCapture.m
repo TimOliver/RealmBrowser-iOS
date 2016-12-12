@@ -17,6 +17,7 @@
 #import "RLMBrowserList.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserSchema.h"
+#import "RLMBrowserObjectProperty.h"
 
 // Categories
 #import "RLMRealmConfiguration+BrowserCompare.h"
@@ -103,6 +104,20 @@
     return list;
 }
 
+/* Set the default preferred properties for this object */
++ (void)RLMBrowser_setPreferredPropertiesForBrowserSchema:(RLMBrowserSchema *)browserSchema properties:(NSArray *)properties
+{
+    browserSchema.preferredPropertyName = [RLMBrowserSchema preferredPropertyClassNameFromProperties:properties];
+    
+    NSArray *secondaryProperties = [RLMBrowserSchema preferredSecondaryPropertyClassNamesFromProperties:properties
+                                                                                           maximumCount:5
+                                                                             excludingPropertyClassName:browserSchema.preferredPropertyName];
+    for (NSString *property in secondaryProperties) {
+        RLMBrowserObjectProperty *objectProperty = [[RLMBrowserObjectProperty alloc] initWithValue:@[property]];
+        [browserSchema.secondaryPropertyNames addObject:objectProperty];
+    }
+}
+
 /** Create a new instance of `RLMBrowserRealm` to save to the Browser Realm file. */
 + (NSDictionary *)RLMBrowser_createNewCapturedRealmDictionaryForRealm:(RLMRealm *)realm
 {
@@ -130,15 +145,7 @@
     for (RLMObjectSchema *schema in realm.schema.objectSchema) {
         RLMBrowserSchema *browserSchema = [[RLMBrowserSchema alloc] init];
         browserSchema.className = schema.className;
-        browserSchema.preferredPropertyName = [[RLMBrowserSchema preferredPropertyFromProperties:schema.properties] name];
-        
-        NSArray *secondaryProperties = [RLMBrowserSchema preferredSecondaryPropertiesFromProperties:schema.properties
-                                                                                       maximumCount:5
-                                                                         excludingPropertyClassName:browserSchema.preferredPropertyName];
-        for (RLMProperty *property in secondaryProperties) {
-            RLMBrowserObjectProperty *objectProperty = [[RLMBrowserObjectProperty alloc] initWithValue:@[property.name]];
-            [browserSchema.secondaryPropertyNames addObject:objectProperty];
-        }
+        [RLMRealm RLMBrowser_setPreferredPropertiesForBrowserSchema:browserSchema properties:schema.properties];
         [newRealm[@"schema"] addObject:browserSchema];
     }
     
@@ -181,29 +188,21 @@
 {
     // NB: This assumes it is being run inside of a write transaction
     
-    // Loop through the current Realm's schema, and copy each className verbatim, in order
+    // Delete all prior objects
+    for (RLMBrowserSchema *schema in capturedRealm.schema) {
+        [capturedRealm.realm deleteObjects:schema.secondaryPropertyNames];
+    }
+    [capturedRealm.realm deleteObjects:capturedRealm.schema];
+    
+    // Loop through the current Realm's schema, and recreate the objects
     for (NSInteger i = 0; i < realm.schema.objectSchema.count; i++) {
         RLMObjectSchema *schema = realm.schema.objectSchema[i];
         
-        // If we reached the end our schema array, add a new object with the value and continue
-        if (i >= capturedRealm.schema.count) {
-            RLMBrowserSchema *newSchema = [[RLMBrowserSchema alloc] initWithValue:@[schema.className]];
-            [capturedRealm.schema addObject:newSchema];
-            continue;
-        }
-        
-        // If the schema don't match up
-        if (![schema.className isEqualToString:capturedRealm.schema[i].className]) {
-            capturedRealm.schema[i].className = schema.className;
-        }
+        RLMBrowserSchema *newSchema = [[RLMBrowserSchema alloc] init];
+        newSchema.className = schema.className;
+        [RLMRealm RLMBrowser_setPreferredPropertiesForBrowserSchema:newSchema properties:schema.properties];
+        [capturedRealm.schema addObject:newSchema];
     }
-    
-    // If the captured Realm's schema account has more entries than the current Realm, only
-    // the properties on the end will be redundant. They can be safely backtracked until parity.
-    while (capturedRealm.schema.count > realm.schema.objectSchema.count) {
-        [capturedRealm.realm deleteObject:capturedRealm.schema.lastObject];
-    }
-
 }
 
 + (void)RLMBrowser_saveChanges:(NSMutableDictionary *)changes
