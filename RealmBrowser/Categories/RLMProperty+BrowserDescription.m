@@ -48,4 +48,32 @@
     return description;
 }
 
+- (NSString *)RLMBrowser_typeAndConfigurationDescription
+{
+    NSString *description = [self RLMBrowser_typeDescription];
+    
+    BOOL numberProperty = (self.type == RLMPropertyTypeInt || self.type == RLMPropertyTypeBool
+                           || self.type == RLMPropertyTypeFloat || self.type == RLMPropertyTypeFloat);
+    
+    BOOL optional = (self.optional && numberProperty);
+    BOOL indexed = self.indexed;
+    
+    if (!indexed && !optional) {
+        return description;
+    }
+    
+    description = [description stringByAppendingString:@" ("];
+    if (optional) {
+        description = [description stringByAppendingFormat:@"Optional%@", indexed ? @" • " : nil];
+    }
+    
+    if (indexed) {
+        [description stringByAppendingString:@"Indexed"];
+    }
+    
+    description = [description stringByAppendingString:@")"];
+
+    return description;
+}
+
 @end

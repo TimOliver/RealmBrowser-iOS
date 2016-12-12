@@ -15,7 +15,7 @@
 
 #import "RLMBrowserTableHeaderView.h"
 
-#import "RLMBrowserObjectListContainerViewController.h"
+#import "RLMBrowserObjectListViewController.h"
 
 @interface RLMBrowserRealmListViewController ()
 
@@ -149,8 +149,7 @@
     // The user tapped a schema row
     if (indexPath.row > 0) {
         RLMBrowserSchema *schema = realm.schema[indexPath.row - 1];
-        RLMBrowserObjectListContainerViewController *controller = [[RLMBrowserObjectListContainerViewController alloc] initWithBrowserRealm:realm
-                                                                                                                                     browserSchema:schema];
+        RLMBrowserObjectListViewController *controller = [[RLMBrowserObjectListViewController alloc] initWithBrowserRealm:realm browserSchema:schema];
         [self.navigationController pushViewController:controller animated:YES];
     }
 }

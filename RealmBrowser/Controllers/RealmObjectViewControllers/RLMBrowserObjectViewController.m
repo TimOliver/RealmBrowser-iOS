@@ -10,15 +10,21 @@
 #import "TORoundedTableView.h"
 #import "TORoundedTableViewCell.h"
 #import "TORoundedTableViewCapCell.h"
-#import "RLMBrowserObjectTableViewCellContentView.h"
+#import "RLMBrowserObjectContentView.h"
 
 #import "UIImage+BrowserIcons.h"
 #import "UIColor+BrowserRealmColors.h"
+#import "RLMProperty+BrowserDescription.h"
+
+#import "RLMBrowserRealm.h"
+#import "RLMBrowserSchema.h"
 
 const NSInteger kRLMBrowserObjectViewTag = 101;
 
 @interface RLMBrowserObjectViewController ()
 
+@property (nonatomic, strong) RLMBrowserRealm *browserRealm;
+@property (nonatomic, strong) RLMBrowserSchema *browserSchema;
 @property (nonatomic, strong) RLMObject *realmObject;
 
 @property (nonatomic, strong) UIImage *circleIcon;
@@ -29,8 +35,12 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
 @implementation RLMBrowserObjectViewController
 
 - (instancetype)initWithObject:(RLMObject *)realmObject
+               forBrowserRealm:(RLMBrowserRealm *)realm
+                 browserSchema:(RLMBrowserSchema *)schema
 {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+        _browserRealm = realm;
+        _browserSchema = schema;
         _realmObject = realmObject;
     }
     
@@ -41,10 +51,11 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     [super viewDidLoad];
     
     self.tableView = [[TORoundedTableView alloc] init];
-    self.title = self.realmObject.objectSchema.className;
+    self.title = self.realmObject[self.browserSchema.preferredPropertyName];
     self.tableView.rowHeight = 64.0f;
-    
-    self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:12.0f];
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 30.0f, 0, 0);
+
+    self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:10.0f];
     self.realmColors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
 }
 
@@ -102,25 +113,27 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     cell.frame = CGRectMake(0, 0, 320.0f, 44.0f);
     
     // Set up the content view
-    RLMBrowserObjectTableViewCellContentView *contentView = [cell.contentView viewWithTag:kRLMBrowserObjectViewTag];
+    RLMBrowserObjectContentView *contentView = [cell.contentView viewWithTag:kRLMBrowserObjectViewTag];
     if (contentView == nil) {
         cell.contentView.frame = cell.bounds;
-        contentView = [[RLMBrowserObjectTableViewCellContentView alloc] initWithFrame:cell.bounds];
+        contentView = [RLMBrowserObjectContentView objectContentView];
         contentView.tag = kRLMBrowserObjectViewTag;
+        contentView.iconImage = self.circleIcon;
         [cell.contentView addSubview:contentView];
     }
     
     // Reset the content view frame each time
     CGRect frame = cell.contentView.bounds;
-    frame.origin.x = self.tableView.separatorInset.left;
-    frame.size.width -= (self.tableView.separatorInset.left + 20.0f);
+   // frame.origin.x = self.tableView.separatorInset.left;
+    //frame.size.width -= (self.tableView.separatorInset.left + 20.0f);
     contentView.frame = frame;
     
     RLMProperty *property = self.realmObject.objectSchema.properties[indexPath.row];
     
     // Configure the cell's label
+    contentView.iconColor = self.realmColors[indexPath.row % self.realmColors.count];
     contentView.propertyName = property.name;
-    contentView.propertyStats = @"String";
+    contentView.propertyStats = [property RLMBrowser_typeAndConfigurationDescription];
     contentView.objectValue = [self.realmObject[property.name] description];
     
     // Return the cell

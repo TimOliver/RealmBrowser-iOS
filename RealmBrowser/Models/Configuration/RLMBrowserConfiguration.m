@@ -12,6 +12,7 @@
 #import "RLMBrowserList.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserSchema.h"
+#import "RLMBrowserObjectProperty.h"
 
 @implementation RLMBrowserConfiguration
 
@@ -31,7 +32,7 @@
     // Generate the Realm Configuration
     RLMRealmConfiguration *configuration = [[RLMRealmConfiguration alloc] init];
     configuration.fileURL = [NSURL fileURLWithPath:browserRealmPath];
-    configuration.objectClasses = @[[RLMBrowserSchema class], [RLMBrowserRealm class], [RLMBrowserList class]];
+    configuration.objectClasses = @[[RLMBrowserObjectProperty class], [RLMBrowserSchema class], [RLMBrowserRealm class], [RLMBrowserList class]];
     configuration.deleteRealmIfMigrationNeeded = YES;
     return configuration;
 }

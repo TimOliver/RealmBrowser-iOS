@@ -13,5 +13,6 @@
 
 - (NSString *)RLMBrowser_typeDescription;
 - (NSString *)RLMBrowser_configurationDescription;
+- (NSString *)RLMBrowser_typeAndConfigurationDescription;
 
 @end

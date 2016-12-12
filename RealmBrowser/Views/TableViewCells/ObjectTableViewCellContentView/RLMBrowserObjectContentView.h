@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RLMBrowserObjectTableViewCellContentView : UIView
+@interface RLMBrowserObjectContentView : UIView
 
+@property (nonatomic, strong) UIImage *iconImage;
 @property (nonatomic, copy) NSString *propertyName;
 @property (nonatomic, copy) NSString *propertyStats;
-
 @property (nonatomic, copy) NSString *objectValue;
+
+@property (nonatomic, strong) UIColor *iconColor;
+
++ (instancetype)objectContentView;
 
 @end

@@ -8,6 +8,8 @@
 
 #import <Realm/Realm.h>
 
+#import "RLMBrowserObjectProperty.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /** A basic representation of each object schema backed by the parent Realm */
@@ -18,6 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** The preferred property to represent objects from this schema. (e.g. 'name' over 'uuid') */
 @property (nonatomic, copy) NSString *preferredPropertyName;
+
+/** The preferred secondary names to be displayed alongside the primary one */
+@property (nonatomic, strong) RLMArray<RLMBrowserObjectProperty *><RLMBrowserObjectProperty> *secondaryPropertyNames;
+
+/** Given a list of properties, work out the most appropriate for display as the main property */
++ (RLMProperty *)preferredPropertyFromProperties:(NSArray *)proeprties;
+
+/** Given a list of properties, work out the best ones for display under the main property. */
++ (NSArray *)preferredSecondaryPropertiesFromProperties:(NSArray *)properties maximumCount:(NSInteger)maximumCount excludingPropertyClassName:(NSString *)excludedName;
 
 @end
 

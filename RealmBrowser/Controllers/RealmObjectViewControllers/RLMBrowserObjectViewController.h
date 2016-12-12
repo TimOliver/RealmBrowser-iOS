@@ -9,8 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <Realm/Realm.h>
 
+@class RLMBrowserRealm;
+@class RLMBrowserSchema;
+
 @interface RLMBrowserObjectViewController : UITableViewController
 
-- (instancetype)initWithObject:(RLMObject *)realmObject;
+- (instancetype)initWithObject:(RLMObject *)realmObject
+               forBrowserRealm:(RLMBrowserRealm *)realm
+                 browserSchema:(RLMBrowserSchema *)schema;
 
 @end

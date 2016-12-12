@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RLMBrowserObjectListTableViewCell : UITableViewCell
+@interface RLMBrowserObjectListContentView : UIView
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *subtitleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *indexLabel;
+
++ (instancetype)objectListContentView;
 
 @end

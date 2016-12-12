@@ -12,8 +12,9 @@
 #import "RLMBrowserNavigationTitleView.h"
 #import "RLMBrowserObjectViewController.h"
 
-#import "RLMBrowserObjectListTableViewCell.h"
+#import "RLMBrowserObjectListContentView.h"
 #import "UIColor+BrowserRealmColors.h"
+#import "UIImage+BrowserIcons.h"
 
 #import <Realm/Realm.h>
 #import <Realm/RLMRealm_Dynamic.h>
@@ -21,13 +22,13 @@
 // ------------------------------------------------------------------
 
 NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell";
+NSInteger const kRLMBrowserObjectListViewTag = 101;
 
 // ------------------------------------------------------------------
 
 @interface RLMBrowserObjectListViewController()
 
 @property (nonatomic, strong) RLMBrowserTableHeaderView *tableHeaderView;
-@property (nonatomic, strong) RLMBrowserNavigationTitleView *titleView;
 
 @property (nonatomic, strong) RLMBrowserRealm *browserRealm;
 @property (nonatomic, strong) RLMBrowserSchema *browserSchema;
@@ -61,15 +62,10 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
 - (void)viewDidLoad {
     [super viewDidLoad];
  
+    // Set default settings
     self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Set up the header for this view controller
-    self.titleView = [[RLMBrowserNavigationTitleView alloc] init];
-    self.titleView.titleLabel.text = self.browserSchema.className;
-    
-    // Set the custom NIB as the default table view cell
-    UINib *nib = [UINib nibWithNibName:@"RLMBrowserObjectListTableViewCell" bundle:[NSBundle mainBundle]];
-    [self.tableView registerNib:nib forCellReuseIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
+    self.tableView.rowHeight = 54.0f;
+    self.tableView.separatorInset = UIEdgeInsetsMake(0.0f, 35.0f, 0.0f, 0.0f);
     
     // Set the title as the schema name
     self.title = self.browserSchema.className;
@@ -88,13 +84,30 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
     // Calculate the most appropriate property to initially display
     self.preferredProperty = [self determineBestDisplayedPropertyWithSchema:self.schema
                                                               preferredName:self.browserSchema.preferredPropertyName];
-    
-    self.titleView.subtitleLabel.text = [NSString stringWithFormat:@"%ld Object%@", self.objects.count, self.objects.count == 1 ? @"" : @"s"];
-    [self.titleView sizeToFit];
 
-    self.navigationItem.titleView = self.titleView;
-    
+    // Get Realm colours to theme the numbers
     self.realmColors = [UIColor RLMBrowser_realmColorsInvertedRepeating];
+    
+    // Set up the toolbar content
+    UIImage *tweaksIcon = [UIImage RLMBrowser_tweaksIcon];
+    UIBarButtonItem *tweaksButton = [[UIBarButtonItem alloc] initWithImage:tweaksIcon style:UIBarButtonItemStylePlain target:self action:@selector(tweaksButtonTapped:)];
+
+    UILabel *objectsLabel = [[UILabel alloc] init];
+    objectsLabel.font = [UIFont systemFontOfSize:11.0f];
+    objectsLabel.textAlignment = NSTextAlignmentCenter;
+    objectsLabel.text = [NSString stringWithFormat:@"%ld Object%@", self.objects.count, self.objects.count == 1 ? @"" : @"s"];
+    [objectsLabel sizeToFit];
+    UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
+    
+    UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    self.toolbarItems = @[tweaksButton, flexibleSpaceItem, labelItem, flexibleSpaceItem];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -126,29 +139,9 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
     }
 }
 
-- (RLMProperty *)determineBestDisplayedPropertyWithSchema:(RLMObjectSchema *)schema preferredName:(NSString *)preferredName
+- (void)tweaksButtonTapped:(id)sender
 {
-    // If the user has specifically specified a valid property, use that
-    if (schema[preferredName]) {
-        return schema[preferredName];
-    }
     
-    // If a property hasn't been picked yet, search for the first string that doesn't include 'ID' in it
-    for (RLMProperty *property in schema.properties) {
-        // Skip if not a string
-        if (property.type != RLMPropertyTypeString) {
-            continue;
-        }
-        // Skip if it contains 'ID'
-        if ([property.name rangeOfString:@"ID" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            continue;
-        }
-        
-        return property;
-    }
-    
-    // If all else fails, default to the first property
-    return schema.properties.firstObject;
 }
 
 #pragma mark - Table view data source
@@ -170,25 +163,35 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    RLMBrowserObjectListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
-
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
+        
+        RLMBrowserObjectListContentView *contentView = [RLMBrowserObjectListContentView objectListContentView];
+        contentView.tag = kRLMBrowserObjectListViewTag;
+        contentView.frame = cell.contentView.bounds;
+        [cell.contentView addSubview:contentView];
+    }
+    
+    RLMBrowserObjectListContentView *contentView = [cell.contentView viewWithTag:kRLMBrowserObjectListViewTag];
+    
     // Get the object
     RLMObject *object = self.objects[indexPath.row];
     id value = object[self.preferredProperty.name];
     
     if (value) {
-        cell.titleLabel.textColor = [UIColor blackColor];
-        cell.titleLabel.text = [NSString stringWithFormat:@"%@", value];
+        contentView.titleLabel.textColor = [UIColor blackColor];
+        contentView.titleLabel.text = [NSString stringWithFormat:@"%@", value];
     }
     else {
-        cell.titleLabel.textColor = [UIColor grayColor];
-        cell.titleLabel.text = @"NULL";
+        contentView.titleLabel.textColor = [UIColor grayColor];
+        contentView.titleLabel.text = @"NULL";
     }
     
-    cell.subtitleLabel.text = @"UserId: 1 • Email: info@realm.io • Address: 148 Townsend";
+    contentView.subtitleLabel.text = @"UserId: 1 • Email: info@realm.io • Address: 148 Townsend";
     
-    cell.indexLabel.text = [NSString stringWithFormat:@"%ld", [self.objects indexOfObject:object] + 1];
-    cell.indexLabel.textColor = self.realmColors[indexPath.row % self.realmColors.count];
+    contentView.indexLabel.text = [NSString stringWithFormat:@"%ld", [self.objects indexOfObject:object] + 1];
+    contentView.indexLabel.textColor = self.realmColors[indexPath.row % self.realmColors.count];
     
     return cell;
 }
@@ -196,7 +199,9 @@ NSString * const kRLMBrowserObjectListTableViewCellIdentifier = @"ObjectListCell
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RLMObject *object = self.objects[indexPath.row];
-    RLMBrowserObjectViewController *objectController = [[RLMBrowserObjectViewController alloc] initWithObject:object];
+    RLMBrowserObjectViewController *objectController = [[RLMBrowserObjectViewController alloc] initWithObject:object
+                                                                                              forBrowserRealm:self.browserRealm
+                                                                                                browserSchema:self.browserSchema];
     UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:objectController];
     [self.splitViewController showDetailViewController:controller sender:self];
 }

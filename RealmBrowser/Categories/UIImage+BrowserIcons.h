@@ -11,5 +11,6 @@
 @interface UIImage (BrowserIcons)
 
 + (UIImage *)RLMBrowser_tintedCircleImageForRadius:(CGFloat)radius;
++ (UIImage *)RLMBrowser_tweaksIcon;
 
 @end

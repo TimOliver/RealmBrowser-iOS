@@ -128,7 +128,17 @@
     
     // Create a new schema reference for each object schema in this Realm since the last time it was opened
     for (RLMObjectSchema *schema in realm.schema.objectSchema) {
-        RLMBrowserSchema *browserSchema = [[RLMBrowserSchema alloc] initWithValue:@[schema.className, [NSNull null]]];
+        RLMBrowserSchema *browserSchema = [[RLMBrowserSchema alloc] init];
+        browserSchema.className = schema.className;
+        browserSchema.preferredPropertyName = [[RLMBrowserSchema preferredPropertyFromProperties:schema.properties] name];
+        
+        NSArray *secondaryProperties = [RLMBrowserSchema preferredSecondaryPropertiesFromProperties:schema.properties
+                                                                                       maximumCount:5
+                                                                         excludingPropertyClassName:browserSchema.preferredPropertyName];
+        for (RLMProperty *property in secondaryProperties) {
+            RLMBrowserObjectProperty *objectProperty = [[RLMBrowserObjectProperty alloc] initWithValue:@[property.name]];
+            [browserSchema.secondaryPropertyNames addObject:objectProperty];
+        }
         [newRealm[@"schema"] addObject:browserSchema];
     }
     
