@@ -129,8 +129,6 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     
     // Reset the content view frame each time
     CGRect frame = cell.contentView.bounds;
-   // frame.origin.x = self.tableView.separatorInset.left;
-    //frame.size.width -= (self.tableView.separatorInset.left + 20.0f);
     contentView.frame = frame;
     
     RLMProperty *property = self.realmObject.objectSchema.properties[indexPath.row];

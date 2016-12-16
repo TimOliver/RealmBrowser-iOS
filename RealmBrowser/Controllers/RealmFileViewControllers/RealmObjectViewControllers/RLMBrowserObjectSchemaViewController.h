@@ -1,5 +1,5 @@
 //
-//  RLMBrowserObjectListContainerViewController.h
+//  RLMBrowserObjectSchemaViewController.h
 //  RealmBrowser
 //
 //  Created by Tim Oliver on 12/4/16.
@@ -11,7 +11,7 @@
 @class RLMBrowserRealm;
 @class RLMBrowserSchema;
 
-@interface RLMBrowserObjectListContainerViewController : UIViewController
+@interface RLMBrowserObjectSchemaViewController : UITableViewController
 
 - (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema;
 
