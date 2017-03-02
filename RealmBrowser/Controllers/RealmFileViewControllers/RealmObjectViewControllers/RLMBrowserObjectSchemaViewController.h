@@ -11,7 +11,7 @@
 @class RLMBrowserRealm;
 @class RLMBrowserSchema;
 
-@interface RLMBrowserObjectSchemaViewController : UITableViewController
+@interface RLMBrowserObjectSchemaViewController : UIViewController
 
 - (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema;
 

@@ -30,10 +30,10 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 
 // ------------------------------------------------------------------
 
-@interface RLMBrowserObjectSchemaViewController () <UIPopoverPresentationControllerDelegate>
+@interface RLMBrowserObjectSchemaViewController () <UIPopoverPresentationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) RLMBrowserNavigationTitleView *titleView;
-@property (nonatomic, strong) UINavigationBar *segmentedControlBar;
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
 
 @property (nonatomic, strong) RLMBrowserRealm  *browserRealm;
@@ -55,7 +55,7 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 
 - (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema
 {
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    if (self = [super init]) {
         _browserRealm = realm;
         _browserSchema = schema;
     }
@@ -67,7 +67,13 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     [super viewDidLoad];
 
     self.presentationController.delegate = self;
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     self.tableView.rowHeight = 50.0f;
+    [self.view addSubview:self.tableView];
     
     // Configure table cell
     UINib *tableNib = [UINib nibWithNibName:@"RLMBrowserPropertyTableViewCell" bundle:nil];
@@ -93,26 +99,26 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneButtonTapped:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
-    //Set up secondary bar
-    UIView *container = [[UIView alloc] initWithFrame:(CGRect){0,0,320,44}];
-    self.segmentedControlBar = [[UINavigationBar alloc] initWithFrame:container.bounds];
-    self.segmentedControlBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [container addSubview:self.segmentedControlBar];
-    self.tableView.tableHeaderView = container;
-    
     // Add segment control to bar
     self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Primary", @"Secondary"]];
     self.segmentedControl.frame = (CGRect){0,0, 290.0f, self.segmentedControl.frame.size.height};
     self.segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin
                                                 | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.segmentedControl.center = self.segmentedControlBar.center;
-    [self.segmentedControlBar addSubview:self.segmentedControl];
+    UIBarButtonItem *controlItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+
+    self.navigationController.toolbarHidden = NO;
+    self.toolbarItems = @[spaceItem, controlItem, spaceItem];
     
     // Create preview view
     self.previewView = [RLMBrowserSchemaPreviewView contentView];
-    container = [[UIView alloc] initWithFrame:self.previewView.bounds];
-    [container addSubview:self.previewView];
-    self.tableView.tableFooterView = container;
+    CGRect frame = self.previewView.bounds;
+    frame.size.height += 20 + 20;
+    UIView *containerView = [[UIView alloc] initWithFrame:frame];
+    [containerView addSubview:self.previewView];
+    self.previewView.frame = CGRectOffset(self.previewView.frame, 0, 20);
+    self.previewView.navbar.hidden = YES;
+    self.tableView.tableHeaderView = containerView;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -138,17 +144,18 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 - (void)layoutAccessoryViews
 {
     UIScrollView *scrollView = self.tableView;
-    
-    CGRect frame = self.segmentedControlBar.frame;
-    frame.origin.y = scrollView.contentOffset.y + scrollView.contentInset.top;
-    self.segmentedControlBar.frame = frame;
-    [scrollView bringSubviewToFront:self.segmentedControlBar.superview];
-    
-    CGFloat yOffset = self.previewView.superview.frame.origin.y;
-    frame = self.previewView.frame;
-    frame.origin.y = scrollView.contentOffset.y + (scrollView.frame.size.height - frame.size.height);
-    frame.origin.y -= yOffset;
-    self.previewView.frame = frame;
+    CGFloat previewY = scrollView.contentOffset.y + scrollView.contentInset.top;
+    CGFloat previewOffset = 20.0f;
+    self.previewView.navbar.hidden = !(previewY > previewOffset);
+
+    CGRect previewFrame = self.previewView.frame;
+    if (previewY > previewOffset) {
+        previewFrame.origin.y = previewY;
+    }
+    else {
+        previewFrame.origin.y = previewOffset;
+    }
+    self.previewView.frame = previewFrame;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

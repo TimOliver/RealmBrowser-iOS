@@ -19,13 +19,19 @@
 {
     [super awakeFromNib];
     
+    CGFloat height = 1.0f / [UIScreen mainScreen].scale;
+    
     // Set the separator to the physical pixel height
-    CGRect frame = self.separatorView.frame;
-    frame.size.height = 1.0f / [UIScreen mainScreen].scale;
-    self.separatorView.frame = frame;
+    CGRect frame = self.topSeparatorView.frame;
+    frame.size.height = height;
+    self.topSeparatorView.frame = frame;
+    
+    frame = self.bottomSeparatorView.frame;
+    frame.size.height = height;
+    self.bottomSeparatorView.frame = frame;
     
     // Set the toolbar height
-    self.toolbar.frame = self.bounds;
+    self.navbar.frame = self.bounds;
     
     // Create the preview view
     self.objectPreviewView = [RLMBrowserObjectListContentView objectListContentView];

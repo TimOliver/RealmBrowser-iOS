@@ -13,9 +13,10 @@
 @interface RLMBrowserSchemaPreviewView : UIView
 
 @property (nonatomic, strong) IBOutlet UIView *contentView;
-@property (nonatomic, strong) IBOutlet UIView *separatorView;
+@property (nonatomic, strong) IBOutlet UIView *topSeparatorView;
+@property (nonatomic, strong) IBOutlet UIView *bottomSeparatorView;
 @property (nonatomic, strong) IBOutlet UILabel *label;
-@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, strong) IBOutlet UINavigationBar *navbar;
 @property (nonatomic, strong) RLMBrowserObjectListContentView *objectPreviewView;
 
 + (instancetype)contentView;
