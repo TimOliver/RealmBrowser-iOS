@@ -12,5 +12,6 @@
 
 + (UIImage *)RLMBrowser_tintedCircleImageForRadius:(CGFloat)radius;
 + (UIImage *)RLMBrowser_tweaksIcon;
++ (UIImage *)RLMBrowser_quickLookIcon;
 
 @end

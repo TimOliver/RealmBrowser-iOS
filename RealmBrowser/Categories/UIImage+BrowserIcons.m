@@ -72,4 +72,48 @@
     return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
++ (UIImage *)RLMBrowser_quickLookIcon
+{
+    UIImage *image = nil;
+
+    CGRect rect = (CGRect){0, 0, 31, 17};
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0f);
+    {
+        //// InsideShape Drawing
+        UIBezierPath* insideShapePath = [UIBezierPath bezierPath];
+        [insideShapePath moveToPoint: CGPointMake(19, 8.5)];
+        [insideShapePath addCurveToPoint: CGPointMake(15.5, 12) controlPoint1: CGPointMake(19, 10.43) controlPoint2: CGPointMake(17.43, 12)];
+        [insideShapePath addCurveToPoint: CGPointMake(12, 8.5) controlPoint1: CGPointMake(13.57, 12) controlPoint2: CGPointMake(12, 10.43)];
+        [insideShapePath addCurveToPoint: CGPointMake(15.5, 5) controlPoint1: CGPointMake(12, 6.57) controlPoint2: CGPointMake(13.57, 5)];
+        [insideShapePath addCurveToPoint: CGPointMake(19, 8.5) controlPoint1: CGPointMake(17.43, 5) controlPoint2: CGPointMake(19, 6.57)];
+        [insideShapePath closePath];
+        [UIColor.blackColor setFill];
+        [insideShapePath fill];
+
+        //// OutsideShape Drawing
+        UIBezierPath* outsideShapePath = [UIBezierPath bezierPath];
+        [outsideShapePath moveToPoint: CGPointMake(15.5, 3)];
+        [outsideShapePath addCurveToPoint: CGPointMake(11.44, 4.79) controlPoint1: CGPointMake(13.89, 3) controlPoint2: CGPointMake(12.45, 3.69)];
+        [outsideShapePath addCurveToPoint: CGPointMake(10, 8.5) controlPoint1: CGPointMake(10.55, 5.77) controlPoint2: CGPointMake(10, 7.07)];
+        [outsideShapePath addCurveToPoint: CGPointMake(15.5, 14) controlPoint1: CGPointMake(10, 11.54) controlPoint2: CGPointMake(12.46, 14)];
+        [outsideShapePath addCurveToPoint: CGPointMake(21, 8.5) controlPoint1: CGPointMake(18.54, 14) controlPoint2: CGPointMake(21, 11.54)];
+        [outsideShapePath addCurveToPoint: CGPointMake(15.5, 3) controlPoint1: CGPointMake(21, 5.46) controlPoint2: CGPointMake(18.54, 3)];
+        [outsideShapePath closePath];
+        [outsideShapePath moveToPoint: CGPointMake(30.97, 8.46)];
+        [outsideShapePath addCurveToPoint: CGPointMake(15.5, 17) controlPoint1: CGPointMake(31, 8.5) controlPoint2: CGPointMake(24.61, 17.02)];
+        [outsideShapePath addCurveToPoint: CGPointMake(0, 8.5) controlPoint1: CGPointMake(6.39, 16.98) controlPoint2: CGPointMake(0, 8.5)];
+        [outsideShapePath addCurveToPoint: CGPointMake(15.5, -0) controlPoint1: CGPointMake(0.2, 8.24) controlPoint2: CGPointMake(6.53, 0.02)];
+        [outsideShapePath addCurveToPoint: CGPointMake(31, 8.5) controlPoint1: CGPointMake(24.61, -0.02) controlPoint2: CGPointMake(31, 8.5)];
+        [outsideShapePath addLineToPoint: CGPointMake(30.97, 8.46)];
+        [outsideShapePath closePath];
+        [UIColor.blackColor setFill];
+        [outsideShapePath fill];
+
+        image = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    UIGraphicsEndImageContext();
+
+    return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end
