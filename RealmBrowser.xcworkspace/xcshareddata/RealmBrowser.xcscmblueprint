@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "6761D795567FBCFF6BB70CBC1B07EC23A3A86990",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5C8D020D0CE0E6AC65382FAC6AA1A11821B19AAC" : 9223372036854775807,
+    "6761D795567FBCFF6BB70CBC1B07EC23A3A86990" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "28F45B83-0415-434B-8404-B20106C92633",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5C8D020D0CE0E6AC65382FAC6AA1A11821B19AAC" : "TOSplitViewController\/",
+    "6761D795567FBCFF6BB70CBC1B07EC23A3A86990" : "RealmBrowser-iOS\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "RealmBrowser",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "RealmBrowser.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/TimOliver\/TOSplitViewController",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5C8D020D0CE0E6AC65382FAC6AA1A11821B19AAC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/TimOliver\/RealmBrowser-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6761D795567FBCFF6BB70CBC1B07EC23A3A86990"
+    }
+  ]
+}

@@ -6,6 +6,8 @@
 //  Copyright © 2016 Timothy Oliver. All rights reserved.
 //
 
+#import <TOSplitViewController/TOSplitViewController.h>
+
 #import "RLMBrowserObjectListViewController.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserTableHeaderView.h"
@@ -222,7 +224,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
                                                                                               forBrowserRealm:self.browserRealm
                                                                                                 browserSchema:self.browserSchema];
     UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:objectController];
-    [self.splitViewController showDetailViewController:controller sender:self];
+    [self to_showDetailViewController:controller sender:self];
 }
 
 @end

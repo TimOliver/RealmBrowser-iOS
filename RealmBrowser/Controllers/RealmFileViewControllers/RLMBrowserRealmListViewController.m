@@ -13,9 +13,13 @@
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserConfiguration.h"
 
+// Views
 #import "RLMBrowserTableHeaderView.h"
 
+// View Controllers
+#import <TOSplitViewController/TOSplitViewController.h>
 #import "RLMBrowserObjectListViewController.h"
+#import "RLMBrowserObjectViewController.h"
 
 @interface RLMBrowserRealmListViewController ()
 
@@ -150,7 +154,8 @@
     if (indexPath.row > 0) {
         RLMBrowserSchema *schema = realm.schema[indexPath.row - 1];
         RLMBrowserObjectListViewController *controller = [[RLMBrowserObjectListViewController alloc] initWithBrowserRealm:realm browserSchema:schema];
-        [self.navigationController pushViewController:controller animated:YES];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+        [self to_showSecondaryViewController:navigationController sender:self];
     }
 }
 

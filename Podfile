@@ -8,5 +8,6 @@ target 'RealmBrowserExample' do
  	pod 'XLForm'
 	pod 'Reveal-SDK', :configurations => ['Debug']
 	pod 'TORoundedTableView'
+	pod 'TOSplitViewController', :path => '~/Projects/TOSplitViewController'
 
 end
