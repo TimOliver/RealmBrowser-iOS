@@ -10,6 +10,10 @@
 
 @interface UIImage (BrowserIcons)
 
++ (UIImage *)RLMBrowser_localRealmIcon;
++ (UIImage *)RLMBrowser_syncRealmIcon;
++ (UIImage *)RLMBrowser_inMemoryRealmIcon;
+
 + (UIImage *)RLMBrowser_tintedCircleImageForRadius:(CGFloat)radius;
 + (UIImage *)RLMBrowser_tweaksIcon;
 + (UIImage *)RLMBrowser_quickLookIcon;
