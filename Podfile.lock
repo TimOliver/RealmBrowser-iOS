@@ -1,7 +1,7 @@
 PODS:
-  - Realm (2.5.1):
-    - Realm/Headers (= 2.5.1)
-  - Realm/Headers (2.5.1)
+  - Realm (2.6.2):
+    - Realm/Headers (= 2.6.2)
+  - Realm/Headers (2.6.2)
   - Reveal-SDK (8)
   - TORoundedTableView (0.0.3)
   - TOSplitViewController (0.0.1)
@@ -19,7 +19,7 @@ EXTERNAL SOURCES:
     :path: ~/Projects/TOSplitViewController
 
 SPEC CHECKSUMS:
-  Realm: 32f86104d37c8521f864d4274050b38ba6190733
+  Realm: 29222766425b9f831228f81b63f0e38a97a4d700
   Reveal-SDK: 43be4e662864e937960d0d04d005135e29c4e53b
   TORoundedTableView: 4155565233135d81d6626a0c4ecfba27991cf2b1
   TOSplitViewController: 1cf8601d3da0d0fc239c05961269fff403235cf9
