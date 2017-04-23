@@ -57,6 +57,22 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     
     self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:10.0f];
     self.realmColors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
+
+    NSInteger numberOfProperties = self.realmObject.objectSchema.properties.count;
+
+    UILabel *objectsLabel = [[UILabel alloc] init];
+    objectsLabel.font = [UIFont systemFontOfSize:11.0f];
+    objectsLabel.textAlignment = NSTextAlignmentCenter;
+    objectsLabel.text = [NSString stringWithFormat:@"%ld %@", numberOfProperties, numberOfProperties == 1 ? @"Property" : @"Properties"];
+    [objectsLabel sizeToFit];
+    UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
+
+    self.navigationController.toolbarHidden = NO;
+
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *exportButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:nil action:nil];
+
+    self.toolbarItems = @[flexibleSpace, labelItem, flexibleSpace, exportButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,9 +80,9 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     [super viewWillAppear:animated];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"Properties";
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

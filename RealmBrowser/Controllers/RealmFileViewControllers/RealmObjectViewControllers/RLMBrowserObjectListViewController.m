@@ -104,8 +104,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
     
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    self.toolbarItems = @[tweaksButton, flexibleSpaceItem, labelItem, flexibleSpaceItem];
+    self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem, tweaksButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
