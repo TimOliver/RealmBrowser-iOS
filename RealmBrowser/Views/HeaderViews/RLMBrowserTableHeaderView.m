@@ -74,7 +74,6 @@ CGFloat const kRLMRealmLogoSize = 60.0f;
     
     if (self.searchBar == nil) {
         self.searchBar = [[UISearchBar alloc] initWithFrame:self.bounds];
-        self.searchBar.searchBarStyle = (self.style == RLMTableHeaderViewStyleDefault) ? UISearchBarStyleMinimal : UISearchBarStyleProminent;
     }
     
     self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
