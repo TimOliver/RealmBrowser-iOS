@@ -89,4 +89,17 @@
             };
 }
 
+#pragma mark - External Accessors -
+- (RLMBrowserRealmType)type
+{
+    if (self.syncURL.length > 0) {
+        return RLMBrowserRealmTypeSync;
+    }
+    else if (self.inMemoryIdentifier.length > 0) {
+        return RLMBrowserRealmTypeInMemory;
+    }
+
+    return RLMBrowserRealmTypeLocal;
+}
+
 @end

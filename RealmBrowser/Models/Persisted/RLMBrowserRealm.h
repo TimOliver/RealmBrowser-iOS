@@ -11,6 +11,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, RLMBrowserRealmType) {
+    RLMBrowserRealmTypeLocal,
+    RLMBrowserRealmTypeInMemory,
+    RLMBrowserRealmTypeSync
+};
+
 /* Snapshot data from the `RLMRealmConfiguration` of a Realm opened at runtime */
 @interface RLMBrowserRealm : RLMObject
 
@@ -42,6 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /* An appropriately formatted configuration file to open this Realm. */
 @property (nonatomic, readonly) RLMRealmConfiguration *realmConfiguration;
+
+/* The type of Realm container this instance reporesents */
+@property (nonatomic, readonly) RLMBrowserRealmType type;
 
 /* Convert any absolute file paths to relative before saving */
 + (NSString *)relativeFilePathFromAbsolutePath:(NSString *)path;
