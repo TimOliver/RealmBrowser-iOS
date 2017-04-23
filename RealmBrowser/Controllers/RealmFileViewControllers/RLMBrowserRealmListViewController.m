@@ -6,25 +6,23 @@
 //  Copyright © 2016 Timothy Oliver. All rights reserved.
 //
 
+#import <TOSplitViewController/TOSplitViewController.h>
+
 #import "RLMBrowserRealmListViewController.h"
 
-// Models
 #import "RLMBrowserList.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserConfiguration.h"
-
-// Views
 #import "RLMBrowserTableHeaderView.h"
-
-// View Controllers
-#import <TOSplitViewController/TOSplitViewController.h>
 #import "RLMBrowserObjectListViewController.h"
 #import "RLMBrowserObjectViewController.h"
+#import "UIImage+BrowserIcons.h"
+
+// -----------------------------------------------------------------------
 
 @interface RLMBrowserRealmListViewController ()
 
-@property (nonatomic, strong) RLMBrowserTableHeaderView *headerView;
-
+/* The master Realm object that controls the groups of Realm objects */
 @property (nonatomic, strong) RLMBrowserList *realmList;
 
 @property (nonatomic, strong) RLMBrowserRealm *defaultRealm;
@@ -33,7 +31,13 @@
 
 - (RLMBrowserRealm *)itemForSection:(NSInteger)index;
 
+@property (nonatomic, strong) UIImage *localRealmIcon;
+@property (nonatomic, strong) UIImage *syncRealmIcon;
+@property (nonatomic, strong) UIImage *inMemoryRealmIcon;
+
 @end
+
+// -----------------------------------------------------------------------
 
 @implementation RLMBrowserRealmListViewController
 
@@ -49,10 +53,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Realms";
-    
-    self.headerView = [[RLMBrowserTableHeaderView alloc] initWithStyle:RLMTableHeaderViewStyleFixed];
-    self.tableView.tableHeaderView = self.headerView;
-    
+
+    self.localRealmIcon = [UIImage RLMBrowser_localRealmIcon];
+    self.inMemoryRealmIcon = [UIImage RLMBrowser_inMemoryRealmIcon];
+    self.syncRealmIcon = [UIImage RLMBrowser_inMemoryRealmIcon];
+
     RLMRealm *realm = [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
     self.realmList = [RLMBrowserList defaultListInRealm:realm];
     
@@ -98,17 +103,19 @@
 #pragma mark - Table View Delegate -
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    // Default Realm (if it is visible )
     if (self.defaultRealm && section == 0) {
         return @"DEFAULT REALM";
     }
-    
-    return nil;
-}
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self.headerView adjustFrameForScrollView:scrollView];
-    [self.headerView dismissKeyboardForSearchBar];
+    // Starred Realms
+    if (self.starredRealms.count > 0) {
+        if ((!self.defaultRealm && section == 0) || section == 1) {
+            return @"FAVORITE REALMS";
+        }
+    }
+
+    return @"REALMS";
 }
 
 #pragma mark - Table View Data Source
@@ -131,18 +138,27 @@
     static NSString *identifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.indentationWidth = 48.0f;
     }
     
     RLMBrowserRealm *realm = [self itemForSection:indexPath.section];
+
+    // The first section is the Realm itself
     if (indexPath.row == 0) {
         cell.textLabel.text = realm.name;
+        cell.imageView.image = self.localRealmIcon;
+        cell.indentationLevel = 0;
     }
-    else {
+    else { // Remaining rows are schema objects in the Realm
         cell.textLabel.text = realm.schema[indexPath.row-1].className;
+        cell.imageView.image = nil;
+        cell.indentationLevel = 1;
     }
-    
+
+
+
     return cell;
 }
 
