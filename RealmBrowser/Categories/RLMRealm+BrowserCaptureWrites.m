@@ -50,14 +50,20 @@
 
 - (BOOL)RLMBrowser_commitWriteTransaction:(NSError *)error
 {
-    [RLMRealm RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:self.configuration];
-    return [self RLMBrowser_commitWriteTransaction:error];
+    BOOL result = [self RLMBrowser_commitWriteTransaction:error];
+    if (result) {
+        [RLMRealm RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:self.configuration];
+    }
+    return result;
 }
 
 - (BOOL)RLMBrowser_commitWriteTransactionWithoutNotifying:(NSArray<RLMNotificationToken *> *)tokens error:(NSError **)error
 {
-    [RLMRealm RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:self.configuration];
-    return [self RLMBrowser_commitWriteTransactionWithoutNotifying:tokens error:error];
+    BOOL result = [self RLMBrowser_commitWriteTransactionWithoutNotifying:tokens error:error];
+    if (result) {
+        [RLMRealm RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:self.configuration];
+    }
+    return result;
 }
 
 #pragma mark - Update Logic -
@@ -76,11 +82,12 @@
 + (void)RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:(RLMRealmConfiguration *)configuration
 {
     void (^updateSchemaBlock)() = ^{
+        RLMRealm *backgroundRealm = [RLMRealm realmWithConfiguration:configuration error:nil];
         RLMRealm *browserRealm = [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
+        if ([backgroundRealm isEqual:browserRealm]) { return; }
+
         RLMBrowserRealm *browserRealmObject = [RLMBrowserRealm allBrowserRealmObjectsInRealm:browserRealm forConfiguration:configuration].firstObject;
         if (browserRealmObject == nil) { return; }
-
-        RLMRealm *backgroundRealm = [RLMRealm realmWithConfiguration:configuration error:nil];
 
         BOOL hasChanges = NO;
         [browserRealm beginWriteTransaction];
