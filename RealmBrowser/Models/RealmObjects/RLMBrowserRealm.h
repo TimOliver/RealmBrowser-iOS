@@ -56,6 +56,9 @@ typedef NS_ENUM(NSInteger, RLMBrowserRealmType) {
 /* Convert any absolute file paths to relative before saving */
 + (NSString *)relativeFilePathFromAbsolutePath:(NSString *)path;
 
+/* Query for any browser realm objects matching a configuration object */
++ (RLMResults *)allBrowserRealmObjectsInRealm:(RLMRealm *)realm forConfiguration:(RLMRealmConfiguration *)configuration;
+
 @end
 
 RLM_ARRAY_TYPE(RLMBrowserRealm)

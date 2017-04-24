@@ -8,6 +8,8 @@
 
 #import <Realm/Realm.h>
 
+@class RLMBrowserRealm;
+
 @interface RLMRealm (BrowserCapture)
 
 @end

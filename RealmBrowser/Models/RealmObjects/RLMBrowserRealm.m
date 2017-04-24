@@ -38,6 +38,17 @@
     return configuration;
 }
 
+#pragma mark - Queries -
++ (RLMResults *)allBrowserRealmObjectsInRealm:(RLMRealm *)realm forConfiguration:(RLMRealmConfiguration *)configuration
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filePath == %@ AND inMemoryIdentifier == %@ AND syncURL == %@",
+                              [RLMBrowserRealm relativeFilePathFromAbsolutePath:configuration.fileURL.path],
+                              configuration.inMemoryIdentifier,
+                              configuration.syncConfiguration.realmURL.absoluteString];
+
+    return [[RLMBrowserRealm allObjectsInRealm:realm] objectsWithPredicate:predicate];
+}
+
 #pragma mark - File Path Formatting -
 
 + (NSString *)contentDirectoryPath

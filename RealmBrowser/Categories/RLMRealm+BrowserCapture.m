@@ -157,10 +157,7 @@
 + (RLMBrowserRealm *)RLMBrowser_capturedRealmObjectInRealm:(RLMRealm *)realm forConfiguration:(RLMRealmConfiguration *)configuration
 {
     RLMResults *allRealmObjects = [RLMBrowserRealm allObjectsInRealm:realm];
-    return [allRealmObjects objectsWhere:@"filePath == %@ AND inMemoryIdentifier == %@ AND syncURL == %@",
-            [RLMBrowserRealm relativeFilePathFromAbsolutePath:configuration.fileURL.path],
-            configuration.inMemoryIdentifier,
-            configuration.syncConfiguration.realmURL.absoluteString].firstObject;
+    return [allRealmObjects objectsWithPredicate:[NSPredicate RLMBrowser_predicateForBrowserObjectForConfiguration:configuration]].firstObject;
 }
 
 /* Go through each property and check that it hasn't changed */
