@@ -7,7 +7,8 @@
 //
 
 #import <objc/runtime.h>
-#import "RLMRealm+BrowserCapture.h"
+#import "RLMRealm+BrowserCaptureRealms.h"
+#import "RLMRealm+BrowserCaptureWrites.h"
 
 // Static Information
 #import "RLMBrowserConstants.h"
@@ -156,8 +157,7 @@
 
 + (RLMBrowserRealm *)RLMBrowser_capturedRealmObjectInRealm:(RLMRealm *)realm forConfiguration:(RLMRealmConfiguration *)configuration
 {
-    RLMResults *allRealmObjects = [RLMBrowserRealm allObjectsInRealm:realm];
-    return [allRealmObjects objectsWithPredicate:[NSPredicate RLMBrowser_predicateForBrowserObjectForConfiguration:configuration]].firstObject;
+    return [RLMBrowserRealm allBrowserRealmObjectsInRealm:realm forConfiguration:configuration].firstObject;
 }
 
 /* Go through each property and check that it hasn't changed */
@@ -252,6 +252,9 @@
             defaultList.defaultRealm = updatedRealm;
         }
     }];
+
+    //Inform the Realm to update its number of objects state
+    [RLMRealm RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:realm.configuration];
 }
 
 @end

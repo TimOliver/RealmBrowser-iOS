@@ -8,6 +8,8 @@
 
 #import <Realm/Realm.h>
 
-@interface RLMRealm (UpdateCapture)
+@interface RLMRealm (BrowserCaptureWrites)
+
++ (void)RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:(RLMRealmConfiguration *)configuration;
 
 @end

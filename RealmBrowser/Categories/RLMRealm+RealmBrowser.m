@@ -13,7 +13,7 @@
 
 + (instancetype)defaultBrowserRealm
 {
-    return [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration defaultConfiguration] error:nil];
+    return [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
 }
 
 @end

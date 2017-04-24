@@ -40,7 +40,7 @@
     RLMRealmConfiguration *configuration = realm.configuration;
 
     void (^updateSchemaBlock)() = ^{
-        RLMRealm *browserRealm = [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration defaultConfiguration] error:nil];
+        RLMRealm *browserRealm = [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
         RLMBrowserRealm *browserRealmObject = [RLMBrowserRealm allBrowserRealmObjectsInRealm:browserRealm forConfiguration:configuration].firstObject;
         if (browserRealmObject == nil) { return; }
 
