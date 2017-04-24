@@ -1,14 +1,14 @@
 //
-//  RLMBrowserRealmTableViewCell.m
+//  RLMRealmSchemaTableViewCell.m
 //  RealmBrowser
 //
-//  Created by Tim Oliver on 27/11/16.
-//  Copyright © 2016 Tim Oliver. All rights reserved.
+//  Created by Tim Oliver on 4/23/17.
+//  Copyright © 2017 Tim Oliver. All rights reserved.
 //
 
-#import "RLMBrowserRealmTableViewCell.h"
+#import "RLMBrowserSchemaTableViewCell.h"
 
-@implementation RLMBrowserRealmTableViewCell
+@implementation RLMBrowserSchemaTableViewCell
 
 @synthesize imageView = __imageView;
 

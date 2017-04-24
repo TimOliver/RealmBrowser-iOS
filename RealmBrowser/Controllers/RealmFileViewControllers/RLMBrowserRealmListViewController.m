@@ -16,9 +16,15 @@
 #import "RLMBrowserTableHeaderView.h"
 #import "RLMBrowserObjectListViewController.h"
 #import "RLMBrowserObjectViewController.h"
+#import "RLMBrowserRealmTableViewCell.h"
+#import "RLMBrowserSchemaTableViewCell.h"
 #import "UIImage+BrowserIcons.h"
+#import "UIColor+BrowserRealmColors.h"
 
 // -----------------------------------------------------------------------
+
+NSString * const kRLMBrowserRealmTableViewCellIdentifier = @"RealmTableCell";
+NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 
 @interface RLMBrowserRealmListViewController ()
 
@@ -29,11 +35,13 @@
 @property (nonatomic, strong) RLMArray<RLMBrowserRealm *> *starredRealms;
 @property (nonatomic, strong) RLMResults<RLMBrowserRealm *> *filteredRealms;
 
-- (RLMBrowserRealm *)itemForSection:(NSInteger)index;
-
 @property (nonatomic, strong) UIImage *localRealmIcon;
 @property (nonatomic, strong) UIImage *syncRealmIcon;
 @property (nonatomic, strong) UIImage *inMemoryRealmIcon;
+@property (nonatomic, strong) UIImage *encryptedIcon;
+@property (nonatomic, strong) NSMutableArray *schemaIcons;
+
+@property (nonatomic, strong) NSArray *colors;
 
 @end
 
@@ -54,10 +62,14 @@
     [super viewDidLoad];
     self.title = @"Realms";
 
+    // Get the icons for the table view cells
     self.localRealmIcon = [UIImage RLMBrowser_localRealmIcon];
     self.inMemoryRealmIcon = [UIImage RLMBrowser_inMemoryRealmIcon];
     self.syncRealmIcon = [UIImage RLMBrowser_inMemoryRealmIcon];
 
+    self.encryptedIcon = [UIImage RLMBrowser_encryptedIcon];
+
+    // Set up the results objects we'll align with the table view
     RLMRealm *realm = [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
     self.realmList = [RLMBrowserList defaultListInRealm:realm];
     
@@ -65,6 +77,19 @@
     self.starredRealms = self.realmList.starredRealms;
     self.filteredRealms = [self.realmList.allRealms objectsWhere:@"(self.uuid != %@) AND NOT (self.uuid in %@)",
                                                                     self.defaultRealm.uuid, self.starredRealms];
+
+    // Register the table cells
+    UINib *realmTableCellNib = [UINib nibWithNibName:@"RLMBrowserRealmTableViewCell" bundle:nil];
+    [self.tableView registerNib:realmTableCellNib forCellReuseIdentifier:kRLMBrowserRealmTableViewCellIdentifier];
+
+    UINib *schemaTableCellNib = [UINib nibWithNibName:@"RLMBrowserSchemaTableViewCell" bundle:nil];
+    [self.tableView registerNib:schemaTableCellNib forCellReuseIdentifier:kRLMBrowserSchemaTableViewCellIdentifier];
+
+    NSArray *colors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
+    self.schemaIcons = [NSMutableArray array];
+    for (UIColor *color in colors) {
+        [self.schemaIcons addObject:[UIImage RLMBrowser_schemaIconForColor:color]];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -134,30 +159,37 @@
     return 1 + [self itemForSection:section].schema.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return indexPath.row == 0 ? 54.0f : 44.0f;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *identifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.indentationWidth = 48.0f;
-    }
-    
+
+    UITableViewCell *cell = nil;
     RLMBrowserRealm *realm = [self itemForSection:indexPath.section];
 
     // The first section is the Realm itself
     if (indexPath.row == 0) {
-        cell.textLabel.text = realm.name;
-        cell.imageView.image = self.localRealmIcon;
-        cell.indentationLevel = 0;
+        RLMBrowserRealmTableViewCell *realmCell = [self.tableView dequeueReusableCellWithIdentifier:kRLMBrowserRealmTableViewCellIdentifier forIndexPath:indexPath];
+        realmCell.titleLabel.text = realm.name;
+        realmCell.imageView.image = self.localRealmIcon;
+        realmCell.subtitleLabel.text = @"/Documents";
+        cell = (UITableViewCell *)realmCell;
     }
     else { // Remaining rows are schema objects in the Realm
-        cell.textLabel.text = realm.schema[indexPath.row-1].className;
-        cell.imageView.image = nil;
-        cell.indentationLevel = 1;
+        NSInteger index = indexPath.row-1;
+        RLMBrowserSchemaTableViewCell *schemaCell = [self.tableView dequeueReusableCellWithIdentifier:kRLMBrowserSchemaTableViewCellIdentifier forIndexPath:indexPath];
+        RLMBrowserSchema *schema = realm.schema[index];
+        schemaCell.titleLabel.text = schema.className;
+        schemaCell.imageView.image = self.schemaIcons[index % (self.colors.count-1)];
+        schemaCell.subtitleLabel.text = [NSString stringWithFormat:@"%ld", (long)schema.numberOfObjects];
+        schemaCell.indentationWidth = 54.0f;
+        schemaCell.indentationLevel = 1;
+        cell = (UITableViewCell *)schemaCell;
     }
 
-
+    cell.indentationWidth = 54.0f;
 
     return cell;
 }

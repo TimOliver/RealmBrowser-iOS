@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="53.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="/Application Support" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ml9-4d-QWD" userLabel="Subtitle">
@@ -38,12 +38,18 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZA-6F-yMb">
-                        <rect key="frame" x="295" y="18" width="12" height="16"/>
+                        <rect key="frame" x="295" y="17" width="12" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="55" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <connections>
+                <outlet property="imageView" destination="2b4-Ps-G5F" id="OPV-Z2-IMB"/>
+                <outlet property="lockIconView" destination="rZA-6F-yMb" id="W3F-Ti-3UY"/>
+                <outlet property="subtitleLabel" destination="Ml9-4d-QWD" id="qMJ-T5-6wL"/>
+                <outlet property="titleLabel" destination="zVh-aB-dB6" id="So4-Hy-lVY"/>
+            </connections>
             <point key="canvasLocation" x="34" y="67"/>
         </tableViewCell>
     </objects>

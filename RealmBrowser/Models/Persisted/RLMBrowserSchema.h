@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** The name of the class that's being backed by this object schema. */
 @property (nonatomic, copy) NSString *className;
 
+/** The number of objects persisted in this object */
+@property (nonatomic, assign) NSInteger numberOfObjects;
+
 /** The preferred property to represent objects from this schema. (e.g. 'name' over 'uuid') */
 @property (nonatomic, copy) NSString *preferredPropertyName;
 

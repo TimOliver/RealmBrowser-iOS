@@ -20,6 +20,8 @@
 		2239004E1DFBE7B000FE2882 /* RLMBrowserObjectContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2239004D1DFBE7B000FE2882 /* RLMBrowserObjectContentView.m */; };
 		223900531DFCFC8700FE2882 /* RLMBrowserObjectContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 223900521DFCFC8700FE2882 /* RLMBrowserObjectContentView.xib */; };
 		2246BEC81DFE6BAC0012DE0A /* RLMBrowserObjectProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2246BEC71DFE6BAC0012DE0A /* RLMBrowserObjectProperty.m */; };
+		2246C7481EAD81220016B120 /* RLMBrowserSchemaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2246C7461EAD81220016B120 /* RLMBrowserSchemaTableViewCell.m */; };
+		2246C74B1EAD81D70016B120 /* RLMBrowserSchemaTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2246C74A1EAD81D70016B120 /* RLMBrowserSchemaTableViewCell.xib */; };
 		22576FA91DED59600001586A /* RLMBrowserTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22576FA81DED59600001586A /* RLMBrowserTableHeaderView.m */; };
 		22576FAC1DED5A6C0001586A /* RLMBrowserNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22576FAB1DED5A6C0001586A /* RLMBrowserNavigationTitleView.m */; };
 		22576FAE1DED5B030001586A /* RLMBrowserNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22576FAD1DED5B030001586A /* RLMBrowserNavigationTitleView.xib */; };
@@ -73,6 +75,9 @@
 		223900521DFCFC8700FE2882 /* RLMBrowserObjectContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RLMBrowserObjectContentView.xib; path = ObjectTableViewCellContentView/RLMBrowserObjectContentView.xib; sourceTree = "<group>"; };
 		2246BEC61DFE6BAC0012DE0A /* RLMBrowserObjectProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLMBrowserObjectProperty.h; sourceTree = "<group>"; };
 		2246BEC71DFE6BAC0012DE0A /* RLMBrowserObjectProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLMBrowserObjectProperty.m; sourceTree = "<group>"; };
+		2246C7451EAD81220016B120 /* RLMBrowserSchemaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMBrowserSchemaTableViewCell.h; path = RealmSchemaTableViewCell/RLMBrowserSchemaTableViewCell.h; sourceTree = "<group>"; };
+		2246C7461EAD81220016B120 /* RLMBrowserSchemaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMBrowserSchemaTableViewCell.m; path = RealmSchemaTableViewCell/RLMBrowserSchemaTableViewCell.m; sourceTree = "<group>"; };
+		2246C74A1EAD81D70016B120 /* RLMBrowserSchemaTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RLMBrowserSchemaTableViewCell.xib; path = RealmSchemaTableViewCell/RLMBrowserSchemaTableViewCell.xib; sourceTree = "<group>"; };
 		22576FA71DED59600001586A /* RLMBrowserTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMBrowserTableHeaderView.h; path = HeaderViews/RLMBrowserTableHeaderView.h; sourceTree = "<group>"; };
 		22576FA81DED59600001586A /* RLMBrowserTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMBrowserTableHeaderView.m; path = HeaderViews/RLMBrowserTableHeaderView.m; sourceTree = "<group>"; };
 		22576FAA1DED5A6C0001586A /* RLMBrowserNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMBrowserNavigationTitleView.h; path = HeaderViews/RLMBrowserNavigationTitleView.h; sourceTree = "<group>"; };
@@ -181,12 +186,12 @@
 		220D91E71DE6C961007CFF2A /* RealmBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				220D91FD1DE6C961007CFF2A /* RLMBrowserViewController.h */,
+				220D91FE1DE6C961007CFF2A /* RLMBrowserViewController.m */,
 				220D91E81DE6C961007CFF2A /* Categories */,
 				220D91EB1DE6C961007CFF2A /* Controllers */,
 				220D91F81DE6C961007CFF2A /* Models */,
 				220D91FF1DE6C961007CFF2A /* Views */,
-				220D91FD1DE6C961007CFF2A /* RLMBrowserViewController.h */,
-				220D91FE1DE6C961007CFF2A /* RLMBrowserViewController.m */,
 			);
 			path = RealmBrowser;
 			sourceTree = "<group>";
@@ -231,9 +236,9 @@
 		220D91FF1DE6C961007CFF2A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				22576FA61DED59290001586A /* HeaderViews */,
 				22302A811E03973A0071594A /* FooterViews */,
 				225EFBBA1DF535FD00DF649B /* TableViewCells */,
-				22576FA61DED59290001586A /* HeaderViews */,
 				22C75DD71DEC090B0078624E /* RealmLogoViews */,
 			);
 			path = Views;
@@ -287,6 +292,16 @@
 			name = ObjectTableViewCellContentView;
 			sourceTree = "<group>";
 		};
+		2246C7401EAD80B00016B120 /* RealmSchemaTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				2246C74A1EAD81D70016B120 /* RLMBrowserSchemaTableViewCell.xib */,
+				2246C7451EAD81220016B120 /* RLMBrowserSchemaTableViewCell.h */,
+				2246C7461EAD81220016B120 /* RLMBrowserSchemaTableViewCell.m */,
+			);
+			name = RealmSchemaTableViewCell;
+			sourceTree = "<group>";
+		};
 		22576FA61DED59290001586A /* HeaderViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +320,7 @@
 				2239004F1DFBE7B800FE2882 /* ObjectTableViewCellContentView */,
 				225EFBBB1DF535FD00DF649B /* ObjectListContentView */,
 				225EFBBF1DF535FD00DF649B /* PropertyTableViewCell */,
+				2246C7401EAD80B00016B120 /* RealmSchemaTableViewCell */,
 				225EFBC01DF535FD00DF649B /* RealmTableViewCell */,
 			);
 			path = TableViewCells;
@@ -344,12 +360,12 @@
 		22B2ED251E012D8E00F42E84 /* RealmObjectViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				22B2ED2A1E012D8E00F42E84 /* RLMBrowserObjectViewController.h */,
+				22B2ED2B1E012D8E00F42E84 /* RLMBrowserObjectViewController.m */,
 				22B2ED261E012D8E00F42E84 /* RLMBrowserObjectListViewController.h */,
 				22B2ED271E012D8E00F42E84 /* RLMBrowserObjectListViewController.m */,
 				22B2ED281E012D8E00F42E84 /* RLMBrowserObjectSchemaViewController.h */,
 				22B2ED291E012D8E00F42E84 /* RLMBrowserObjectSchemaViewController.m */,
-				22B2ED2A1E012D8E00F42E84 /* RLMBrowserObjectViewController.h */,
-				22B2ED2B1E012D8E00F42E84 /* RLMBrowserObjectViewController.m */,
 			);
 			name = RealmObjectViewControllers;
 			path = RealmFileViewControllers/RealmObjectViewControllers;
@@ -469,6 +485,7 @@
 					220D91B91DE6BE6F007CFF2A = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = 6LF3GMKZAB;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -498,6 +515,7 @@
 			files = (
 				220D921B1DE6E5A2007CFF2A /* Main.storyboard in Resources */,
 				220D92191DE6E5A2007CFF2A /* Assets.xcassets in Resources */,
+				2246C74B1EAD81D70016B120 /* RLMBrowserSchemaTableViewCell.xib in Resources */,
 				225EFBCC1DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.xib in Resources */,
 				225EFBC71DF535FD00DF649B /* RLMBrowserRealmTableViewCell.xib in Resources */,
 				22302A861E0397C20071594A /* RLMBrowserSchemaPreviewView.xib in Resources */,
@@ -571,6 +589,7 @@
 				22B2ED2E1E012D8E00F42E84 /* RLMBrowserObjectViewController.m in Sources */,
 				22576FA91DED59600001586A /* RLMBrowserTableHeaderView.m in Sources */,
 				22C75DDE1DEC090B0078624E /* RLMRealmLogoView.m in Sources */,
+				2246C7481EAD81220016B120 /* RLMBrowserSchemaTableViewCell.m in Sources */,
 				F12252EA1DF4C85D00F7BB44 /* RLMBrowserRealmListViewController.m in Sources */,
 				220D921D1DE6E5A2007CFF2A /* main.m in Sources */,
 				22576FAC1DED5A6C0001586A /* RLMBrowserNavigationTitleView.m in Sources */,
@@ -711,12 +730,15 @@
 			baseConfigurationReference = 8442A8F60A498F12FBFC146D /* Pods-RealmBrowserExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				INFOPLIST_FILE = "$(SRCROOT)/RealmBrowserExample/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.timoliver.realm-browser-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -725,12 +747,14 @@
 			baseConfigurationReference = 09D127B9E9BC700B21A595B5 /* Pods-RealmBrowserExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				INFOPLIST_FILE = "$(SRCROOT)/RealmBrowserExample/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.timoliver.realm-browser-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

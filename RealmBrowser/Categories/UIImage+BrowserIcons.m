@@ -265,6 +265,86 @@
     return [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
++ (UIImage *)RLMBrowser_schemaIconForColor:(UIColor *)fillColor
+{
+    UIImage *image = nil;
+
+    CGRect rect = (CGRect){0, 0, 18, 18};
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0f);
+    {
+        //// Oval Drawing
+        UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(0, 0, 18, 18)];
+        [fillColor setFill];
+        [ovalPath fill];
+
+
+        //// Rectangle Drawing
+        UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(4, 5, 10, 2) cornerRadius: 1];
+        [UIColor.whiteColor setFill];
+        [rectanglePath fill];
+
+
+        //// Rectangle 2 Drawing
+        UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(4, 8, 10, 2) cornerRadius: 1];
+        [UIColor.whiteColor setFill];
+        [rectangle2Path fill];
+
+
+        //// Rectangle 3 Drawing
+        UIBezierPath* rectangle3Path = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(4, 11, 10, 2) cornerRadius: 1];
+        [UIColor.whiteColor setFill];
+        [rectangle3Path fill];
+
+        image = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    UIGraphicsEndImageContext();
+
+    return [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+}
+
++ (UIImage *)RLMBrowser_encryptedIcon
+{
+    UIImage *image = nil;
+
+    CGRect rect = (CGRect){0, 0, 12, 16};
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0f);
+    {
+
+        //// Rectangle Drawing
+        UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(0.5, 7.5, 11, 8) cornerRadius: 2];
+        [UIColor.blackColor setStroke];
+        rectanglePath.lineWidth = 1;
+        [rectanglePath stroke];
+
+
+        //// Rectangle 2 Drawing
+        UIBezierPath* rectangle2Path = [UIBezierPath bezierPath];
+        [rectangle2Path moveToPoint: CGPointMake(2.5, 7.5)];
+        [rectangle2Path addLineToPoint: CGPointMake(2.5, 4)];
+        [rectangle2Path addCurveToPoint: CGPointMake(6, 0.5) controlPoint1: CGPointMake(2.5, 1.51) controlPoint2: CGPointMake(4.07, 0.5)];
+        [rectangle2Path addLineToPoint: CGPointMake(6, 0.5)];
+        [rectangle2Path addLineToPoint: CGPointMake(6, 0.5)];
+        [rectangle2Path addLineToPoint: CGPointMake(6, 0.5)];
+        [rectangle2Path addLineToPoint: CGPointMake(6, 0.5)];
+        [rectangle2Path addLineToPoint: CGPointMake(6, 0.5)];
+        [rectangle2Path addCurveToPoint: CGPointMake(9.5, 4) controlPoint1: CGPointMake(7.93, 0.5) controlPoint2: CGPointMake(9.5, 1.51)];
+        [rectangle2Path addLineToPoint: CGPointMake(9.5, 4)];
+        [rectangle2Path addLineToPoint: CGPointMake(9.5, 4)];
+        [rectangle2Path addLineToPoint: CGPointMake(9.5, 4)];
+        [rectangle2Path addLineToPoint: CGPointMake(9.5, 4)];
+        [rectangle2Path addLineToPoint: CGPointMake(9.5, 7.5)];
+        [UIColor.blackColor setStroke];
+        rectangle2Path.lineWidth = 1;
+        [rectangle2Path stroke];
+
+
+        image = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    UIGraphicsEndImageContext();
+
+    return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 + (UIImage *)RLMBrowser_inMemoryRealmIcon
 {
     UIImage *image = nil;

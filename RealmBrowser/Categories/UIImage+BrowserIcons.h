@@ -14,6 +14,9 @@
 + (UIImage *)RLMBrowser_syncRealmIcon;
 + (UIImage *)RLMBrowser_inMemoryRealmIcon;
 
++ (UIImage *)RLMBrowser_schemaIconForColor:(UIColor *)color;
++ (UIImage *)RLMBrowser_encryptedIcon;
+
 + (UIImage *)RLMBrowser_tintedCircleImageForRadius:(CGFloat)radius;
 + (UIImage *)RLMBrowser_tweaksIcon;
 + (UIImage *)RLMBrowser_quickLookIcon;

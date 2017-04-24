@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, RLMBrowserRealmType) {
 @property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, copy) NSString *inMemoryIdentifier;
 @property (nonatomic, copy) NSString *syncURL;
+@property (nonatomic, copy) NSString *syncUserURL;
 
 /* Encryption key of this Realm */
 @property (nonatomic, copy) NSData *encryptionKey;
