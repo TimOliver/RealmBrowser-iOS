@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RLMBrowserTableViewCell.h"
 
-@interface RLMBrowserRealmTableViewCell : UITableViewCell
+@interface RLMBrowserRealmTableViewCell : RLMBrowserTableViewCell
 
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;

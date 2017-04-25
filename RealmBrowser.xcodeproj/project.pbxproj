@@ -15,6 +15,7 @@
 		220D921A1DE6E5A2007CFF2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220D92111DE6E5A2007CFF2A /* LaunchScreen.storyboard */; };
 		220D921B1DE6E5A2007CFF2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220D92131DE6E5A2007CFF2A /* Main.storyboard */; };
 		220D921D1DE6E5A2007CFF2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 220D92171DE6E5A2007CFF2A /* main.m */; };
+		221324801EAF1C0700FB22C9 /* RLMBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2213247F1EAF1C0700FB22C9 /* RLMBrowserTableViewCell.m */; };
 		222E200D1EADDA9F002E0547 /* RLMBrowserList.m in Sources */ = {isa = PBXBuildFile; fileRef = 222E20051EADDA9F002E0547 /* RLMBrowserList.m */; };
 		222E200E1EADDA9F002E0547 /* RLMBrowserObjectProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 222E20071EADDA9F002E0547 /* RLMBrowserObjectProperty.m */; };
 		222E200F1EADDA9F002E0547 /* RLMBrowserRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 222E20091EADDA9F002E0547 /* RLMBrowserRealm.m */; };
@@ -70,6 +71,8 @@
 		220D92141DE6E5A2007CFF2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		220D92161DE6E5A2007CFF2A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		220D92171DE6E5A2007CFF2A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2213247E1EAF1C0700FB22C9 /* RLMBrowserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLMBrowserTableViewCell.h; sourceTree = "<group>"; };
+		2213247F1EAF1C0700FB22C9 /* RLMBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLMBrowserTableViewCell.m; sourceTree = "<group>"; };
 		222E20041EADDA9F002E0547 /* RLMBrowserList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLMBrowserList.h; sourceTree = "<group>"; };
 		222E20051EADDA9F002E0547 /* RLMBrowserList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLMBrowserList.m; sourceTree = "<group>"; };
 		222E20061EADDA9F002E0547 /* RLMBrowserObjectProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLMBrowserObjectProperty.h; sourceTree = "<group>"; };
@@ -364,6 +367,8 @@
 		225EFBBA1DF535FD00DF649B /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				2213247E1EAF1C0700FB22C9 /* RLMBrowserTableViewCell.h */,
+				2213247F1EAF1C0700FB22C9 /* RLMBrowserTableViewCell.m */,
 				2239004F1DFBE7B800FE2882 /* ObjectTableViewCellContentView */,
 				225EFBBB1DF535FD00DF649B /* ObjectListContentView */,
 				225EFBBF1DF535FD00DF649B /* PropertyTableViewCell */,
@@ -622,6 +627,7 @@
 				22E509141DE832D7000B7537 /* RLMBrowserConstants.m in Sources */,
 				225EFBC41DF535FD00DF649B /* RLMBrowserObjectListContentView.m in Sources */,
 				222E201D1EADDF21002E0547 /* RLMRealm+BrowserCaptureWrites.m in Sources */,
+				221324801EAF1C0700FB22C9 /* RLMBrowserTableViewCell.m in Sources */,
 				225EFBCF1DF53D2A00DF649B /* UIImage+BrowserIcons.m in Sources */,
 				F12252E91DF4C85D00F7BB44 /* RLMBrowserLogoViewController.m in Sources */,
 				220D92021DE6C961007CFF2A /* RLMRealm+BrowserCaptureRealms.m in Sources */,

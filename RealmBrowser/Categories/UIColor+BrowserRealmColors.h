@@ -11,6 +11,7 @@
 @interface UIColor (BrowserRealmColors)
 
 + (NSArray *)RLMBrowser_realmColors;
++ (NSArray *)RLMBrowser_realmColorsLight;
 + (NSArray *)RLMBrowser_realmColorsInvertedRepeating;
 
 @end
