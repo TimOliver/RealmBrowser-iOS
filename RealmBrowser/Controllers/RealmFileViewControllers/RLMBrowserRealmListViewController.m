@@ -20,6 +20,7 @@
 #import "RLMBrowserSchemaTableViewCell.h"
 #import "UIImage+BrowserIcons.h"
 #import "UIColor+BrowserRealmColors.h"
+#import "UILabel+RealmBrowser.h"
 
 // -----------------------------------------------------------------------
 
@@ -90,6 +91,16 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     for (UIColor *color in colors) {
         [self.schemaIcons addObject:[UIImage RLMBrowser_schemaIconForColor:color]];
     }
+
+    // Configure the tool bar
+    NSInteger numberOfRealms = self.realmList.allRealms.count;
+
+    NSString *text = [NSString stringWithFormat:@"%ld Realm%@", numberOfRealms, numberOfRealms == 1 ? @"" : @"s"];
+    UILabel *objectsLabel = [UILabel RLMBrowser_toolbarLabelWithText:text];
+    UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
+
+    UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem];
 }
 
 - (void)viewWillAppear:(BOOL)animated

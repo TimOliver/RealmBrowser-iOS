@@ -18,6 +18,7 @@
 #import "RLMBrowserObjectListContentView.h"
 #import "UIColor+BrowserRealmColors.h"
 #import "UIImage+BrowserIcons.h"
+#import "UILabel+RealmBrowser.h"
 
 #import <Realm/Realm.h>
 #import <Realm/RLMRealm_Dynamic.h>
@@ -96,11 +97,8 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     UIImage *tweaksIcon = [UIImage RLMBrowser_tweaksIcon];
     UIBarButtonItem *tweaksButton = [[UIBarButtonItem alloc] initWithImage:tweaksIcon style:UIBarButtonItemStylePlain target:self action:@selector(tweaksButtonTapped:)];
 
-    UILabel *objectsLabel = [[UILabel alloc] init];
-    objectsLabel.font = [UIFont systemFontOfSize:11.0f];
-    objectsLabel.textAlignment = NSTextAlignmentCenter;
-    objectsLabel.text = [NSString stringWithFormat:@"%ld Object%@", self.objects.count, self.objects.count == 1 ? @"" : @"s"];
-    [objectsLabel sizeToFit];
+    NSString *text = [NSString stringWithFormat:@"%ld Object%@", self.objects.count, self.objects.count == 1 ? @"" : @"s"];
+    UILabel *objectsLabel = [UILabel RLMBrowser_toolbarLabelWithText:text];
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
     
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];

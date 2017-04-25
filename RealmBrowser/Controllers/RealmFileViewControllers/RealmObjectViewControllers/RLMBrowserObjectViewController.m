@@ -15,6 +15,7 @@
 #import "UIImage+BrowserIcons.h"
 #import "UIColor+BrowserRealmColors.h"
 #import "RLMProperty+BrowserDescription.h"
+#import "UILabel+RealmBrowser.h"
 
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserSchema.h"
@@ -60,11 +61,8 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
 
     NSInteger numberOfProperties = self.realmObject.objectSchema.properties.count;
 
-    UILabel *objectsLabel = [[UILabel alloc] init];
-    objectsLabel.font = [UIFont systemFontOfSize:11.0f];
-    objectsLabel.textAlignment = NSTextAlignmentCenter;
-    objectsLabel.text = [NSString stringWithFormat:@"%ld %@", numberOfProperties, numberOfProperties == 1 ? @"Property" : @"Properties"];
-    [objectsLabel sizeToFit];
+    NSString *labelText = [NSString stringWithFormat:@"%ld %@", numberOfProperties, numberOfProperties == 1 ? @"Property" : @"Properties"];
+    UILabel *objectsLabel = [UILabel RLMBrowser_toolbarLabelWithText:labelText];
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
     self.navigationController.toolbarHidden = NO;
