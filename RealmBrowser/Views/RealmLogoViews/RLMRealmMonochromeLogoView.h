@@ -13,4 +13,8 @@
 @property (nonatomic, assign) CGFloat strokeWidth;
 @property (nonatomic, strong) UIColor *strokeColor;
 
+@property (nonatomic, readonly) UIImage *image;
+
+- (UIImage *)imageInRect:(CGRect)rect;
+
 @end

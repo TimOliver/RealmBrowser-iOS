@@ -30,134 +30,142 @@
     [self drawRealmLogoMonochromeWithFrame:self.bounds strokeWidth:self.strokeWidth strokeColor:self.strokeColor];
 }
 
+- (UIImage *)image
+{
+    return [self imageInRect:self.bounds];
+}
+
+- (UIImage *)imageInRect:(CGRect)rect
+{
+    UIImage *image = nil;
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0.0f);
+    [self drawRealmLogoMonochromeWithFrame:rect strokeWidth:self.strokeWidth strokeColor:self.strokeColor];
+    image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 - (void)drawRealmLogoMonochromeWithFrame:(CGRect)frame strokeWidth:(CGFloat)strokeWidth strokeColor:(UIColor *)strokeColor
 {
     //// Subframes
-    CGRect realmLogoMonochrome = CGRectMake(CGRectGetMinX(frame) + 5, CGRectGetMinY(frame) + 5, frame.size.width - 10, frame.size.height - 10);
-    
-    //// RealmLogoMonochrome
+    CGRect group2 = CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame), frame.size.width, frame.size.height);
+
+
+    //// Group 2
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
     {
-        //// Circle
-        {
-            //// Shape Drawing
-            UIBezierPath* shapePath = [UIBezierPath bezierPath];
-            [shapePath moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.50000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.height)];
-            [shapePath addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.14650 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.14650 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.36917 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.23900 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.05383 * realmLogoMonochrome.size.height)];
-            [shapePath addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.50000 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.05400 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.23917 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.36917 * realmLogoMonochrome.size.height)];
-            [shapePath addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.14650 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.85350 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.63083 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.05383 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.76100 * realmLogoMonochrome.size.height)];
-            [shapePath addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.50000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 1.00000 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.23917 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.94600 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.36917 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 1.00000 * realmLogoMonochrome.size.height)];
-            [shapePath addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.85350 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.85350 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.63083 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 1.00000 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.76100 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.94617 * realmLogoMonochrome.size.height)];
-            [shapePath addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 1.00000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.50000 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.94617 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.76100 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 1.00000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.63083 * realmLogoMonochrome.size.height)];
-            [shapePath addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.85350 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.14650 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 1.00000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.36917 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.94617 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.23900 * realmLogoMonochrome.size.height)];
-            [shapePath addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.50000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.76100 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.05383 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.63083 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.height)];
-            [shapePath addLineToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.50000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.height)];
-            [shapePath closePath];
-            [strokeColor setStroke];
-            shapePath.lineWidth = strokeWidth;
-            shapePath.miterLimit = 4;
-            [shapePath stroke];
-        }
-        
-        
-        //// InnerLines
-        {
-            //// Shape 2 Drawing
-            UIBezierPath* shape2Path = [UIBezierPath bezierPath];
-            [shape2Path moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.71417 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.04884 * realmLogoMonochrome.size.height)];
-            [shape2Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.58883 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.05821 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.67217 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.04532 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.62983 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.04834 * realmLogoMonochrome.size.height)];
-            [shape2Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.32350 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.15025 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.49767 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.07996 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.41567 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.13335 * realmLogoMonochrome.size.height)];
-            [shape2Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.15417 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.13937 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.26733 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.16062 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.20867 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.15661 * realmLogoMonochrome.size.height)];
-            [strokeColor setStroke];
-            shape2Path.lineWidth = strokeWidth;
-            shape2Path.miterLimit = 4;
-            [shape2Path stroke];
-            
-            
-            //// Shape 3 Drawing
-            UIBezierPath* shape3Path = [UIBezierPath bezierPath];
-            [shape3Path moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.89100 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.18907 * realmLogoMonochrome.size.height)];
-            [shape3Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.64900 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.26270 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.81867 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.23442 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.73433 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.26053 * realmLogoMonochrome.size.height)];
-            [shape3Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.30867 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.22622 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.53483 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.26555 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.42283 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.22739 * realmLogoMonochrome.size.height)];
-            [shape3Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.04550 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.29383 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.21700 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.22522 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.12567 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.24948 * realmLogoMonochrome.size.height)];
-            [strokeColor setStroke];
-            shape3Path.lineWidth = strokeWidth;
-            shape3Path.miterLimit = 4;
-            [shape3Path stroke];
-            
-            
-            //// Shape 4 Drawing
-            UIBezierPath* shape4Path = [UIBezierPath bezierPath];
-            [shape4Path moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.09912 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.43978 * realmLogoMonochrome.size.height)];
-            [shape4Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.01067 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.39976 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.06808 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.43037 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.03824 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.41689 * realmLogoMonochrome.size.height)];
-            [strokeColor setStroke];
-            shape4Path.lineWidth = strokeWidth;
-            shape4Path.miterLimit = 4;
-            [shape4Path stroke];
-            
-            
-            //// Shape 5 Drawing
-            UIBezierPath* shape5Path = [UIBezierPath bezierPath];
-            [shape5Path moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.99317 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.42101 * realmLogoMonochrome.size.height)];
-            [shape5Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.87550 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.35273 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.95750 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.39273 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.91783 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.36947 * realmLogoMonochrome.size.height)];
-            [shape5Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.60067 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.33215 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.78867 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.31843 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.69150 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.31107 * realmLogoMonochrome.size.height)];
-            [shape5Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.42217 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.39825 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.53883 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.34654 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.48067 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.37332 * realmLogoMonochrome.size.height)];
-            [shape5Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.35147 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.42637 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.39887 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.40818 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.37534 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.41787 * realmLogoMonochrome.size.height)];
-            [strokeColor setStroke];
-            shape5Path.lineWidth = strokeWidth;
-            shape5Path.miterLimit = 4;
-            [shape5Path stroke];
-            
-            
-            //// Shape 6 Drawing
-            UIBezierPath* shape6Path = [UIBezierPath bezierPath];
-            [shape6Path moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.64251 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.53919 * realmLogoMonochrome.size.height)];
-            [shape6Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.48483 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.47490 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.58867 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.52166 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.53691 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.49742 * realmLogoMonochrome.size.height)];
-            [shape6Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.28233 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.41365 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.41983 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.44678 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.35267 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.42068 * realmLogoMonochrome.size.height)];
-            [shape6Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.07383 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.45096 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.21117 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.40662 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.13817 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.41967 * realmLogoMonochrome.size.height)];
-            [shape6Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.00000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.49799 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.04750 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.46368 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.02283 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.47958 * realmLogoMonochrome.size.height)];
-            [strokeColor setStroke];
-            shape6Path.lineWidth = strokeWidth;
-            shape6Path.miterLimit = 4;
-            [shape6Path stroke];
-            
-            
-            //// Shape 7 Drawing
-            UIBezierPath* shape7Path = [UIBezierPath bezierPath];
-            [shape7Path moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.99983 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.51121 * realmLogoMonochrome.size.height)];
-            [shape7Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.73683 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.50184 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.91583 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.48125 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.82250 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.47724 * realmLogoMonochrome.size.height)];
-            [shape7Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.42870 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.65109 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.62695 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.53325 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.53404 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.60683 * realmLogoMonochrome.size.height)];
-            [strokeColor setStroke];
-            shape7Path.lineWidth = strokeWidth;
-            shape7Path.miterLimit = 4;
-            [shape7Path stroke];
-            
-            
-            //// Shape 8 Drawing
-            UIBezierPath* shape8Path = [UIBezierPath bezierPath];
-            [shape8Path moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.98133 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.63571 * realmLogoMonochrome.size.height)];
-            [shape8Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.87117 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.69261 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.94717 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.65931 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.91017 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.67838 * realmLogoMonochrome.size.height)];
-            [shape8Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.60117 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.71018 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.78517 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.72373 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.69050 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.72993 * realmLogoMonochrome.size.height)];
-            [shape8Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.27783 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.60760 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.49050 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.68575 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.39000 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.62299 * realmLogoMonochrome.size.height)];
-            [shape8Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.02517 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.65797 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.19117 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.59572 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.10100 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.61446 * realmLogoMonochrome.size.height)];
-            [strokeColor setStroke];
-            shape8Path.lineWidth = strokeWidth;
-            shape8Path.miterLimit = 4;
-            [shape8Path stroke];
-            
-            
-            //// Shape 9 Drawing
-            UIBezierPath* shape9Path = [UIBezierPath bezierPath];
-            [shape9Path moveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.93367 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.75084 * realmLogoMonochrome.size.height)];
-            [shape9Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.60633 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.78984 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.82350 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.73896 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.71050 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.75218 * realmLogoMonochrome.size.height)];
-            [shape9Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.44417 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.85209 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.55183 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.80958 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.49967 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.83569 * realmLogoMonochrome.size.height)];
-            [shape9Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.17650 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.85426 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.35750 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.87769 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.26367 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.87836 * realmLogoMonochrome.size.height)];
-            [shape9Path addCurveToPoint: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.12917 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.83853 * realmLogoMonochrome.size.height) controlPoint1: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.16050 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.84974 * realmLogoMonochrome.size.height) controlPoint2: CGPointMake(CGRectGetMinX(realmLogoMonochrome) + 0.14467 * realmLogoMonochrome.size.width, CGRectGetMinY(realmLogoMonochrome) + 0.84456 * realmLogoMonochrome.size.height)];
-            [strokeColor setStroke];
-            shape9Path.lineWidth = strokeWidth;
-            shape9Path.miterLimit = 4;
-            [shape9Path stroke];
-        }
+        //// Circle Drawing
+        UIBezierPath* circlePath = [UIBezierPath bezierPath];
+        [circlePath moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.50000 * group2.size.width, CGRectGetMinY(group2) + 0.00000 * group2.size.height)];
+        [circlePath addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.14650 * group2.size.width, CGRectGetMinY(group2) + 0.14650 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.36917 * group2.size.width, CGRectGetMinY(group2) + 0.00000 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.23900 * group2.size.width, CGRectGetMinY(group2) + 0.05383 * group2.size.height)];
+        [circlePath addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.00000 * group2.size.width, CGRectGetMinY(group2) + 0.50000 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.05400 * group2.size.width, CGRectGetMinY(group2) + 0.23917 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.00000 * group2.size.width, CGRectGetMinY(group2) + 0.36917 * group2.size.height)];
+        [circlePath addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.14650 * group2.size.width, CGRectGetMinY(group2) + 0.85350 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.00000 * group2.size.width, CGRectGetMinY(group2) + 0.63083 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.05383 * group2.size.width, CGRectGetMinY(group2) + 0.76100 * group2.size.height)];
+        [circlePath addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.50000 * group2.size.width, CGRectGetMinY(group2) + 1.00000 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.23917 * group2.size.width, CGRectGetMinY(group2) + 0.94600 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.36917 * group2.size.width, CGRectGetMinY(group2) + 1.00000 * group2.size.height)];
+        [circlePath addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.85350 * group2.size.width, CGRectGetMinY(group2) + 0.85350 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.63083 * group2.size.width, CGRectGetMinY(group2) + 1.00000 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.76100 * group2.size.width, CGRectGetMinY(group2) + 0.94617 * group2.size.height)];
+        [circlePath addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 1.00000 * group2.size.width, CGRectGetMinY(group2) + 0.50000 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.94617 * group2.size.width, CGRectGetMinY(group2) + 0.76100 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 1.00000 * group2.size.width, CGRectGetMinY(group2) + 0.63083 * group2.size.height)];
+        [circlePath addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.85350 * group2.size.width, CGRectGetMinY(group2) + 0.14650 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 1.00000 * group2.size.width, CGRectGetMinY(group2) + 0.36917 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.94617 * group2.size.width, CGRectGetMinY(group2) + 0.23900 * group2.size.height)];
+        [circlePath addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.50000 * group2.size.width, CGRectGetMinY(group2) + 0.00000 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.76100 * group2.size.width, CGRectGetMinY(group2) + 0.05383 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.63083 * group2.size.width, CGRectGetMinY(group2) + 0.00000 * group2.size.height)];
+        [circlePath addLineToPoint: CGPointMake(CGRectGetMinX(group2) + 0.50000 * group2.size.width, CGRectGetMinY(group2) + 0.00000 * group2.size.height)];
+        [circlePath closePath];
+
+        CGContextAddPath(context, circlePath.CGPath);
+        CGContextClip(context);
+
+        //// Bezier 2 Drawing
+        UIBezierPath* bezier2Path = [UIBezierPath bezierPath];
+        [bezier2Path moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.71417 * group2.size.width, CGRectGetMinY(group2) + 0.04883 * group2.size.height)];
+        [bezier2Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.58883 * group2.size.width, CGRectGetMinY(group2) + 0.05817 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.67217 * group2.size.width, CGRectGetMinY(group2) + 0.04533 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.62983 * group2.size.width, CGRectGetMinY(group2) + 0.04833 * group2.size.height)];
+        [bezier2Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.32350 * group2.size.width, CGRectGetMinY(group2) + 0.14983 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.49767 * group2.size.width, CGRectGetMinY(group2) + 0.07983 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.41567 * group2.size.width, CGRectGetMinY(group2) + 0.13300 * group2.size.height)];
+        [bezier2Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.15417 * group2.size.width, CGRectGetMinY(group2) + 0.13900 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.26733 * group2.size.width, CGRectGetMinY(group2) + 0.16017 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.20867 * group2.size.width, CGRectGetMinY(group2) + 0.15617 * group2.size.height)];
+        [strokeColor setStroke];
+        bezier2Path.lineWidth = strokeWidth;
+        [bezier2Path stroke];
+
+
+        //// Bezier 3 Drawing
+        UIBezierPath* bezier3Path = [UIBezierPath bezierPath];
+        [bezier3Path moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.89100 * group2.size.width, CGRectGetMinY(group2) + 0.18850 * group2.size.height)];
+        [bezier3Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.64900 * group2.size.width, CGRectGetMinY(group2) + 0.26183 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.81867 * group2.size.width, CGRectGetMinY(group2) + 0.23367 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.73433 * group2.size.width, CGRectGetMinY(group2) + 0.25967 * group2.size.height)];
+        [bezier3Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.30867 * group2.size.width, CGRectGetMinY(group2) + 0.22550 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.53483 * group2.size.width, CGRectGetMinY(group2) + 0.26467 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.42283 * group2.size.width, CGRectGetMinY(group2) + 0.22667 * group2.size.height)];
+        [bezier3Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.04550 * group2.size.width, CGRectGetMinY(group2) + 0.29283 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.21700 * group2.size.width, CGRectGetMinY(group2) + 0.22450 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.12567 * group2.size.width, CGRectGetMinY(group2) + 0.24867 * group2.size.height)];
+        [strokeColor setStroke];
+        bezier3Path.lineWidth = strokeWidth;
+        [bezier3Path stroke];
+
+
+        //// Bezier 4 Drawing
+        UIBezierPath* bezier4Path = [UIBezierPath bezierPath];
+        [bezier4Path moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.09912 * group2.size.width, CGRectGetMinY(group2) + 0.43820 * group2.size.height)];
+        [bezier4Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.01067 * group2.size.width, CGRectGetMinY(group2) + 0.39833 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.06808 * group2.size.width, CGRectGetMinY(group2) + 0.42882 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.03824 * group2.size.width, CGRectGetMinY(group2) + 0.41539 * group2.size.height)];
+        [strokeColor setStroke];
+        bezier4Path.lineWidth = strokeWidth;
+        [bezier4Path stroke];
+
+
+        //// Bezier 5 Drawing
+        UIBezierPath* bezier5Path = [UIBezierPath bezierPath];
+        [bezier5Path moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.99317 * group2.size.width, CGRectGetMinY(group2) + 0.41950 * group2.size.height)];
+        [bezier5Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.87550 * group2.size.width, CGRectGetMinY(group2) + 0.35150 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.95750 * group2.size.width, CGRectGetMinY(group2) + 0.39133 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.91783 * group2.size.width, CGRectGetMinY(group2) + 0.36817 * group2.size.height)];
+        [bezier5Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.60067 * group2.size.width, CGRectGetMinY(group2) + 0.33100 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.78867 * group2.size.width, CGRectGetMinY(group2) + 0.31733 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.69150 * group2.size.width, CGRectGetMinY(group2) + 0.31000 * group2.size.height)];
+        [bezier5Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.42217 * group2.size.width, CGRectGetMinY(group2) + 0.39683 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.53883 * group2.size.width, CGRectGetMinY(group2) + 0.34533 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.48067 * group2.size.width, CGRectGetMinY(group2) + 0.37200 * group2.size.height)];
+        [bezier5Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.35147 * group2.size.width, CGRectGetMinY(group2) + 0.42484 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.39887 * group2.size.width, CGRectGetMinY(group2) + 0.40672 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.37534 * group2.size.width, CGRectGetMinY(group2) + 0.41637 * group2.size.height)];
+        [strokeColor setStroke];
+        bezier5Path.lineWidth = strokeWidth;
+        [bezier5Path stroke];
+
+
+        //// Bezier 6 Drawing
+        UIBezierPath* bezier6Path = [UIBezierPath bezierPath];
+        [bezier6Path moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.64251 * group2.size.width, CGRectGetMinY(group2) + 0.53720 * group2.size.height)];
+        [bezier6Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.48483 * group2.size.width, CGRectGetMinY(group2) + 0.47317 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.58867 * group2.size.width, CGRectGetMinY(group2) + 0.51975 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.53691 * group2.size.width, CGRectGetMinY(group2) + 0.49560 * group2.size.height)];
+        [bezier6Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.28233 * group2.size.width, CGRectGetMinY(group2) + 0.41217 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.41983 * group2.size.width, CGRectGetMinY(group2) + 0.44517 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.35267 * group2.size.width, CGRectGetMinY(group2) + 0.41917 * group2.size.height)];
+        [bezier6Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.07383 * group2.size.width, CGRectGetMinY(group2) + 0.44933 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.21117 * group2.size.width, CGRectGetMinY(group2) + 0.40517 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.13817 * group2.size.width, CGRectGetMinY(group2) + 0.41817 * group2.size.height)];
+        [bezier6Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.00000 * group2.size.width, CGRectGetMinY(group2) + 0.49617 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.04750 * group2.size.width, CGRectGetMinY(group2) + 0.46200 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.02283 * group2.size.width, CGRectGetMinY(group2) + 0.47783 * group2.size.height)];
+        [strokeColor setStroke];
+        bezier6Path.lineWidth = strokeWidth;
+        [bezier6Path stroke];
+
+
+        //// Bezier 7 Drawing
+        UIBezierPath* bezier7Path = [UIBezierPath bezierPath];
+        [bezier7Path moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.99983 * group2.size.width, CGRectGetMinY(group2) + 0.50933 * group2.size.height)];
+        [bezier7Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.73683 * group2.size.width, CGRectGetMinY(group2) + 0.50000 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.91583 * group2.size.width, CGRectGetMinY(group2) + 0.47950 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.82250 * group2.size.width, CGRectGetMinY(group2) + 0.47550 * group2.size.height)];
+        [bezier7Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.42870 * group2.size.width, CGRectGetMinY(group2) + 0.64865 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.62694 * group2.size.width, CGRectGetMinY(group2) + 0.53128 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.53404 * group2.size.width, CGRectGetMinY(group2) + 0.60456 * group2.size.height)];
+        [strokeColor setStroke];
+        bezier7Path.lineWidth = strokeWidth;
+        [bezier7Path stroke];
+
+
+        //// Bezier 8 Drawing
+        UIBezierPath* bezier8Path = [UIBezierPath bezierPath];
+        [bezier8Path moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.98133 * group2.size.width, CGRectGetMinY(group2) + 0.63333 * group2.size.height)];
+        [bezier8Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.87117 * group2.size.width, CGRectGetMinY(group2) + 0.69000 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.94717 * group2.size.width, CGRectGetMinY(group2) + 0.65683 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.91017 * group2.size.width, CGRectGetMinY(group2) + 0.67583 * group2.size.height)];
+        [bezier8Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.60117 * group2.size.width, CGRectGetMinY(group2) + 0.70750 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.78517 * group2.size.width, CGRectGetMinY(group2) + 0.72100 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.69050 * group2.size.width, CGRectGetMinY(group2) + 0.72717 * group2.size.height)];
+        [bezier8Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.27783 * group2.size.width, CGRectGetMinY(group2) + 0.60533 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.49050 * group2.size.width, CGRectGetMinY(group2) + 0.68317 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.39000 * group2.size.width, CGRectGetMinY(group2) + 0.62067 * group2.size.height)];
+        [bezier8Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.02517 * group2.size.width, CGRectGetMinY(group2) + 0.65550 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.19117 * group2.size.width, CGRectGetMinY(group2) + 0.59350 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.10100 * group2.size.width, CGRectGetMinY(group2) + 0.61217 * group2.size.height)];
+        [strokeColor setStroke];
+        bezier8Path.lineWidth = strokeWidth;
+        [bezier8Path stroke];
+
+
+        //// Bezier 9 Drawing
+        UIBezierPath* bezier9Path = [UIBezierPath bezierPath];
+        [bezier9Path moveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.93367 * group2.size.width, CGRectGetMinY(group2) + 0.74800 * group2.size.height)];
+        [bezier9Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.60633 * group2.size.width, CGRectGetMinY(group2) + 0.78683 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.82350 * group2.size.width, CGRectGetMinY(group2) + 0.73617 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.71050 * group2.size.width, CGRectGetMinY(group2) + 0.74933 * group2.size.height)];
+        [bezier9Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.44417 * group2.size.width, CGRectGetMinY(group2) + 0.84883 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.55183 * group2.size.width, CGRectGetMinY(group2) + 0.80650 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.49967 * group2.size.width, CGRectGetMinY(group2) + 0.83250 * group2.size.height)];
+        [bezier9Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.17650 * group2.size.width, CGRectGetMinY(group2) + 0.85100 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.35750 * group2.size.width, CGRectGetMinY(group2) + 0.87433 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.26367 * group2.size.width, CGRectGetMinY(group2) + 0.87500 * group2.size.height)];
+        [bezier9Path addCurveToPoint: CGPointMake(CGRectGetMinX(group2) + 0.12917 * group2.size.width, CGRectGetMinY(group2) + 0.83533 * group2.size.height) controlPoint1: CGPointMake(CGRectGetMinX(group2) + 0.16050 * group2.size.width, CGRectGetMinY(group2) + 0.84650 * group2.size.height) controlPoint2: CGPointMake(CGRectGetMinX(group2) + 0.14467 * group2.size.width, CGRectGetMinY(group2) + 0.84133 * group2.size.height)];
+        [strokeColor setStroke];
+        bezier9Path.lineWidth = strokeWidth;
+        [bezier9Path stroke];
+
+        CGContextAddPath(context, circlePath.CGPath);
+        CGContextSetLineWidth(context, strokeWidth * 2.0f);
+        CGContextStrokePath(context);
+
     }
+    CGContextRestoreGState(context);
 }
 
 @end

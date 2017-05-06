@@ -18,6 +18,8 @@
 #import "RLMBrowserObjectViewController.h"
 #import "RLMBrowserRealmTableViewCell.h"
 #import "RLMBrowserSchemaTableViewCell.h"
+#import "RLMRealmLogoView.h"
+#import "RLMRealmMonochromeLogoView.h"
 #import "UIImage+BrowserIcons.h"
 #import "UIColor+BrowserRealmColors.h"
 #import "UILabel+RealmBrowser.h"
@@ -53,7 +55,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 - (instancetype)init
 {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        
+
     }
     
     return self;
@@ -61,7 +63,18 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    // Configure the title view
     self.title = @"Realms";
+    self.navigationItem.titleView = [[RLMRealmLogoView alloc] initWithFrame:(CGRect){0,0,30,30}];
+
+    // Set a monochrome logo to be the back button
+    RLMRealmMonochromeLogoView *logoView = [[RLMRealmMonochromeLogoView alloc] initWithFrame:(CGRect){0,0,25,25}];
+    logoView.strokeWidth = 1.0f;
+    UIImage *image = [logoView imageInRect:(CGRect){0, 4, 20, 20}];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] init];
+    item.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.navigationItem.backBarButtonItem = item;
 
     // Get the icons for the table view cells
     self.localRealmIcon = [UIImage RLMBrowser_localRealmIcon];
@@ -95,7 +108,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     // Configure the tool bar
     NSInteger numberOfRealms = self.realmList.allRealms.count;
 
-    NSString *text = [NSString stringWithFormat:@"%ld Realm%@", numberOfRealms, numberOfRealms == 1 ? @"" : @"s"];
+    NSString *text = [NSString stringWithFormat:@"%ld Realm Database%@", numberOfRealms, numberOfRealms == 1 ? @"" : @"s"];
     UILabel *objectsLabel = [UILabel RLMBrowser_toolbarLabelWithText:text];
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
@@ -107,6 +120,11 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 {
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:NO animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Data Handling -

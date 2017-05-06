@@ -12,6 +12,8 @@
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserTableHeaderView.h"
 #import "RLMBrowserNavigationTitleView.h"
+#import "RLMRealmMonochromeLogoView.h"
+
 #import "RLMBrowserObjectViewController.h"
 #import "RLMBrowserObjectSchemaViewController.h"
 
@@ -66,7 +68,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
+
     // Set default settings
     self.clearsSelectionOnViewWillAppear = NO;
     self.tableView.rowHeight = 54.0f;
