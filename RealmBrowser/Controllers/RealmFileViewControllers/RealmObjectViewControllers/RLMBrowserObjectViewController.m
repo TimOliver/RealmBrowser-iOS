@@ -65,8 +65,6 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     UILabel *objectsLabel = [UILabel RLMBrowser_toolbarLabelWithText:labelText];
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
-    self.navigationController.toolbarHidden = NO;
-
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *exportButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:nil action:nil];
 
@@ -76,6 +74,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.toolbarHidden = NO;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
