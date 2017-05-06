@@ -169,8 +169,8 @@
 		220D91B11DE6BE6F007CFF2A = {
 			isa = PBXGroup;
 			children = (
-				220D91D41DE6BFC3007CFF2A /* RealmBrowserExample */,
 				220D91E71DE6C961007CFF2A /* RealmBrowser */,
+				220D91D41DE6BFC3007CFF2A /* RealmBrowserExample */,
 				220D91BB1DE6BE6F007CFF2A /* Products */,
 				0A4BB3A304EA7BAA2E30BB36 /* Pods */,
 				5B88260DAB63A719884D4C3C /* Frameworks */,
