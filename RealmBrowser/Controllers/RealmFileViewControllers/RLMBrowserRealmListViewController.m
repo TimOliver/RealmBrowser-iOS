@@ -7,6 +7,8 @@
 //
 
 #import <TOSplitViewController/TOSplitViewController.h>
+#import <TODocumentPickerViewController/TODocumentPickerViewController.h>
+#import <TODocumentPickerViewController/TODocumentPickerLocalDiskDataSource.h>
 
 #import "RLMBrowserRealmListViewController.h"
 
@@ -113,7 +115,8 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem];
+    UIBarButtonItem *fileManagerButton = [[UIBarButtonItem alloc] initWithTitle:@"Files" style:UIBarButtonItemStylePlain target:self action:@selector(filesButtonTapped:)];
+    self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem, fileManagerButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -125,6 +128,20 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+}
+
+#pragma mark - Button Callbacks -
+- (void)filesButtonTapped:(id)sender
+{
+    TODocumentPickerLocalDiskDataSource *dataSource = [[TODocumentPickerLocalDiskDataSource alloc] init];
+    dataSource.rootFolderName = @"Realm Browser"; //TODO: Change to parent app
+
+    TODocumentPickerViewController *filesController = [[TODocumentPickerViewController alloc] initWithFilePath:nil];
+    filesController.dataSource = dataSource;
+
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:filesController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Data Handling -

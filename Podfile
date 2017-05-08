@@ -9,6 +9,6 @@ target 'RealmBrowserExample' do
 	pod 'TOSplitViewController', :path => '~/Projects/TOSplitViewController'
 	pod 'Realm-JSONAPI'
 	pod 'TOPagerView'
-	pod 'TODocumentPickerViewController'
+	pod 'TODocumentPickerViewController', :path => '~/Projects/TODocumentPickerViewController'
 	pod 'TOStatusBarSimulator', :path => '~/Projects/TOStatusBarSimulator'
 end

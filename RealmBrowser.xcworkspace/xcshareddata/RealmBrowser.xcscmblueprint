@@ -5,14 +5,16 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "27B5CECF931F7A0681CF44844512ADAF1FD59271" : 9223372036854775807,
-    "5C8D020D0CE0E6AC65382FAC6AA1A11821B19AAC" : 9223372036854775807,
-    "6761D795567FBCFF6BB70CBC1B07EC23A3A86990" : 9223372036854775807
+    "BE53331EE98D89A4A5462CA7AECF0285284DD1C7" : 9223372036854775807,
+    "6761D795567FBCFF6BB70CBC1B07EC23A3A86990" : 9223372036854775807,
+    "5C8D020D0CE0E6AC65382FAC6AA1A11821B19AAC" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "28F45B83-0415-434B-8404-B20106C92633",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "27B5CECF931F7A0681CF44844512ADAF1FD59271" : "TOStatusBarSimulator\/",
-    "5C8D020D0CE0E6AC65382FAC6AA1A11821B19AAC" : "TOSplitViewController\/",
-    "6761D795567FBCFF6BB70CBC1B07EC23A3A86990" : "RealmBrowser-iOS\/"
+    "BE53331EE98D89A4A5462CA7AECF0285284DD1C7" : "TODocumentPickerViewController\/",
+    "6761D795567FBCFF6BB70CBC1B07EC23A3A86990" : "RealmBrowser-iOS\/",
+    "5C8D020D0CE0E6AC65382FAC6AA1A11821B19AAC" : "TOSplitViewController\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "RealmBrowser",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -32,6 +34,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/TimOliver\/RealmBrowser-iOS.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6761D795567FBCFF6BB70CBC1B07EC23A3A86990"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/TimOliver\/TODocumentPickerViewController.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BE53331EE98D89A4A5462CA7AECF0285284DD1C7"
     }
   ]
 }
