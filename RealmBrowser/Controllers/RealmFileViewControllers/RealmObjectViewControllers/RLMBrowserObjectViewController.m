@@ -33,8 +33,6 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
 @property (nonatomic, strong) UIImage *circleIcon;
 @property (nonatomic, strong) NSArray *realmColors;
 
-@property (nonatomic, copy) NSString *copyValue;
-
 @end
 
 @implementation RLMBrowserObjectViewController
@@ -160,6 +158,17 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     
     // Return the cell
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell == nil) { return; }
+
+    RLMBrowserObjectContentView *contentView = (RLMBrowserObjectContentView *)[cell viewWithTag:kRLMBrowserObjectViewTag];
+    if (contentView == nil) { return; }
+
+    [contentView showCopyButton];
 }
 
 #pragma mark - Button Callbacks -

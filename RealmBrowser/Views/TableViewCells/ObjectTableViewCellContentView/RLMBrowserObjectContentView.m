@@ -102,15 +102,14 @@
 - (void)showCopyButton
 {
     UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"Copy" action:@selector(copyValueToClipboard)];
-    [UIMenuController sharedMenuController].menuItems = @[copyItem];
-    [[UIMenuController sharedMenuController] update];
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    menuController.menuItems = @[copyItem];
+    [menuController update];
 
-//    if selected {
-//        self.becomeFirstResponder()
-//        let menu = UIMenuController.shared
-//        menu.setTargetRect(self.contentView.frame, in: self.contentView.superview!)
-//        menu.setMenuVisible(true, animated: true)
-//    }
+    [self becomeFirstResponder];
+
+    [menuController setTargetRect:self.frame inView:self.superview];
+    [menuController setMenuVisible:YES animated:YES];
 }
 
 - (BOOL)canBecomeFirstResponder
@@ -120,12 +119,12 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
-    return YES;
+    return (@selector(copyValueToClipboard) == action);
 }
 
 - (void)copyValueToClipboard
 {
-
+    [UIPasteboard generalPasteboard].string = self.objectValue;
 }
 
 @end
