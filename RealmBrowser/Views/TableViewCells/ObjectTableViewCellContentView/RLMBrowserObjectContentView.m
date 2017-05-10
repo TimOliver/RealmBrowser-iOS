@@ -98,4 +98,34 @@
     return self.iconView.tintColor;
 }
 
+#pragma mark - UIMenuItem -
+- (void)showCopyButton
+{
+    UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"Copy" action:@selector(copyValueToClipboard)];
+    [UIMenuController sharedMenuController].menuItems = @[copyItem];
+    [[UIMenuController sharedMenuController] update];
+
+//    if selected {
+//        self.becomeFirstResponder()
+//        let menu = UIMenuController.shared
+//        menu.setTargetRect(self.contentView.frame, in: self.contentView.superview!)
+//        menu.setMenuVisible(true, animated: true)
+//    }
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    return YES;
+}
+
+- (void)copyValueToClipboard
+{
+
+}
+
 @end

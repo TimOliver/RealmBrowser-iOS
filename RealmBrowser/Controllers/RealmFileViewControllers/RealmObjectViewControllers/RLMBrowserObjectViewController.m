@@ -33,6 +33,8 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
 @property (nonatomic, strong) UIImage *circleIcon;
 @property (nonatomic, strong) NSArray *realmColors;
 
+@property (nonatomic, copy) NSString *copyValue;
+
 @end
 
 @implementation RLMBrowserObjectViewController
@@ -112,6 +114,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
         TORoundedTableViewCell *normalCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (normalCell == nil) {
             normalCell = [[TORoundedTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            normalCell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
         cell = normalCell;
@@ -121,6 +124,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
         TORoundedTableViewCapCell *capCell = [tableView dequeueReusableCellWithIdentifier:capCellIdentifier];
         if (capCell == nil) {
             capCell = [[TORoundedTableViewCapCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:capCellIdentifier];
+            capCell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
         // Configure the cell to set the appropriate corners as rounded

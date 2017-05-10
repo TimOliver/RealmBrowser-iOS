@@ -19,4 +19,6 @@
 
 + (instancetype)objectContentView;
 
+- (void)showCopyButton;
+
 @end
