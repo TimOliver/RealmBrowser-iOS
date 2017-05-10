@@ -13,6 +13,7 @@
 #import "RLMBrowserTableHeaderView.h"
 #import "RLMBrowserNavigationTitleView.h"
 #import "RLMRealmMonochromeLogoView.h"
+#import "RLMBrowserRealmTableViewCell.h"
 
 #import "RLMBrowserObjectViewController.h"
 #import "RLMBrowserObjectSchemaViewController.h"
@@ -47,6 +48,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 @property (nonatomic, strong) RLMArray *preferredSecondaryPropertyNames;
 
 @property (nonatomic, strong) NSArray *realmColors;
+@property (nonatomic, strong) NSArray *lightRealmColors;
 
 @end
 
@@ -94,7 +96,8 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 
     // Get Realm colours to theme the numbers
     self.realmColors = [UIColor RLMBrowser_realmColorsInvertedRepeating];
-    
+    self.lightRealmColors = [UIColor RLMBrowser_realmColorsLightInvertedRepeating];
+
     // Set up the toolbar content
     UIImage *tweaksIcon = [UIImage RLMBrowser_tweaksIcon];
     UIBarButtonItem *tweaksButton = [[UIBarButtonItem alloc] initWithImage:tweaksIcon style:UIBarButtonItemStylePlain target:self action:@selector(tweaksButtonTapped:)];
@@ -171,9 +174,9 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
+    RLMBrowserRealmTableViewCell *cell = (RLMBrowserRealmTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
+        cell = [[RLMBrowserRealmTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kRLMBrowserObjectListTableViewCellIdentifier];
         
         RLMBrowserObjectListContentView *contentView = [RLMBrowserObjectListContentView objectListContentView];
         contentView.tag = kRLMBrowserObjectListViewTag;
@@ -212,7 +215,9 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     
     contentView.indexLabel.text = [NSString stringWithFormat:@"%ld", [self.objects indexOfObject:object] + 1];
     contentView.indexLabel.textColor = self.realmColors[indexPath.row % self.realmColors.count];
-    
+
+    cell.selectedBackgroundColor = self.lightRealmColors[indexPath.row % self.realmColors.count];
+
     return cell;
 }
 

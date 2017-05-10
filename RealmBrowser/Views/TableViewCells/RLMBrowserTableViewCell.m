@@ -7,8 +7,6 @@
 //
 
 #import "RLMBrowserTableViewCell.h"
-#import "UIColor+BrowserRealmColors.h"
-
 
 @interface RLMBrowserTableViewCell ()
 
@@ -18,17 +16,6 @@
 
 @implementation RLMBrowserTableViewCell
 
-- (void)didMoveToSuperview
-{
-    [super didMoveToSuperview];
-
-    if (self.browserCellSelectedBackgroundView == nil) {
-        self.browserCellSelectedBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-        self.browserCellSelectedBackgroundView.backgroundColor = [UIColor RLMBrowser_realmColorsLight].lastObject;
-        self.selectedBackgroundView = self.browserCellSelectedBackgroundView;
-    }
-}
-
 - (void)setSelectedBackgroundColor:(UIColor *)selectedBackgroundColor
 {
     if (selectedBackgroundColor == _selectedBackgroundColor) {
@@ -37,8 +24,12 @@
 
     _selectedBackgroundColor = selectedBackgroundColor;
 
+    if (self.browserCellSelectedBackgroundView == nil) {
+        self.browserCellSelectedBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+        self.selectedBackgroundView = self.browserCellSelectedBackgroundView;
+    }
+
     self.browserCellSelectedBackgroundView.backgroundColor = _selectedBackgroundColor;
 }
-
 
 @end

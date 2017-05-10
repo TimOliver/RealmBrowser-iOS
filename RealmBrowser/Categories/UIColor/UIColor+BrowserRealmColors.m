@@ -50,4 +50,18 @@
     return [NSArray arrayWithArray:colors];
 }
 
++ (NSArray *)RLMBrowser_realmColorsLightInvertedRepeating
+{
+    NSArray *realmColors = [UIColor RLMBrowser_realmColorsLight];
+    NSArray *invertedColors = [[realmColors reverseObjectEnumerator] allObjects];
+
+    NSMutableArray *colors = [NSMutableArray array];
+    [colors addObjectsFromArray:invertedColors];
+    [colors removeLastObject]; // Remove repeating color
+    [colors addObjectsFromArray:realmColors];
+    [colors removeLastObject]; // Remove repeating color
+
+    return [NSArray arrayWithArray:colors];
+}
+
 @end

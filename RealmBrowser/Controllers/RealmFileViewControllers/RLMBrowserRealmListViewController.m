@@ -47,6 +47,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 @property (nonatomic, strong) NSMutableArray *schemaIcons;
 
 @property (nonatomic, strong) NSArray *colors;
+@property (nonatomic, strong) NSArray *lightColors;
 
 @end
 
@@ -101,9 +102,10 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     UINib *schemaTableCellNib = [UINib nibWithNibName:@"RLMBrowserSchemaTableViewCell" bundle:nil];
     [self.tableView registerNib:schemaTableCellNib forCellReuseIdentifier:kRLMBrowserSchemaTableViewCellIdentifier];
 
-    NSArray *colors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
+    self.lightColors = [[[UIColor RLMBrowser_realmColorsLight] reverseObjectEnumerator] allObjects];
+    self.colors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
     self.schemaIcons = [NSMutableArray array];
-    for (UIColor *color in colors) {
+    for (UIColor *color in self.colors) {
         [self.schemaIcons addObject:[UIImage RLMBrowser_schemaIconForColor:color]];
     }
 
@@ -218,6 +220,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     // The first section is the Realm itself
     if (indexPath.row == 0) {
         RLMBrowserRealmTableViewCell *realmCell = [self.tableView dequeueReusableCellWithIdentifier:kRLMBrowserRealmTableViewCellIdentifier forIndexPath:indexPath];
+        realmCell.selectedBackgroundColor = self.lightColors[(NSInteger)(self.lightColors.count / 2.0f)];
         realmCell.titleLabel.text = realm.name;
         realmCell.imageView.image = self.localRealmIcon;
         realmCell.subtitleLabel.text = @"/Documents";
@@ -228,6 +231,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
         RLMBrowserSchemaTableViewCell *schemaCell = [self.tableView dequeueReusableCellWithIdentifier:kRLMBrowserSchemaTableViewCellIdentifier forIndexPath:indexPath];
         RLMBrowserSchema *schema = realm.schema[index];
         schemaCell.titleLabel.text = schema.className;
+        schemaCell.selectedBackgroundColor = self.lightColors[index % (self.colors.count-1)];
         schemaCell.imageView.image = self.schemaIcons[index % (self.colors.count-1)];
         schemaCell.subtitleLabel.text = [NSString stringWithFormat:@"%ld", (long)schema.numberOfObjects];
         schemaCell.indentationWidth = 54.0f;

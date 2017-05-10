@@ -33,7 +33,7 @@
         case RLMPropertyTypeBool:
         case RLMPropertyTypeFloat:
         case RLMPropertyTypeDouble:
-            return [(NSNumber *)value stringValue];
+            return (NSNumber *)value;
         case RLMPropertyTypeString:
             return (NSString *)value;
         case RLMPropertyTypeData:

@@ -13,5 +13,5 @@
 + (NSArray *)RLMBrowser_realmColors;
 + (NSArray *)RLMBrowser_realmColorsLight;
 + (NSArray *)RLMBrowser_realmColorsInvertedRepeating;
-
++ (NSArray *)RLMBrowser_realmColorsLightInvertedRepeating;
 @end
