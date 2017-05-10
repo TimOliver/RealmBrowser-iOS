@@ -20,6 +20,8 @@
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserSchema.h"
 
+#import "RLMObject+JSONSerialization.h"
+
 const NSInteger kRLMBrowserObjectViewTag = 101;
 
 @interface RLMBrowserObjectViewController ()
@@ -66,7 +68,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *exportButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:nil action:nil];
+    UIBarButtonItem *exportButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(exportButtonTapped:)];
 
     self.toolbarItems = @[flexibleSpace, labelItem, flexibleSpace, exportButton];
 }
@@ -154,6 +156,27 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     
     // Return the cell
     return cell;
+}
+
+#pragma mark - Button Callbacks -
+- (void)exportButtonTapped:(id)sender
+{
+    // Convert the Realm object to a JSON serializable dictionary
+    NSError *error = nil;
+    NSString *JSONString = [self.realmObject RLMBrowser_toJSONStringWithError:&error];
+
+    if (error) {
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Unable to Generate JSON" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+        [controller addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:controller animated:YES completion:nil];
+        return;
+    }
+
+    // Show the activity controller
+    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[JSONString] applicationActivities:nil];
+    activityController.modalPresentationStyle = UIModalPresentationPopover;
+    activityController.popoverPresentationController.barButtonItem = sender;
+    [self presentViewController:activityController animated:YES completion:nil];
 }
 
 @end
