@@ -31,6 +31,7 @@
 		22302A841E0397670071594A /* RLMBrowserSchemaPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22302A831E0397670071594A /* RLMBrowserSchemaPreviewView.m */; };
 		22302A861E0397C20071594A /* RLMBrowserSchemaPreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22302A851E0397C20071594A /* RLMBrowserSchemaPreviewView.xib */; };
 		2231C8591EC2B3E900789975 /* RLMObject+JSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2231C8581EC2B3E900789975 /* RLMObject+JSONSerialization.m */; };
+		2231C85C1EC2F24200789975 /* RLMBrowserRealmTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2231C85B1EC2F24200789975 /* RLMBrowserRealmTableViewController.m */; };
 		2239004E1DFBE7B000FE2882 /* RLMBrowserObjectContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2239004D1DFBE7B000FE2882 /* RLMBrowserObjectContentView.m */; };
 		223900531DFCFC8700FE2882 /* RLMBrowserObjectContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 223900521DFCFC8700FE2882 /* RLMBrowserObjectContentView.xib */; };
 		2246C7481EAD81220016B120 /* RLMBrowserSchemaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2246C7461EAD81220016B120 /* RLMBrowserSchemaTableViewCell.m */; };
@@ -104,6 +105,8 @@
 		22302A851E0397C20071594A /* RLMBrowserSchemaPreviewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RLMBrowserSchemaPreviewView.xib; path = FooterView/RLMBrowserSchemaPreviewView.xib; sourceTree = "<group>"; };
 		2231C8571EC2B3E900789975 /* RLMObject+JSONSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RLMObject+JSONSerialization.h"; path = "RLMObject/RLMObject+JSONSerialization.h"; sourceTree = "<group>"; };
 		2231C8581EC2B3E900789975 /* RLMObject+JSONSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RLMObject+JSONSerialization.m"; path = "RLMObject/RLMObject+JSONSerialization.m"; sourceTree = "<group>"; };
+		2231C85A1EC2F24200789975 /* RLMBrowserRealmTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLMBrowserRealmTableViewController.h; sourceTree = "<group>"; };
+		2231C85B1EC2F24200789975 /* RLMBrowserRealmTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLMBrowserRealmTableViewController.m; sourceTree = "<group>"; };
 		2239004C1DFBE7B000FE2882 /* RLMBrowserObjectContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMBrowserObjectContentView.h; path = ObjectTableViewCellContentView/RLMBrowserObjectContentView.h; sourceTree = "<group>"; };
 		2239004D1DFBE7B000FE2882 /* RLMBrowserObjectContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMBrowserObjectContentView.m; path = ObjectTableViewCellContentView/RLMBrowserObjectContentView.m; sourceTree = "<group>"; };
 		223900521DFCFC8700FE2882 /* RLMBrowserObjectContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RLMBrowserObjectContentView.xib; path = ObjectTableViewCellContentView/RLMBrowserObjectContentView.xib; sourceTree = "<group>"; };
@@ -549,6 +552,8 @@
 			children = (
 				F12252E11DF4C85D00F7BB44 /* RLMBrowserRealmListViewController.h */,
 				F12252E21DF4C85D00F7BB44 /* RLMBrowserRealmListViewController.m */,
+				2231C85A1EC2F24200789975 /* RLMBrowserRealmTableViewController.h */,
+				2231C85B1EC2F24200789975 /* RLMBrowserRealmTableViewController.m */,
 			);
 			path = RealmFileViewControllers;
 			sourceTree = "<group>";
@@ -714,6 +719,7 @@
 				2239004E1DFBE7B000FE2882 /* RLMBrowserObjectContentView.m in Sources */,
 				220D92181DE6E5A2007CFF2A /* ViewController.m in Sources */,
 				220D920A1DE6C961007CFF2A /* RLMBrowserViewController.m in Sources */,
+				2231C85C1EC2F24200789975 /* RLMBrowserRealmTableViewController.m in Sources */,
 				22302A841E0397670071594A /* RLMBrowserSchemaPreviewView.m in Sources */,
 				2213249B1EAF9F1B00FB22C9 /* RLMRealmConfiguration+BrowserCompare.m in Sources */,
 				225EFBCB1DF5373C00DF649B /* RLMBrowserPropertyTableViewCell.m in Sources */,

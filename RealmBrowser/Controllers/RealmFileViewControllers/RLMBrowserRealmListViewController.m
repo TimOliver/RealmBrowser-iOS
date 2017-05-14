@@ -44,10 +44,10 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 @property (nonatomic, strong) UIImage *syncRealmIcon;
 @property (nonatomic, strong) UIImage *inMemoryRealmIcon;
 @property (nonatomic, strong) UIImage *encryptedIcon;
-@property (nonatomic, strong) NSMutableArray *schemaIcons;
 
 @property (nonatomic, strong) NSArray *colors;
 @property (nonatomic, strong) NSArray *lightColors;
+@property (nonatomic, strong) UIImage *circleIcon;
 
 @end
 
@@ -104,10 +104,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 
     self.lightColors = [[[UIColor RLMBrowser_realmColorsLight] reverseObjectEnumerator] allObjects];
     self.colors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
-    self.schemaIcons = [NSMutableArray array];
-    for (UIColor *color in self.colors) {
-        [self.schemaIcons addObject:[UIImage RLMBrowser_schemaIconForColor:color]];
-    }
+    self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:12.0f];
 
     // Configure the tool bar
     NSInteger numberOfRealms = self.realmList.allRealms.count;
@@ -224,6 +221,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
         realmCell.titleLabel.text = realm.name;
         realmCell.imageView.image = self.localRealmIcon;
         realmCell.subtitleLabel.text = @"/Documents";
+        realmCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell = (UITableViewCell *)realmCell;
     }
     else { // Remaining rows are schema objects in the Realm
@@ -232,10 +230,12 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
         RLMBrowserSchema *schema = realm.schema[index];
         schemaCell.titleLabel.text = schema.className;
         schemaCell.selectedBackgroundColor = self.lightColors[index % (self.colors.count-1)];
-        schemaCell.imageView.image = self.schemaIcons[index % (self.colors.count-1)];
+        schemaCell.imageView.image = self.circleIcon;
+        schemaCell.imageView.tintColor = self.colors[index % (self.colors.count-1)];
         schemaCell.subtitleLabel.text = [NSString stringWithFormat:@"%ld", (long)schema.numberOfObjects];
         schemaCell.indentationWidth = 54.0f;
         schemaCell.indentationLevel = 1;
+        schemaCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell = (UITableViewCell *)schemaCell;
     }
 
