@@ -11,6 +11,7 @@
 @interface RLMBrowserObjectContentView : UIView
 
 @property (nonatomic, strong) UIImage *iconImage;
+@property (nonatomic, strong) UIImage *quickLookIcon;
 @property (nonatomic, copy) NSString *propertyName;
 @property (nonatomic, copy) NSString *propertyStats;
 @property (nonatomic, copy) NSString *objectValue;

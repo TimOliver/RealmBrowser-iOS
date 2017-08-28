@@ -13,6 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RLMBrowserList : RLMObject
 
+/** UI State Persistence */
+@property (nonatomic, assign) BOOL defaultRealmCollapsed;
+@property (nonatomic, assign) BOOL starredRealmsCollapsed;
+@property (nonatomic, assign) BOOL allRealmsCollapsed;
+
 /** The default Realm for this app */
 @property (nonatomic, strong) RLMBrowserRealm *defaultRealm;
 

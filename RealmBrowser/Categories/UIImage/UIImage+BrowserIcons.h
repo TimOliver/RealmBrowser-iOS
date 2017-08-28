@@ -21,4 +21,6 @@
 + (UIImage *)RLMBrowser_tweaksIcon;
 + (UIImage *)RLMBrowser_quickLookIcon;
 
++ (UIImage *)RLMBrowser_headerDisclosureArrowIcon;
+
 @end

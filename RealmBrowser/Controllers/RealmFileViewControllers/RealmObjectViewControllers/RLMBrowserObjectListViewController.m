@@ -73,7 +73,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 
     // Set default settings
     self.clearsSelectionOnViewWillAppear = NO;
-    self.tableView.rowHeight = 54.0f;
+    self.tableView.rowHeight = 64.0f;
     self.tableView.separatorInset = UIEdgeInsetsMake(0.0f, 35.0f, 0.0f, 0.0f);
     
     // Set the title as the schema name
@@ -168,8 +168,18 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // If we're not in ultra-compact iPhone mode, hide the disclosure indidcator
-    BOOL collapsed = (self.splitViewController.isCollapsed);
+    BOOL collapsed = (self.to_splitViewController.visibleViewControllers.count == 1);
     cell.accessoryType = !collapsed ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator;
+
+    RLMBrowserObjectListContentView *contentView = [cell.contentView viewWithTag:kRLMBrowserObjectListViewTag];
+    if (cell.accessoryType != UITableViewCellAccessoryDisclosureIndicator) {
+        CGRect frame = cell.contentView.bounds;
+        frame.size.width -= 20.0f;
+        contentView.frame = frame;
+    }
+    else {
+        contentView.frame = cell.contentView.bounds;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

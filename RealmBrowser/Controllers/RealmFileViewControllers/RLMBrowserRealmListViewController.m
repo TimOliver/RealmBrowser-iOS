@@ -25,6 +25,7 @@
 #import "UIImage+BrowserIcons.h"
 #import "UIColor+BrowserRealmColors.h"
 #import "UILabel+RealmBrowser.h"
+#import "RLMBrowserRealmTableCellHeaderView.h"
 
 // -----------------------------------------------------------------------
 
@@ -171,21 +172,49 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 }
 
 #pragma mark - Table View Delegate -
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    // Default Realm (if it is visible )
+//    if (self.defaultRealm && section == 0) {
+//        return @"DEFAULT REALM";
+//    }
+//
+//    // Starred Realms
+//    if (self.starredRealms.count > 0) {
+//        if ((!self.defaultRealm && section == 0) || section == 1) {
+//            return @"FAVORITE REALMS";
+//        }
+//    }
+//
+//    return @"REALMS";
+//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    // Default Realm (if it is visible )
-    if (self.defaultRealm && section == 0) {
-        return @"DEFAULT REALM";
+    return 44.0f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    static NSString *identifier = @"HeaderView";
+    RLMBrowserRealmTableCellHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifier];
+    if (headerView == nil) {
+        headerView = [[RLMBrowserRealmTableCellHeaderView alloc] initWithReuseIdentifier:identifier];
     }
 
-    // Starred Realms
-    if (self.starredRealms.count > 0) {
+    if (self.defaultRealm && section == 0) {
+        headerView.titleLabel.text = @"DEFAULT REALM";
+    }
+    else if (self.starredRealms.count > 0) {
         if ((!self.defaultRealm && section == 0) || section == 1) {
-            return @"FAVORITE REALMS";
+            headerView.titleLabel.text = @"FAVORITE REALMS";
         }
     }
+    else {
+        headerView.titleLabel.text = @"REALMS";
+    }
 
-    return @"REALMS";
+    return headerView;
 }
 
 #pragma mark - Table View Data Source
@@ -206,7 +235,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return indexPath.row == 0 ? 54.0f : 44.0f;
+    return indexPath.row == 0 ? 64.0f : 50.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

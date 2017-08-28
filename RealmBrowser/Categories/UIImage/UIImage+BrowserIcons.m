@@ -607,4 +607,28 @@
     return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
++ (UIImage *)RLMBrowser_headerDisclosureArrowIcon
+{
+    UIImage *image = nil;
+    UIGraphicsBeginImageContextWithOptions((CGSize){8, 13}, NO, 0.0f);
+    {
+        //// Color Declarations
+        UIColor* color = [UIColor colorWithRed: 0.309 green: 0.309 blue: 0.309 alpha: 1];
+
+        //// Bezier Drawing
+        UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+        [bezierPath moveToPoint: CGPointMake(1, 12.5)];
+        [bezierPath addLineToPoint: CGPointMake(7, 6.5)];
+        [bezierPath addLineToPoint: CGPointMake(1, 0.5)];
+        [color setStroke];
+        bezierPath.lineWidth = 1.5;
+        [bezierPath stroke];
+
+        image = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    UIGraphicsEndImageContext();
+
+    return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end

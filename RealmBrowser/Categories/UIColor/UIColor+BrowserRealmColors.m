@@ -25,14 +25,14 @@
 
 + (NSArray *)RLMBrowser_realmColorsLight
 {
-    return @[[UIColor colorWithRed:255.0f/255.0f green:229.0f/255.0f blue:209.0f/255.0f alpha:1.0f],
-             [UIColor colorWithRed:255.0f/255.0f green:204.0f/255.0f blue:201.0f/255.0f alpha:1.0f],
-             [UIColor colorWithRed:255.0f/255.0f green:187.0f/255.0f blue:193.0f/255.0f alpha:1.0f],
-             [UIColor colorWithRed:255.0f/255.0f green:159.0f/255.0f blue:197.0f/255.0f alpha:1.0f],
-             [UIColor colorWithRed:255.0f/255.0f green:160.0f/255.0f blue:221.0f/255.0f alpha:1.0f],
-             [UIColor colorWithRed:245.0f/255.0f green:168.0f/255.0f blue:255.0f/255.0f alpha:1.0f],
-             [UIColor colorWithRed:195.0f/255.0f green:198.0f/255.0f blue:255.0f/255.0f alpha:1.0f],
-             [UIColor colorWithRed:198.0f/255.0f green:209.0f/255.0f blue:248.0f/255.0f alpha:1.0f]
+    return @[[UIColor colorWithRed:253.0f/255.0f green:249.0f/255.0f blue:245.0f/255.0f alpha:1.0f],
+             [UIColor colorWithRed:252.0f/255.0f green:246.0f/255.0f blue:245.0f/255.0f alpha:1.0f],
+             [UIColor colorWithRed:252.0f/255.0f green:243.0f/255.0f blue:244.0f/255.0f alpha:1.0f],
+             [UIColor colorWithRed:251.0f/255.0f green:240.0f/255.0f blue:245.0f/255.0f alpha:1.0f],
+             [UIColor colorWithRed:248.0f/255.0f green:240.0f/255.0f blue:246.0f/255.0f alpha:1.0f],
+             [UIColor colorWithRed:244.0f/255.0f green:239.0f/255.0f blue:246.0f/255.0f alpha:1.0f],
+             [UIColor colorWithRed:240.0f/255.0f green:239.0f/255.0f blue:245.0f/255.0f alpha:1.0f],
+             [UIColor colorWithRed:238.0f/255.0f green:238.0f/255.0f blue:243.0f/255.0f alpha:1.0f]
              ];
 }
 

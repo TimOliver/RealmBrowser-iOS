@@ -31,6 +31,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
 @property (nonatomic, strong) RLMObject *realmObject;
 
 @property (nonatomic, strong) UIImage *circleIcon;
+@property (nonatomic, strong) UIImage *quickLookIcon;
 @property (nonatomic, strong) NSArray *realmColors;
 
 @end
@@ -55,11 +56,13 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     [super viewDidLoad];
     
     self.tableView = [[TORoundedTableView alloc] init];
-    self.tableView.rowHeight = 64.0f;
+    self.tableView.rowHeight = 74.0f;
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 30.0f, 0, 0);
-    
+    self.tableView.delaysContentTouches = NO;
+
     self.circleIcon = [UIImage RLMBrowser_tintedCircleImageForRadius:10.0f];
     self.realmColors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
+    self.quickLookIcon = [UIImage RLMBrowser_quickLookIcon];
 
     NSInteger numberOfProperties = self.realmObject.objectSchema.properties.count;
 
@@ -141,6 +144,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
         contentView = [RLMBrowserObjectContentView objectContentView];
         contentView.tag = kRLMBrowserObjectViewTag;
         contentView.iconImage = self.circleIcon;
+        contentView.quickLookIcon = self.quickLookIcon;
         [cell.contentView addSubview:contentView];
     }
     

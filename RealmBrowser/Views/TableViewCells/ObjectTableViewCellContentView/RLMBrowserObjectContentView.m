@@ -14,6 +14,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *propertyNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *propertyStatsLabel;
 @property (nonatomic, strong) IBOutlet UILabel *objectValueLabel;
+@property (nonatomic, strong) IBOutlet UIButton *quickLookButton;
 
 @end
 
@@ -41,6 +42,10 @@
     frame.origin.x = CGRectGetMaxX(self.propertyNameLabel.frame) + 5.0f;
     frame.size.width = [self.propertyStatsLabel sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
     self.propertyStatsLabel.frame = frame;
+
+    frame = self.objectValueLabel.frame;
+    frame.size.width = CGRectGetMinX(self.quickLookButton.frame) - frame.origin.x;
+    self.objectValueLabel.frame = frame;
 }
 
 #pragma mark - Accessor Overrides -
@@ -96,6 +101,16 @@
 - (UIColor *)iconColor
 {
     return self.iconView.tintColor;
+}
+
+- (void)setQuickLookIcon:(UIImage *)quickLookIcon
+{
+    [self.quickLookButton setImage:quickLookIcon forState:UIControlStateNormal];
+}
+
+- (UIImage *)quickLookIcon
+{
+    return [self.quickLookButton imageForState:UIControlStateNormal];
 }
 
 #pragma mark - UIMenuItem -
