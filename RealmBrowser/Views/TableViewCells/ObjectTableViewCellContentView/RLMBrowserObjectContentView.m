@@ -14,7 +14,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *propertyNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *propertyStatsLabel;
 @property (nonatomic, strong) IBOutlet UILabel *objectValueLabel;
-@property (nonatomic, strong) IBOutlet UIButton *quickLookButton;
+@property (nonatomic, strong, readwrite) IBOutlet UIButton *quickLookButton;
 
 @end
 

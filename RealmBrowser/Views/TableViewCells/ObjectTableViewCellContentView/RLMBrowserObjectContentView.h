@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) UIColor *iconColor;
 
+@property (nonatomic, readonly) UIButton *quickLookButton;
+
 + (instancetype)objectContentView;
 
 - (void)showCopyButton;

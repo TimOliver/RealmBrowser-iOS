@@ -44,6 +44,7 @@
     _disclosureArrowView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     _disclosureArrowView.tintColor = _titleLabel.textColor;
     _disclosureArrowView.alpha = 0.4f;
+    _disclosureArrowView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI_2);
     [self.contentView addSubview:_disclosureArrowView];
 
     _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -80,6 +81,38 @@
     self.countLabel.frame = frame;
 }
 
+- (void)setCollapsed:(BOOL)collapsed
+{
+    [self setCollapsed:collapsed animated:NO];
+}
+
+- (void)setCollapsed:(BOOL)collapsed animated:(BOOL)animated
+{
+    if (collapsed == _collapsed) { return; }
+
+    _collapsed = collapsed;
+
+    void (^animationBlock)(void) = ^{
+        CGFloat angle = _collapsed ? 0.0f : M_PI_2;
+        self.disclosureArrowView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, angle);
+    };
+
+    if (!animated) {
+        animationBlock();
+        return;
+    }
+
+    [UIView animateWithDuration:0.4f
+                          delay:0.0f
+         usingSpringWithDamping:1.0f
+          initialSpringVelocity:0.5f
+                        options:0
+                     animations:animationBlock
+                     completion:nil];
+}
+
+#pragma mark - Interaction -
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [super touchesBegan:touches withEvent:event];
@@ -92,6 +125,8 @@
     [UIView animateWithDuration:0.4f animations:^{
         self.dimmingView.alpha = 0.0f;
     }];
+
+    [self setCollapsed:!self.collapsed animated:YES];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

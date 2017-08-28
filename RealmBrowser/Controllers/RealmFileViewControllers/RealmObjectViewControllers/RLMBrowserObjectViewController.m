@@ -22,6 +22,13 @@
 
 #import "RLMObject+JSONSerialization.h"
 
+typedef NS_ENUM(NSInteger, RLMBrowserQuickLookContentType) {
+    RLMBrowserQuickLookContentTypeNone,
+    RLMBrowserQuickLookContentTypeWebsite,
+    RLMBrowserQuickLookContentTypeEmail,
+    //RLMBrowserQuickLookContentData
+};
+
 const NSInteger kRLMBrowserObjectViewTag = 101;
 
 @interface RLMBrowserObjectViewController ()
@@ -33,6 +40,9 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
 @property (nonatomic, strong) UIImage *circleIcon;
 @property (nonatomic, strong) UIImage *quickLookIcon;
 @property (nonatomic, strong) NSArray *realmColors;
+
+// Properties that can be 'quick-looked'
+@property (nonatomic, strong) NSArray *quickLookProperties;
 
 @end
 
@@ -74,6 +84,13 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     UIBarButtonItem *exportButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(exportButtonTapped:)];
 
     self.toolbarItems = @[flexibleSpace, labelItem, flexibleSpace, exportButton];
+
+    // Build quick look preview list
+    NSMutableArray *quickLookProperties = [NSMutableArray array];
+    for (RLMProperty *property in self.realmObject.objectSchema.properties) {
+        [quickLookProperties addObject:@([self quickLookTypeForProperty:property])];
+    }
+    self.quickLookProperties = [NSArray arrayWithArray:quickLookProperties];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -82,6 +99,23 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     self.navigationController.toolbarHidden = NO;
 }
 
+- (RLMBrowserQuickLookContentType)quickLookTypeForProperty:(RLMProperty *)property
+{
+    if (property.type != RLMPropertyTypeString) { return RLMBrowserQuickLookContentTypeNone; }
+
+    NSString *propertyValue = self.realmObject[property.name];
+    if ([propertyValue rangeOfString:@"http" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        return RLMBrowserQuickLookContentTypeWebsite;
+    }
+
+    if ([propertyValue rangeOfString:@"@"].location != NSNotFound && [propertyValue rangeOfString:@"."].location != NSNotFound) {
+        return RLMBrowserQuickLookContentTypeEmail;
+    }
+
+    return RLMBrowserQuickLookContentTypeNone;
+}
+
+#pragma mark - Table View Delegate -
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return @"Properties";
@@ -159,7 +193,8 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     contentView.propertyName = property.name;
     contentView.propertyStats = [property RLMBrowser_typeAndConfigurationDescription];
     contentView.objectValue = [self.realmObject[property.name] description];
-    
+    contentView.quickLookButton.hidden = ![self.quickLookProperties[indexPath.row] boolValue];
+
     // Return the cell
     return cell;
 }
