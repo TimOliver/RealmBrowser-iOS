@@ -6,6 +6,7 @@
 //  Copyright © 2016 Timothy Oliver. All rights reserved.
 //
 
+#import "RLMBrowserConstants.h"
 #import "RLMBrowserObjectViewController.h"
 #import "TORoundedTableView.h"
 #import "TORoundedTableViewCell.h"
@@ -64,7 +65,9 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    RLM_RESET_NAVIGATION_CONTROLLER(self.navigationController);
+
     self.tableView = [[TORoundedTableView alloc] init];
     self.tableView.rowHeight = 74.0f;
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 30.0f, 0, 0);

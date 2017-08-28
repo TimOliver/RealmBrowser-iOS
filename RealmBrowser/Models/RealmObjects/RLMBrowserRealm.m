@@ -33,7 +33,7 @@
     configuration.readOnly = self.readOnly;
     
     // Set the internal dynamic flag that lets us open it without a schema
-    [configuration setValue:@(YES) forKey:@"dynamic"];
+    //[configuration setValue:@(YES) forKey:@"dynamic"];
     
     return configuration;
 }

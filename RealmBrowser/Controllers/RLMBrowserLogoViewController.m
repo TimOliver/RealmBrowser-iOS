@@ -6,6 +6,7 @@
 //  Copyright © 2016 Timothy Oliver. All rights reserved.
 //
 
+#import "RLMBrowserConstants.h"
 #import "RLMBrowserLogoViewController.h"
 #import "RLMRealmMonochromeLogoView.h"
 
@@ -17,6 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    RLM_RESET_NAVIGATION_CONTROLLER(self.navigationController);
+
     self.title = @"Object";
     self.view.backgroundColor = [UIColor colorWithRed:238.0f/255.0f green:239.0f/255.0f blue:244.0f/255.0f alpha:1.0f];
     

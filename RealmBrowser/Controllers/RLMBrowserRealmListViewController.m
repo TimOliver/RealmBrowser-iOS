@@ -12,6 +12,7 @@
 
 #import "RLMBrowserRealmListViewController.h"
 
+#import "RLMBrowserConstants.h"
 #import "RLMBrowserList.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserConfiguration.h"
@@ -71,6 +72,8 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     // Configure the title view
     self.title = @"Realms";
     self.navigationItem.titleView = [[RLMRealmLogoView alloc] initWithFrame:(CGRect){0,0,30,30}];
+
+    RLM_RESET_NAVIGATION_CONTROLLER(self.navigationController);
 
     // Set a monochrome logo to be the back button
     RLMRealmMonochromeLogoView *logoView = [[RLMRealmMonochromeLogoView alloc] initWithFrame:(CGRect){0,0,25,25}];

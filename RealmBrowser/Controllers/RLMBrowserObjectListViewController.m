@@ -8,6 +8,7 @@
 
 #import <TOSplitViewController/TOSplitViewController.h>
 
+#import "RLMBrowserConstants.h"
 #import "RLMBrowserObjectListViewController.h"
 #import "RLMBrowserRealm.h"
 #import "RLMBrowserTableHeaderView.h"
@@ -70,6 +71,8 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    RLM_RESET_NAVIGATION_CONTROLLER(self.navigationController);
 
     // Set default settings
     self.clearsSelectionOnViewWillAppear = NO;

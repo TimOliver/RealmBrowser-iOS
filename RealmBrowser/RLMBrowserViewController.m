@@ -67,7 +67,6 @@
     self.viewControllers = @[_realmListNavigationController, _logoNavigationController];
 }
 
-
 #pragma mark - Done Button Handling -
 - (void)removeDoneButtonFromStackInNavigationController:(UINavigationController *)navController
 {

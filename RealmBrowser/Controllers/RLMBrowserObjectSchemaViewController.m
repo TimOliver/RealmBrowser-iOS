@@ -8,6 +8,7 @@
 
 #import <Realm/Realm.h>
 
+#import "RLMBrowserConstants.h"
 #import "RLMBrowserObjectSchemaViewController.h"
 
 // Categories
@@ -65,6 +66,8 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    RLM_RESET_NAVIGATION_CONTROLLER(self.navigationController);
 
     self.presentationController.delegate = self;
     

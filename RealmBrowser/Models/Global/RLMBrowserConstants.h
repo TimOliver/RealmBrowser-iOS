@@ -14,3 +14,10 @@ extern NSString * const kRLMBrowserIdentifier;
 @interface UIColor (RLMBrowserColors)
 + (UIColor *)RLMBrowser_tableBackgroundColor;
 @end
+
+static inline void RLM_RESET_NAVIGATION_CONTROLLER(UINavigationController *navController) {
+    navController.navigationBar.barStyle = UIBarStyleDefault;
+    navController.navigationBar.tintColor = nil;
+    navController.navigationBar.barTintColor = nil;
+    navController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+}
