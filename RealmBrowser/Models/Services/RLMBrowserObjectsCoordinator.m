@@ -10,8 +10,8 @@
 #import "RLMBrowserConfiguration.h"
 #import "RLMBrowserRealm.h"
 
-@import Realm;
-@import Realm.Dynamic;
+#import <Realm/Realm.h>
+#import <Realm/RLMRealm_Dynamic.h>
 
 @implementation RLMBrowserObjectsCoordinator
 

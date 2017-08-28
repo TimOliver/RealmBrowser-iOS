@@ -7,7 +7,8 @@ Pod::Spec.new do |s|
   s.author   = { 'Realm' => 'help@realm.io' }
   s.source   = { :git => 'https://github.com/realm-demos/realm-loginkit.git', :tag => s.version.to_s }
   s.requires_arc = true
-  s.platform = :ios, '9.0'
+  s.source_files = 'RealmBrowser/**/*.{h,m}'
+  s.platform = :ios, '8.0'
   s.dependency 'Realm'
   s.dependency 'TORoundedTableView'
   s.dependency 'TOSplitViewController'

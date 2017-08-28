@@ -12,7 +12,7 @@
 #import "RLMBrowserConfiguration.h"
 #import "RLMBrowserRealm.h"
 
-@import Realm.Dynamic;
+#import <Realm/RLMRealm_Dynamic.h>
 
 @implementation RLMRealm (BrowserCaptureWrites)
 
