@@ -66,11 +66,24 @@
 
 + (NSString *)relativeFilePathFromAbsolutePath:(NSString *)path
 {
+    // Check if we're in an app container
+    NSRange appGroupRange = [path rangeOfString:@"Shared/AppGroup/"];
+    if (appGroupRange.location != NSNotFound) {
+        NSString *newPath = [path substringFromIndex:(appGroupRange.location + appGroupRange.length)];
+        // Isolate the next part (Which is the app UUID)
+        return [newPath substringFromIndex:[newPath rangeOfString:@"/"].location];
+    }
+
     return [path stringByReplacingOccurrencesOfString:[RLMBrowserRealm contentDirectoryPath] withString:@""];
 }
 
 - (NSString *)absoluteFilePath
 {
+    if (self.appGroup) {
+        NSString *appGroupFilePath = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:self.appGroup.groupIdentifier].path;
+        return [appGroupFilePath stringByAppendingPathComponent:self.filePath];
+    }
+
     return [[RLMBrowserRealm contentDirectoryPath] stringByAppendingPathComponent:self.filePath];
 }
 
@@ -118,6 +131,22 @@
     }
 
     return RLMBrowserRealmTypeLocal;
+}
+
+- (NSString *)formattedLocation
+{
+    if (self.type == RLMBrowserRealmTypeLocal) {
+        NSString *folderName = [[self.filePath stringByDeletingLastPathComponent] lastPathComponent];
+        return [NSString stringWithFormat:@"/%@", folderName];
+    }
+    else if (self.type == RLMBrowserRealmTypeInMemory) {
+        return self.inMemoryIdentifier;
+    }
+    else if (self.type == RLMBrowserRealmTypeSync) {
+        return self.syncUserURL;
+    }
+
+    return nil;
 }
 
 @end

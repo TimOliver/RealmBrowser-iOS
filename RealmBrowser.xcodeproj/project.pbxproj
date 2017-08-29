@@ -56,6 +56,7 @@
 		22C75DDF1DEC090B0078624E /* RLMRealmMonochromeLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C75DDB1DEC090B0078624E /* RLMRealmMonochromeLogoView.m */; };
 		22E509001DE813DB000B7537 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E508FF1DE813DB000B7537 /* Person.m */; };
 		22E509141DE832D7000B7537 /* RLMBrowserConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E5090D1DE832D7000B7537 /* RLMBrowserConstants.m */; };
+		22F2C14E1F554C710023170B /* RLMBrowserAppGroupRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F2C14D1F554C710023170B /* RLMBrowserAppGroupRealm.m */; };
 		B2838946D10BD42D1566367B /* Pods_RealmBrowserExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A35ADCCED95BA1C8B3FFDBEE /* Pods_RealmBrowserExample.framework */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +151,8 @@
 		22E508FF1DE813DB000B7537 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Person.m; path = RealmBrowserExample/Models/Person.m; sourceTree = SOURCE_ROOT; };
 		22E5090C1DE832D7000B7537 /* RLMBrowserConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLMBrowserConstants.h; sourceTree = "<group>"; };
 		22E5090D1DE832D7000B7537 /* RLMBrowserConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLMBrowserConstants.m; sourceTree = "<group>"; };
+		22F2C14C1F554C710023170B /* RLMBrowserAppGroupRealm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RLMBrowserAppGroupRealm.h; sourceTree = "<group>"; };
+		22F2C14D1F554C710023170B /* RLMBrowserAppGroupRealm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RLMBrowserAppGroupRealm.m; sourceTree = "<group>"; };
 		330FEBC1F629BF30E46EAE19 /* Pods-RealmBrowserExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmBrowserExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-RealmBrowserExample/Pods-RealmBrowserExample.release.xcconfig"; sourceTree = "<group>"; };
 		A35ADCCED95BA1C8B3FFDBEE /* Pods_RealmBrowserExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RealmBrowserExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -355,6 +358,8 @@
 		222E20031EADDA9F002E0547 /* RealmObjects */ = {
 			isa = PBXGroup;
 			children = (
+				22F2C14C1F554C710023170B /* RLMBrowserAppGroupRealm.h */,
+				22F2C14D1F554C710023170B /* RLMBrowserAppGroupRealm.m */,
 				222E20041EADDA9F002E0547 /* RLMBrowserList.h */,
 				222E20051EADDA9F002E0547 /* RLMBrowserList.m */,
 				222E20061EADDA9F002E0547 /* RLMBrowserObjectProperty.h */,
@@ -688,6 +693,7 @@
 				2246C7481EAD81220016B120 /* RLMBrowserSchemaTableViewCell.m in Sources */,
 				2213249C1EAF9F1B00FB22C9 /* UIColor+BrowserRealmColors.m in Sources */,
 				22AF16C11F5408450001F8A8 /* RLMBrowserObjectSchemaViewController.m in Sources */,
+				22F2C14E1F554C710023170B /* RLMBrowserAppGroupRealm.m in Sources */,
 				22AF16A91F53B7410001F8A8 /* RLMBrowserRealmTableCellHeaderView.m in Sources */,
 				2213249D1EAF9F1B00FB22C9 /* UIImage+BrowserIcons.m in Sources */,
 				221324A51EAF9F7100FB22C9 /* UILabel+RealmBrowser.m in Sources */,

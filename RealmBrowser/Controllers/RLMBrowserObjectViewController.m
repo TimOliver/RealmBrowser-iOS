@@ -57,7 +57,14 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
         _browserRealm = realm;
         _browserSchema = schema;
         _realmObject = realmObject;
-        self.title = _realmObject[_browserSchema.preferredPropertyName];
+
+        id value = _realmObject[_browserSchema.preferredPropertyName];
+        if ([value description]) {
+            self.title = [value description];
+        }
+        else {
+            self.title = @"Object";
+        }
     }
     
     return self;

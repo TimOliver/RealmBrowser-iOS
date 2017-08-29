@@ -128,11 +128,6 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
 #pragma mark - Button Callbacks -
 - (void)filesButtonTapped:(id)sender
 {
@@ -192,14 +187,42 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 //    return @"REALMS";
 //}
 
+- (BOOL)sectionHasTitleAtIndex:(NSInteger)section
+{
+    if (section == 0 && (self.defaultRealm || self.starredRealms.count > 0)) { return YES; }
+    if (section == 1 && self.defaultRealm) { return YES; }
+
+    NSInteger numberOfRealmSections = 0;
+    numberOfRealmSections += self.defaultRealm ? 1 : 0;
+    numberOfRealmSections += self.starredRealms.count;
+
+    if (section == numberOfRealmSections) { return YES; }
+
+    return NO;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 44.0f;
+    if ([self sectionHasTitleAtIndex:section]) {
+        return 44.0f;
+    }
+
+    return 1.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10.0f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     static NSString *identifier = @"HeaderView";
+
+    if (![self sectionHasTitleAtIndex:section]) {
+        return nil;
+    }
+
     RLMBrowserRealmTableCellHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifier];
     if (headerView == nil) {
         headerView = [[RLMBrowserRealmTableCellHeaderView alloc] initWithReuseIdentifier:identifier];
@@ -252,7 +275,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
         realmCell.selectedBackgroundColor = self.lightColors[(NSInteger)(self.lightColors.count / 2.0f)];
         realmCell.titleLabel.text = realm.name;
         realmCell.imageView.image = self.localRealmIcon;
-        realmCell.subtitleLabel.text = @"/Documents";
+        realmCell.subtitleLabel.text = realm.formattedLocation;
         realmCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell = (UITableViewCell *)realmCell;
     }

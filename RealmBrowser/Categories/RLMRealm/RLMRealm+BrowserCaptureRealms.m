@@ -82,6 +82,13 @@
     // If there's no existing entry for this Realm, create a new one from scratch
     if (capturedRealm == nil) {
         [capturedRealmChanges addEntriesFromDictionary:[RLMRealm RLMBrowser_createNewCapturedRealmDictionaryForRealm:realm]];
+
+        //Check if we have an app group attached to this Realm
+        RLMResults *appGroup = [RLMBrowserAppGroupRealm objectsInRealm:browserRealm where:@"realmFilePath == %@",
+                                capturedRealmChanges[@"filePath"]].firstObject;
+        if (appGroup) {
+            capturedRealmChanges[@"appGroup"] = appGroup;
+        }
     }
     else { // Otherwise compare the two to ensure nothing has changed
         [capturedRealmChanges addEntriesFromDictionary:[RLMRealm RLMBrowser_stateChangesBetweenCapturedRealm:capturedRealm andCurrentRealm:realm]];

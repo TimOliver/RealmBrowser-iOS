@@ -23,6 +23,7 @@
 #import "UIColor+BrowserRealmColors.h"
 #import "UIImage+BrowserIcons.h"
 #import "UILabel+RealmBrowser.h"
+#import "RLMRealm+BrowserCaptureRealms.h"
 
 #import <Realm/Realm.h>
 #import <Realm/RLMRealm_Dynamic.h>
@@ -87,7 +88,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     self.tableView.tableHeaderView = self.tableHeaderView;
     
     // Load the Realm file
-    self.realm = [RLMRealm realmWithConfiguration:self.browserRealm.realmConfiguration error:nil];
+    self.realm = [RLMRealm RLMBrowser_realmWithConfiguration:self.browserRealm.realmConfiguration error:nil];
     self.schema = [self.realm.schema schemaForClassName:self.browserSchema.className];
     
     // Use the dynamic API to pull all objects from the Realm for this schema

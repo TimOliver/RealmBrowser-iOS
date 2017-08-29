@@ -82,7 +82,7 @@
 
 + (void)RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:(RLMRealmConfiguration *)configuration
 {
-    void (^updateSchemaBlock)() = ^{
+    void (^updateSchemaBlock)(void) = ^{
         RLMRealm *backgroundRealm = [RLMRealm RLMBrowser_realmWithConfiguration:configuration error:nil];
         RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
         if ([backgroundRealm isEqual:browserRealm]) { return; }

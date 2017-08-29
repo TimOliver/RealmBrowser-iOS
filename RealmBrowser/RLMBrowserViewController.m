@@ -137,6 +137,11 @@
 #pragma mark - Registering App Group Realms -
 + (void)registerAppGroupRealmAtRelativePath:(NSString *)path forGroupIdentifier:(NSString *)identifier
 {
+    // Add a leading '/'
+    if ([path characterAtIndex:0] != '/') {
+        path = [NSString stringWithFormat:@"/%@", path];
+    }
+
     RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
 
     // Check if we already registered this Realm file

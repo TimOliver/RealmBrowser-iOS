@@ -14,6 +14,7 @@
 @property (nonatomic, strong, readwrite) UILabel *titleLabel;
 @property (nonatomic, strong, readwrite) UIImageView *disclosureArrowView;
 @property (nonatomic, strong, readwrite) UILabel *countLabel;
+@property (nonatomic, strong, readwrite) UIView *separatorView;
 
 @property (nonatomic, strong) UIView *dimmingView;
 
@@ -57,6 +58,12 @@
     _dimmingView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _dimmingView.alpha = 0.0f;
     [self addSubview:_dimmingView];
+
+    CGFloat separatorHeight = 1.0f / [UIScreen mainScreen].scale;
+    _separatorView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height - separatorHeight, self.frame.size.width, separatorHeight)];
+    _separatorView.backgroundColor = [UIColor colorWithWhite:0.6f alpha:1.0f];
+    _separatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    [self addSubview:_separatorView];
 }
 
 - (void)layoutSubviews
