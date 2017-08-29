@@ -12,4 +12,6 @@
 
 @interface RLMRealm (BrowserCapture)
 
++ (RLMRealm *)RLMBrowser_realmWithConfiguration:(RLMRealmConfiguration *)configuration error:(NSError **)error;
+
 @end

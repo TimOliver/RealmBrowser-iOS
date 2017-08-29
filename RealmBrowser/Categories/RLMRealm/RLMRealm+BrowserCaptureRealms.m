@@ -245,7 +245,13 @@
         }
         
         // Update the lists with the placement of this Realm
-        [defaultList.allRealms insertObject:updatedRealm atIndex:0];
+        NSUInteger index = [defaultList.allRealms indexOfObject:updatedRealm];
+        if (index != NSNotFound) {
+            [defaultList.allRealms moveObjectAtIndex:index toIndex:0];
+        }
+        else {
+            [defaultList.allRealms insertObject:updatedRealm atIndex:0];
+        }
         
         // Check if this particular Realm is the default Realm, and promote it if need be
         if ([configuration RLMBrowser_isEqualToConfiguration:[RLMRealmConfiguration defaultConfiguration]]) {

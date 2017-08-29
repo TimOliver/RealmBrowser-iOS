@@ -12,6 +12,10 @@
 #import "RLMBrowserObjectViewController.h"
 #import "RLMBrowserLogoViewController.h"
 
+#import "RLMBrowserAppGroupRealm.h"
+#import "RLMRealm+BrowserCaptureRealms.h"
+#import "RLMBrowserConfiguration.h"
+
 @interface RLMBrowserViewController () <TOSplitViewControllerDelegate>
 
 @property (nonatomic, strong) UISplitViewController *innerSplitController;
@@ -130,11 +134,44 @@
 //    return newSecondaryController;
 //}
 
+#pragma mark - Registering App Group Realms -
++ (void)registerAppGroupRealmAtRelativePath:(NSString *)path forGroupIdentifier:(NSString *)identifier
+{
+    RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
+
+    // Check if we already registered this Realm file
+    RLMResults *appGroupRealms = [RLMBrowserAppGroupRealm objectsInRealm:browserRealm
+                                                                   where:@"groupIdentifier == %@ && realmFilePath == %@",
+                                                                      identifier, path];
+
+    if (appGroupRealms.count > 0) { return; }
+
+    RLMBrowserAppGroupRealm *appGroupRealm = [[RLMBrowserAppGroupRealm alloc] init];
+    appGroupRealm.realmFilePath = path;
+    appGroupRealm.groupIdentifier = identifier;
+
+    [browserRealm transactionWithBlock:^{
+        [browserRealm addObject:appGroupRealm];
+    }];
+}
+
 #pragma mark - Display -
++ (void)show
+{
+    @autoreleasepool {
+        RLMBrowserViewController *controller = [[RLMBrowserViewController alloc] init];
+        [controller show];
+    }
+}
+
 - (void)show
 {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     UIViewController *rootController = window.rootViewController;
+    if ([rootController.presentedViewController isKindOfClass:[RLMBrowserViewController class]]) {
+        return;
+    }
+
     [rootController presentViewController:self animated:YES completion:nil];
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "RLMRealm+BrowserCaptureWrites.h"
+#import "RLMRealm+BrowserCaptureRealms.h"
 #import <objc/runtime.h>
 
 #import "RLMBrowserConfiguration.h"
@@ -82,8 +83,8 @@
 + (void)RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:(RLMRealmConfiguration *)configuration
 {
     void (^updateSchemaBlock)() = ^{
-        RLMRealm *backgroundRealm = [RLMRealm realmWithConfiguration:configuration error:nil];
-        RLMRealm *browserRealm = [RLMRealm realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
+        RLMRealm *backgroundRealm = [RLMRealm RLMBrowser_realmWithConfiguration:configuration error:nil];
+        RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
         if ([backgroundRealm isEqual:browserRealm]) { return; }
 
         RLMBrowserRealm *browserRealmObject = [RLMBrowserRealm allBrowserRealmObjectsInRealm:browserRealm forConfiguration:configuration].firstObject;

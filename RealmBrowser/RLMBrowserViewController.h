@@ -11,6 +11,9 @@
 
 @interface RLMBrowserViewController : TOSplitViewController
 
++ (void)registerAppGroupRealmAtRelativePath:(NSString *)path forGroupIdentifier:(NSString *)identifier;
+
 - (void)show;
++ (void)show;
 
 @end

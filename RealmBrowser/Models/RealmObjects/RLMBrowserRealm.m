@@ -100,6 +100,13 @@
             };
 }
 
+#pragma mark - Equality -
+- (BOOL)isEqual:(id)object
+{
+    if ([object isKindOfClass:[RLMBrowserRealm class]] == NO) { return NO; }
+    return [self.uuid isEqualToString:[object uuid]];
+}
+
 #pragma mark - External Accessors -
 - (RLMBrowserRealmType)type
 {
