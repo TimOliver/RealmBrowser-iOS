@@ -159,6 +159,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     UIPopoverPresentationController *popoverController = navigationController.popoverPresentationController;
     popoverController.barButtonItem = sender;
     [self presentViewController:navigationController animated:YES completion:nil];
+    RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
 }
 
 #pragma mark - Table view data source
@@ -227,6 +228,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
                                                                                                 browserSchema:self.browserSchema];
     UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:objectController];
     [self to_showDetailViewController:controller sender:self];
+    RLM_RESET_NAVIGATION_CONTROLLER(controller);
 }
 
 @end

@@ -6,6 +6,7 @@
 //  Copyright © 2016 Timothy Oliver. All rights reserved.
 //
 
+#import "RLMBrowserConstants.h"
 #import "RLMBrowserViewController.h"
 #import "RLMBrowserRealmListViewController.h"
 #import "RLMBrowserObjectListViewController.h"
@@ -64,11 +65,13 @@
     
     _realmListController = [[RLMBrowserRealmListViewController alloc] init];
     _realmListNavigationController = [[UINavigationController alloc] initWithRootViewController:_realmListController];
-    
+    RLM_RESET_NAVIGATION_CONTROLLER(_realmListNavigationController);
+
     _logoController = [[RLMBrowserLogoViewController alloc] init];
     _logoController.navigationItem.rightBarButtonItem = _doneButton;
     _logoNavigationController = [[UINavigationController alloc] initWithRootViewController:_logoController];
-    
+    RLM_RESET_NAVIGATION_CONTROLLER(_logoNavigationController);
+
     self.viewControllers = @[_realmListNavigationController, _logoNavigationController];
 }
 

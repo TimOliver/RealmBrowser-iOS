@@ -140,6 +140,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:filesController];
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:navigationController animated:YES completion:nil];
+    RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
 }
 
 #pragma mark - Data Handling -

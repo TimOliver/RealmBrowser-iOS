@@ -132,6 +132,13 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     self.previewView.frame = CGRectOffset(self.previewView.frame, 0, 20);
     self.previewView.navbar.hidden = YES;
     self.tableView.tableHeaderView = containerView;
+
+    [self.previewView.objectPreviewView configureCellWithRealmObject:self.demoObject
+                                                       titleProperty:self.browserSchema.preferredPropertyName
+                                                 secondaryProperties:self.secondaryPropertyStrings];
+
+    self.previewView.objectPreviewView.indexLabel.text = @"1";
+    self.previewView.objectPreviewView.indexLabel.textColor = [UIColor RLMBrowser_realmColorsInvertedRepeating].firstObject;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -225,6 +232,11 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     }
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (BOOL)showingSecondarySettings
