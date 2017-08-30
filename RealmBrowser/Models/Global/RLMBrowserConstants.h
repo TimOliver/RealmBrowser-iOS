@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <Realm/Realm.h>
 
 extern NSString * const kRLMBrowserIdentifier;
 
@@ -20,4 +21,47 @@ static inline void RLM_RESET_NAVIGATION_CONTROLLER(UINavigationController *navCo
     navController.navigationBar.tintColor = nil;
     navController.navigationBar.barTintColor = nil;
     navController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+}
+
+static inline NSString *RLM_OBJECT_VALUE_DESCRIPTION(RLMObject *object, NSString *key) {
+    RLMProperty *property = object.objectSchema[key];
+    if (property == nil) { return nil; }
+
+    switch (property.type) {
+        case RLMPropertyTypeInt:
+        case RLMPropertyTypeBool:
+        case RLMPropertyTypeFloat:
+        case RLMPropertyTypeDouble:
+        case RLMPropertyTypeString:
+        {
+            NSString *string = [object[key] description];
+            return (string.length > 0 ? string : nil);
+        }
+        case RLMPropertyTypeData:
+        {
+            NSData *data = object[key];
+            if (!data || data.length == 0) { return nil; }
+            NSString *formattedSize = [NSByteCountFormatter stringFromByteCount:data.length countStyle:NSByteCountFormatterCountStyleMemory];
+            return [NSString stringWithFormat:@"Data - %@", formattedSize];
+        }
+        case RLMPropertyTypeDate:
+        {
+            NSDate *date = object[key];
+            if (!date) { return nil; }
+            return date.description;
+        }
+        case RLMPropertyTypeObject:
+        {
+            RLMObject *childObject = object[key];
+            if (!childObject) { return nil; }
+            return [NSString stringWithFormat:@"RLMObject<%@>", childObject.objectSchema.className];
+        }
+        case RLMPropertyTypeArray:
+        {
+            RLMArray *array = object[key];
+            NSString *className = array.objectClassName;
+            return [NSString stringWithFormat:@"RLMArray<%@> - %lu Object%@", className, (unsigned long)array.count, (array.count != 1 ? @"s" : @"")];
+        }
+        default: return nil;
+    }
 }

@@ -202,7 +202,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     
     // Get the object
     RLMObject *object = self.objects[indexPath.row];
-    id value = object[self.preferredPropertyName];
+    id value = RLM_OBJECT_VALUE_DESCRIPTION(object, self.preferredPropertyName);
     
     if ([value description].length) {
         contentView.titleLabel.hidden = NO;
@@ -217,7 +217,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     NSString *subtitle = @"";
     if (self.preferredSecondaryPropertyNames.count) {
         for (RLMBrowserObjectProperty *propertyName in self.preferredSecondaryPropertyNames) {
-            NSString *propertyValue = [object[propertyName.name] description];
+            NSString *propertyValue = RLM_OBJECT_VALUE_DESCRIPTION(object, propertyName.name);
             subtitle = [subtitle stringByAppendingFormat:@"%@: %@", propertyName.name, propertyValue];
             
             if (propertyName != self.preferredSecondaryPropertyNames.lastObject) {

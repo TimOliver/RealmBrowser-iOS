@@ -58,13 +58,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
         _browserSchema = schema;
         _realmObject = realmObject;
 
-        id value = _realmObject[_browserSchema.preferredPropertyName];
-        if ([value description]) {
-            self.title = [value description];
-        }
-        else {
-            self.title = @"Object";
-        }
+        self.title = RLM_OBJECT_VALUE_DESCRIPTION(_realmObject, _browserSchema.preferredPropertyName);
     }
     
     return self;
@@ -202,10 +196,10 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     contentView.iconColor = self.realmColors[indexPath.row % self.realmColors.count];
     contentView.propertyName = property.name;
     contentView.propertyStats = [property RLMBrowser_typeAndConfigurationDescription];
-    contentView.objectValue = [self.realmObject[property.name] description];
+    contentView.objectValue = RLM_OBJECT_VALUE_DESCRIPTION(self.realmObject, property.name);;
     contentView.quickLookButton.hidden = ![self.quickLookProperties[indexPath.row] boolValue];
 
-    contentView.nilValue = [self.realmObject[property.name] description].length == 0;
+    contentView.nilValue = (contentView.objectValue == nil);
 
     // Return the cell
     return cell;
