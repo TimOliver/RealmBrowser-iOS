@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *propertyName;
 @property (nonatomic, copy) NSString *propertyStats;
 @property (nonatomic, copy) NSString *objectValue;
+@property (nonatomic, assign) BOOL nilValue;
 
 @property (nonatomic, strong) UIColor *iconColor;
 

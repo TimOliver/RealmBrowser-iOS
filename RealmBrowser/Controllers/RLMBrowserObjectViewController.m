@@ -205,6 +205,8 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     contentView.objectValue = [self.realmObject[property.name] description];
     contentView.quickLookButton.hidden = ![self.quickLookProperties[indexPath.row] boolValue];
 
+    contentView.nilValue = [self.realmObject[property.name] description].length == 0;
+
     // Return the cell
     return cell;
 }

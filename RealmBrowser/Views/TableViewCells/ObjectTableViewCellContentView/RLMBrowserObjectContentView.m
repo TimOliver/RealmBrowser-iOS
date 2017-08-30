@@ -15,6 +15,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *propertyStatsLabel;
 @property (nonatomic, strong) IBOutlet UILabel *objectValueLabel;
 @property (nonatomic, strong, readwrite) IBOutlet UIButton *quickLookButton;
+@property (nonatomic, strong) IBOutlet UILabel *nilLabel;
 
 @end
 
@@ -111,6 +112,17 @@
 - (UIImage *)quickLookIcon
 {
     return [self.quickLookButton imageForState:UIControlStateNormal];
+}
+
+- (void)setNilValue:(BOOL)nilValue
+{
+    self.nilLabel.hidden = !nilValue;
+    self.objectValueLabel.hidden = nilValue;
+}
+
+- (BOOL)nilValue
+{
+    return !self.nilLabel.hidden;
 }
 
 #pragma mark - UIMenuItem -

@@ -10,6 +10,7 @@
 
 @interface RLMBrowserObjectListContentView : UIView
 
+@property (nonatomic, weak) IBOutlet UILabel *nilLabel;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *subtitleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *indexLabel;

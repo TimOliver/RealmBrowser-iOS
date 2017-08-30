@@ -31,6 +31,7 @@
     // Set additional state that may be needed to open this Realm
     configuration.encryptionKey = self.encryptionKey;
     configuration.readOnly = self.readOnly;
+    configuration.schemaVersion = self.schemaVersion;
     
     // Set the internal dynamic flag that lets us open it without a schema
     //[configuration setValue:@(YES) forKey:@"dynamic"];

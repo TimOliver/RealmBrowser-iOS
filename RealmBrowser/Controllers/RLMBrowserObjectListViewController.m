@@ -76,7 +76,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     RLM_RESET_NAVIGATION_CONTROLLER(self.navigationController);
 
     // Set default settings
-    self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = YES;
     self.tableView.rowHeight = 64.0f;
     self.tableView.separatorInset = UIEdgeInsetsMake(0.0f, 35.0f, 0.0f, 0.0f);
     
@@ -204,13 +204,14 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     RLMObject *object = self.objects[indexPath.row];
     id value = object[self.preferredPropertyName];
     
-    if (value) {
-        contentView.titleLabel.textColor = [UIColor blackColor];
+    if ([value description].length) {
+        contentView.titleLabel.hidden = NO;
+        contentView.nilLabel.hidden = YES;
         contentView.titleLabel.text = [NSString stringWithFormat:@"%@", value];
     }
     else {
-        contentView.titleLabel.textColor = [UIColor grayColor];
-        contentView.titleLabel.text = @"NULL";
+        contentView.titleLabel.hidden = YES;
+        contentView.nilLabel.hidden = NO;
     }
     
     NSString *subtitle = @"";
@@ -223,6 +224,9 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
                 subtitle = [subtitle stringByAppendingString:@" • "];
             }
         }
+    }
+    else {
+        subtitle = @"Realm Object";
     }
     
     contentView.subtitleLabel.text = subtitle;
