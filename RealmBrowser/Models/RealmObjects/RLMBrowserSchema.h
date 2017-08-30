@@ -27,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** The preferred secondary names to be displayed alongside the primary one */
 @property (nonatomic, strong) RLMArray<RLMBrowserObjectProperty *><RLMBrowserObjectProperty> *secondaryPropertyNames;
 
+/** Export a copy of the secondary proeprty names as strings */
+@property (nonatomic, readonly) NSArray<NSString *> *secondaryPropertyNameStrings;
+
 /** Given a list of properties, work out the most appropriate for display as the main property */
 + (NSString *)preferredPropertyClassNameFromProperties:(NSArray *)properties;
 

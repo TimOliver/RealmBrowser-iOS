@@ -15,8 +15,9 @@
 @property (nonatomic, strong) IBOutlet UIView *contentView;
 @property (nonatomic, strong) IBOutlet UIView *topSeparatorView;
 @property (nonatomic, strong) IBOutlet UIView *bottomSeparatorView;
+@property (nonatomic, strong) IBOutlet UIView *viewSeparatorView;
 @property (nonatomic, strong) IBOutlet UILabel *label;
-@property (nonatomic, strong) IBOutlet UINavigationBar *navbar;
+@property (nonatomic, strong) IBOutlet UIView *navbar;
 @property (nonatomic, strong) RLMBrowserObjectListContentView *objectPreviewView;
 
 + (instancetype)contentView;

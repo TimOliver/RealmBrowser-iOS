@@ -17,4 +17,6 @@
 
 @property (nonatomic, weak) IBOutlet UIImageView *iconView;
 
+@property (nonatomic, weak) IBOutlet UIImageView *checkmarkView;
+
 @end

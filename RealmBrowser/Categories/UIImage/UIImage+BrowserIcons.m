@@ -631,4 +631,24 @@
     return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
++ (UIImage *)RLMBrowser_checkmarkIcon
+{
+    UIImage *image = nil;
+    UIGraphicsBeginImageContextWithOptions((CGSize){13, 10}, NO, 0.0f);
+    {
+        UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+        [bezierPath moveToPoint: CGPointMake(1, 4.5)];
+        [bezierPath addLineToPoint: CGPointMake(4.83, 8.5)];
+        [bezierPath addLineToPoint: CGPointMake(12, 1)];
+        [UIColor.blackColor setStroke];
+        bezierPath.lineWidth = 2;
+        [bezierPath stroke];
+
+        image = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    UIGraphicsEndImageContext();
+
+    return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end

@@ -63,6 +63,7 @@
     _separatorView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height - separatorHeight, self.frame.size.width, separatorHeight)];
     _separatorView.backgroundColor = [UIColor colorWithWhite:0.6f alpha:1.0f];
     _separatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    _separatorView.alpha = 0.0f;
     [self addSubview:_separatorView];
 }
 
@@ -102,6 +103,7 @@
     void (^animationBlock)(void) = ^{
         CGFloat angle = _collapsed ? 0.0f : M_PI_2;
         self.disclosureArrowView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, angle);
+        self.separatorView.alpha = collapsed ? 1.0f : 0.0f;
     };
 
     if (!animated) {

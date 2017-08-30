@@ -16,4 +16,6 @@
 - (void)show;
 + (void)show;
 
++ (void)reset;
+
 @end

@@ -10,6 +10,11 @@
 
 @implementation RLMBrowserSchema
 
++ (NSArray *)ignoredProperties
+{
+    return @[@"secondaryPropertyNameStrings"];
+}
+
 + (NSString *)preferredPropertyClassNameFromProperties:(NSArray *)properties
 {
     for (RLMProperty *property in properties) {
@@ -46,6 +51,15 @@
 + (BOOL)shouldIncludeInDefaultSchema
 {
     return NO;
+}
+
+- (NSArray<NSString *> *)secondaryPropertyNameStrings
+{
+    NSMutableArray *properties = [NSMutableArray array];
+    for (RLMBrowserObjectProperty *property in self.secondaryPropertyNames) {
+        [properties addObject:property.name];
+    }
+    return properties;
 }
 
 @end

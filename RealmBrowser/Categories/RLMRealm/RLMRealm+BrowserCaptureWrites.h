@@ -11,5 +11,6 @@
 @interface RLMRealm (BrowserCaptureWrites)
 
 + (void)RLMBrowser_updateSchemaObjectCountForRealmWithConfiguration:(RLMRealmConfiguration *)configuration;
+- (BOOL)RLMBrowser_commitWriteTransaction:(NSError *)error;
 
 @end

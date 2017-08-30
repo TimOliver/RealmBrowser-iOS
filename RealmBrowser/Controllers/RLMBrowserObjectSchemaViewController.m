@@ -33,18 +33,24 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 
 @interface RLMBrowserObjectSchemaViewController () <UIPopoverPresentationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, readonly) BOOL showingSecondarySettings;
+
 @property (nonatomic, strong) RLMBrowserNavigationTitleView *titleView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
 
 @property (nonatomic, strong) RLMBrowserRealm  *browserRealm;
 @property (nonatomic, strong) RLMBrowserSchema *browserSchema;
+@property (nonatomic, strong) RLMObject *demoObject;
+
+@property (nonatomic, strong) NSArray *secondaryPropertyStrings;
 
 @property (nonatomic, strong) RLMRealm *realm;
 @property (nonatomic, strong) RLMObjectSchema *schema;
 
 @property (nonatomic, strong) UIImage *circleIcon;
 @property (nonatomic, strong) NSArray *realmColors;
+@property (nonatomic, strong) UIImage *checkmarkIcon;
 
 @property (nonatomic, strong) RLMBrowserSchemaPreviewView *previewView;
 
@@ -54,11 +60,13 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 
 @implementation RLMBrowserObjectSchemaViewController
 
-- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema
+- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema demoObject:(RLMObject *)object
 {
     if (self = [super init]) {
         _browserRealm = realm;
         _browserSchema = schema;
+        _secondaryPropertyStrings = schema.secondaryPropertyNameStrings;
+        _demoObject = object;
     }
     
     return self;
@@ -69,6 +77,7 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 
     RLM_RESET_NAVIGATION_CONTROLLER(self.navigationController);
 
+    self.checkmarkIcon = [UIImage RLMBrowser_checkmarkIcon];
     self.presentationController.delegate = self;
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -107,6 +116,7 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     self.segmentedControl.frame = (CGRect){0,0, 290.0f, self.segmentedControl.frame.size.height};
     self.segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin
                                                 | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    [self.segmentedControl addTarget:self action:@selector(segmentControlChanged:) forControlEvents:UIControlEventValueChanged];
     UIBarButtonItem *controlItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 
@@ -140,6 +150,11 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 - (void)doneButtonTapped:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)segmentControlChanged:(id)sender
+{
+    [self.tableView reloadData];
 }
 
 #pragma mark - Content View Handling -
@@ -192,16 +207,29 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RLMBrowserPropertyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectSchemaTableViewCellIdentifier];
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    
     RLMProperty *property = self.schema.properties[indexPath.row];
     cell.iconView.image = self.circleIcon;
     cell.iconView.tintColor = self.realmColors[indexPath.row % self.realmColors.count];
     cell.titleLabel.text = property.name;
     cell.subtitleLabel.text = property.RLMBrowser_configurationDescription;
     cell.typeLabel.text = property.RLMBrowser_typeDescription;
+    cell.checkmarkView.image = self.checkmarkIcon;
+
+    if (self.showingSecondarySettings) {
+        cell.checkmarkView.hidden = ![self.secondaryPropertyStrings containsObject:property.name];
+    }
+    else {
+        cell.checkmarkView.hidden = ![property.name isEqualToString:self.browserSchema.preferredPropertyName];
+    }
+
     return cell;
+}
+
+- (BOOL)showingSecondarySettings
+{
+    return self.segmentedControl.selectedSegmentIndex == 1;
 }
 
 @end

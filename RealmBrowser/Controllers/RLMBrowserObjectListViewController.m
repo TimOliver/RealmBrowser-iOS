@@ -151,7 +151,9 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 
 - (void)tweaksButtonTapped:(id)sender
 {
-    RLMBrowserObjectSchemaViewController *controller = [[RLMBrowserObjectSchemaViewController alloc] initWithBrowserRealm:self.browserRealm browserSchema:self.browserSchema];
+    RLMBrowserObjectSchemaViewController *controller = [[RLMBrowserObjectSchemaViewController alloc] initWithBrowserRealm:self.browserRealm
+                                                                                                            browserSchema:self.browserSchema
+                                                                                                               demoObject:self.objects.firstObject];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     UIPopoverPresentationController *popoverController = navigationController.popoverPresentationController;
@@ -199,37 +201,15 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     }
     
     RLMBrowserObjectListContentView *contentView = [cell.contentView viewWithTag:kRLMBrowserObjectListViewTag];
-    
+
+    NSMutableArray *secondaryPropertyNames = [NSMutableArray array];
+    for (RLMBrowserObjectProperty *propertyName in self.preferredSecondaryPropertyNames) {
+        [secondaryPropertyNames addObject:propertyName.name];
+    }
+
     // Get the object
     RLMObject *object = self.objects[indexPath.row];
-    id value = RLM_OBJECT_VALUE_DESCRIPTION(object, self.preferredPropertyName);
-    
-    if ([value description].length) {
-        contentView.titleLabel.hidden = NO;
-        contentView.nilLabel.hidden = YES;
-        contentView.titleLabel.text = [NSString stringWithFormat:@"%@", value];
-    }
-    else {
-        contentView.titleLabel.hidden = YES;
-        contentView.nilLabel.hidden = NO;
-    }
-    
-    NSString *subtitle = @"";
-    if (self.preferredSecondaryPropertyNames.count) {
-        for (RLMBrowserObjectProperty *propertyName in self.preferredSecondaryPropertyNames) {
-            NSString *propertyValue = RLM_OBJECT_VALUE_DESCRIPTION(object, propertyName.name);
-            subtitle = [subtitle stringByAppendingFormat:@"%@: %@", propertyName.name, propertyValue];
-            
-            if (propertyName != self.preferredSecondaryPropertyNames.lastObject) {
-                subtitle = [subtitle stringByAppendingString:@" • "];
-            }
-        }
-    }
-    else {
-        subtitle = @"Realm Object";
-    }
-    
-    contentView.subtitleLabel.text = subtitle;
+    [contentView configureCellWithRealmObject:object titleProperty:self.preferredPropertyName secondaryProperties:secondaryPropertyNames];
     
     contentView.indexLabel.text = [NSString stringWithFormat:@"%ld", [self.objects indexOfObject:object] + 1];
     contentView.indexLabel.textColor = self.realmColors[indexPath.row % self.realmColors.count];

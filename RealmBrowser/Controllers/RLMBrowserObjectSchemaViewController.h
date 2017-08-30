@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class RLMObject;
 @class RLMBrowserRealm;
 @class RLMBrowserSchema;
 
 @interface RLMBrowserObjectSchemaViewController : UIViewController
 
-- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema;
+- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema demoObject:(RLMObject *)object;
 
 @end

@@ -14,6 +14,7 @@
 
 #import "RLMBrowserAppGroupRealm.h"
 #import "RLMRealm+BrowserCaptureRealms.h"
+#import "RLMRealm+BrowserCaptureWrites.h"
 #import "RLMBrowserConfiguration.h"
 
 @interface RLMBrowserViewController () <TOSplitViewControllerDelegate>
@@ -151,13 +152,14 @@
 
     if (appGroupRealms.count > 0) { return; }
 
+    // Add this entry to the browser realm
     RLMBrowserAppGroupRealm *appGroupRealm = [[RLMBrowserAppGroupRealm alloc] init];
     appGroupRealm.realmFilePath = path;
     appGroupRealm.groupIdentifier = identifier;
 
-    [browserRealm transactionWithBlock:^{
-        [browserRealm addObject:appGroupRealm];
-    }];
+    [browserRealm beginWriteTransaction];
+    [browserRealm addObject:appGroupRealm];
+    [browserRealm RLMBrowser_commitWriteTransaction:nil];
 }
 
 #pragma mark - Display -
@@ -178,6 +180,12 @@
     }
 
     [rootController presentViewController:self animated:YES completion:nil];
+}
+
++ (void)reset
+{
+    RLMRealmConfiguration *configuration = [RLMBrowserConfiguration configuration];
+    [[NSFileManager defaultManager] removeItemAtURL:configuration.fileURL.URLByDeletingLastPathComponent error:nil];
 }
 
 @end
