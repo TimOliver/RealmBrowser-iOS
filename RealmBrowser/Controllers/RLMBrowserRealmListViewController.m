@@ -27,6 +27,7 @@
 #import "UIColor+BrowserRealmColors.h"
 #import "UILabel+RealmBrowser.h"
 #import "RLMBrowserRealmTableCellHeaderView.h"
+#import "RLMBrowserRealmTableViewController.h"
 
 // -----------------------------------------------------------------------
 
@@ -310,6 +311,12 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
         RLMBrowserObjectListViewController *controller = [[RLMBrowserObjectListViewController alloc] initWithBrowserRealm:realm browserSchema:schema];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
         [self to_showSecondaryViewController:navigationController sender:self];
+        RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
+    }
+    else {
+        RLMBrowserRealmTableViewController *controller = [[RLMBrowserRealmTableViewController alloc] initWithBrowserRealm:realm];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+        [self to_showSecondaryViewController:nil withDetailViewController:navigationController sender:self];
         RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
     }
 }

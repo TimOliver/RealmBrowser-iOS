@@ -23,7 +23,10 @@
 
 + (instancetype)objectContentView
 {
-    return [[[NSBundle mainBundle] loadNibNamed:@"RLMBrowserObjectContentView" owner:nil options:nil] firstObject];
+    RLMBrowserObjectContentView *contentView = [[[NSBundle mainBundle] loadNibNamed:@"RLMBrowserObjectContentView" owner:nil options:nil] firstObject];
+    contentView.propertyStatsLabel.hidden = YES;
+    contentView.propertyStats = nil;
+    return contentView;
 }
 
 - (void)setUp
@@ -38,11 +41,17 @@
     CGRect frame = self.propertyNameLabel.frame;
     frame.size.width = [self.propertyNameLabel sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
     self.propertyNameLabel.frame = frame;
-    
-    frame = self.propertyStatsLabel.frame;
-    frame.origin.x = CGRectGetMaxX(self.propertyNameLabel.frame) + 5.0f;
-    frame.size.width = [self.propertyStatsLabel sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
-    self.propertyStatsLabel.frame = frame;
+
+    if (self.propertyStats.length) {
+        frame = self.propertyStatsLabel.frame;
+        frame.origin.x = CGRectGetMaxX(self.propertyNameLabel.frame) + 5.0f;
+        frame.size.width = [self.propertyStatsLabel sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+        self.propertyStatsLabel.frame = frame;
+        self.propertyStatsLabel.hidden = NO;
+    }
+    else {
+        self.propertyStatsLabel.hidden = YES;
+    }
 
     frame = self.objectValueLabel.frame;
     frame.size.width = CGRectGetMinX(self.quickLookButton.frame) - frame.origin.x;

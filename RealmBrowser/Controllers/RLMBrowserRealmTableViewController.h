@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class RLMBrowserRealm;
+
 @interface RLMBrowserRealmTableViewController : UITableViewController
+
+@property (nonatomic, readonly) RLMBrowserRealm *browserRealm;
+
+- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm;
 
 @end

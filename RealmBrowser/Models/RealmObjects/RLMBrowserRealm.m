@@ -134,6 +134,18 @@
     return RLMBrowserRealmTypeLocal;
 }
 
+- (NSString *)localizedType
+{
+    switch (self.type) {
+        case RLMBrowserRealmTypeSync: return NSLocalizedString(@"Synchronized Realm", @"");
+        case RLMBrowserRealmTypeInMemory: return NSLocalizedString(@"In-Memory Realm", @"");
+        default:
+        case RLMBrowserRealmTypeLocal: return NSLocalizedString(@"Local Realm", @"");
+    }
+
+    return @"";
+}
+
 - (NSString *)formattedLocation
 {
     if (self.type == RLMBrowserRealmTypeLocal) {

@@ -60,6 +60,9 @@ typedef NS_ENUM(NSInteger, RLMBrowserRealmType) {
 /* If an app group, this is linked to give us context to derive the file path */
 @property (nonatomic, strong) RLMBrowserAppGroupRealm *appGroup;
 
+/* A displayable string identifying the type of this Realm */
+@property (nonatomic, readonly) NSString *localizedType;
+
 /* Convert any absolute file paths to relative before saving */
 + (NSString *)relativeFilePathFromAbsolutePath:(NSString *)path;
 

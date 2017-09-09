@@ -60,7 +60,7 @@ static inline NSString *RLM_OBJECT_VALUE_DESCRIPTION(RLMObject *object, NSString
         {
             RLMArray *array = object[key];
             NSString *className = array.objectClassName;
-            return [NSString stringWithFormat:@"RLMArray<%@>", className, (unsigned long)array.count, (array.count != 1 ? @"s" : @"")];
+            return [NSString stringWithFormat:@"RLMArray<%@>", className];
         }
         default: return nil;
     }
