@@ -316,7 +316,8 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     else {
         RLMBrowserRealmTableViewController *controller = [[RLMBrowserRealmTableViewController alloc] initWithBrowserRealm:realm];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-        [self to_showSecondaryViewController:nil withDetailViewController:navigationController sender:self];
+        [self to_showSecondaryViewController:nil sender:self];
+        [self to_showDetailViewController:navigationController sender:self];
         RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
     }
 }

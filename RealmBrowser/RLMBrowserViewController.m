@@ -73,15 +73,23 @@
     RLM_RESET_NAVIGATION_CONTROLLER(_logoNavigationController);
 
     self.viewControllers = @[_realmListNavigationController, _logoNavigationController];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(splitViewControllerChangedNotification:) name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
 }
 
 #pragma mark - Done Button Handling -
-- (void)removeDoneButtonFromStackInNavigationController:(UINavigationController *)navController
+
+- (void)splitViewControllerChangedNotification:(NSNotification *)notification;
 {
-    // Loop through all the controllers and remove the 'Done' button from them
-    for (UIViewController *controller in navController.viewControllers) {
-        controller.navigationItem.rightBarButtonItem = nil;
-    }
+    // Set the done button to whichever last view controller is visible
+    UINavigationController *lastController = (UINavigationController *)self.visibleViewControllers.lastObject;
+    if ([lastController isKindOfClass:[UINavigationController class]] == NO) { return; }
+    lastController.visibleViewController.navigationItem.rightBarButtonItem = self.doneButton;
 }
 
 - (void)doneButtonTapped:(id)sender
@@ -89,54 +97,14 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - UISplitViewController Delegate -
-//- (BOOL)splitViewController:(UISplitViewController *)splitViewController
-//    collapseSecondaryViewController:(UIViewController *)secondaryViewController
-//          ontoPrimaryViewController:(UIViewController *)primaryViewController
-//{
-//    UINavigationController *primaryNavigationController = (UINavigationController *)primaryViewController;
-//    primaryViewController = primaryNavigationController.visibleViewController;
-//    
-//    UINavigationController *secondaryNavigationController = (UINavigationController *)secondaryViewController;
-//    secondaryViewController = secondaryNavigationController.visibleViewController;
-//    
-//    // We only care about changing the collapse if there is an object view controller visible,
-//    // otherwise the default functionality is fine
-//    if (secondaryNavigationController != self.logoNavigationController) {
-//        [primaryNavigationController pushViewController:secondaryViewController animated:NO];
-//    }
-//    
-//    // Strip out and then add back in the done button
-//    [self removeDoneButtonFromStackInNavigationController:primaryNavigationController];
-//    primaryNavigationController.visibleViewController.navigationItem.rightBarButtonItem = self.doneButton;
-//    
-//    return YES;
-//}
-//
-//- (UIViewController *)splitViewController:(UISplitViewController *)splitViewController
-//                separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController
-//{
-//    UINavigationController *primaryNavigationController = (UINavigationController *)primaryViewController;
-//    
-//    // Remove the done button from all of the primary controller childen
-//    [self removeDoneButtonFromStackInNavigationController:(UINavigationController *)primaryNavigationController];
-//    
-//    UINavigationController *newSecondaryController = nil;
-//    
-//    // If a legit content view controller is at the end of this stack, defer to that
-//    if ([primaryNavigationController.viewControllers.lastObject isKindOfClass:[RLMBrowserObjectViewController class]]) {
-//        UIViewController *lastController = [primaryNavigationController popViewControllerAnimated:NO];
-//        newSecondaryController = [[UINavigationController alloc] initWithRootViewController:lastController];
-//    }
-//    else { // otherwise, defer back to the empty view controller
-//        newSecondaryController = self.logoNavigationController;
-//    }
-//    
-//    // Add it to the new secondary controller
-//    newSecondaryController.visibleViewController.navigationItem.rightBarButtonItem = self.doneButton;
-//    
-//    return newSecondaryController;
-//}
+- (BOOL)splitViewController:(TOSplitViewController *)splitViewController
+     collapseViewController:(UIViewController *)auxiliaryViewController
+                     ofType:(TOSplitViewControllerType)controllerType
+  ontoPrimaryViewController:(UIViewController *)primaryViewController
+              shouldAnimate:(BOOL)animate
+{
+    return NO;
+}
 
 #pragma mark - Registering App Group Realms -
 + (void)registerAppGroupRealmAtRelativePath:(NSString *)path forGroupIdentifier:(NSString *)identifier
