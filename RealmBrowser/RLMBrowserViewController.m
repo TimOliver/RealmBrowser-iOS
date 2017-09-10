@@ -14,9 +14,11 @@
 #import "RLMBrowserLogoViewController.h"
 
 #import "RLMBrowserAppGroupRealm.h"
+#import "RLMBrowserRealm.h"
 #import "RLMRealm+BrowserCaptureRealms.h"
 #import "RLMRealm+BrowserCaptureWrites.h"
 #import "RLMBrowserConfiguration.h"
+#import "RLMBrowserEmptyViewController.h"
 
 @interface RLMBrowserViewController () <TOSplitViewControllerDelegate>
 
@@ -29,10 +31,6 @@
 @property (nonatomic, strong) RLMBrowserLogoViewController *logoController;
 
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
-
-- (void)setUp;
-- (void)doneButtonTapped:(id)sender;
-- (void)removeDoneButtonFromStackInNavigationController:(UINavigationController *)navController;
 
 @end
 
@@ -62,17 +60,27 @@
     self.modalPresentationStyle = UIModalPresentationFullScreen;
 
     _doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonTapped:)];
-    
-    _realmListController = [[RLMBrowserRealmListViewController alloc] init];
-    _realmListNavigationController = [[UINavigationController alloc] initWithRootViewController:_realmListController];
-    RLM_RESET_NAVIGATION_CONTROLLER(_realmListNavigationController);
 
-    _logoController = [[RLMBrowserLogoViewController alloc] init];
-    _logoController.navigationItem.rightBarButtonItem = _doneButton;
-    _logoNavigationController = [[UINavigationController alloc] initWithRootViewController:_logoController];
-    RLM_RESET_NAVIGATION_CONTROLLER(_logoNavigationController);
+    // Check to see if we have any Realm entries present
+    RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
+    if ([RLMBrowserRealm allObjectsInRealm:browserRealm].count > 0) {
+        RLMBrowserEmptyViewController *controller = [[RLMBrowserEmptyViewController alloc] init];
+        controller.navigationItem.rightBarButtonItem = _doneButton;
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+        self.viewControllers = @[navigationController];
+    }
+    else {
+        _realmListController = [[RLMBrowserRealmListViewController alloc] init];
+        _realmListNavigationController = [[UINavigationController alloc] initWithRootViewController:_realmListController];
+        RLM_RESET_NAVIGATION_CONTROLLER(_realmListNavigationController);
 
-    self.viewControllers = @[_realmListNavigationController, _logoNavigationController];
+        _logoController = [[RLMBrowserLogoViewController alloc] init];
+        _logoController.navigationItem.rightBarButtonItem = _doneButton;
+        _logoNavigationController = [[UINavigationController alloc] initWithRootViewController:_logoController];
+        RLM_RESET_NAVIGATION_CONTROLLER(_logoNavigationController);
+
+        self.viewControllers = @[_realmListNavigationController, _logoNavigationController];
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(splitViewControllerChangedNotification:) name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
 }
