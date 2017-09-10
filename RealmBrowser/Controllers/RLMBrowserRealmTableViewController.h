@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class RLMBrowserList;
 @class RLMBrowserRealm;
 
 @interface RLMBrowserRealmTableViewController : UITableViewController
 
+@property (nonatomic, readonly) RLMBrowserList *browserList;
 @property (nonatomic, readonly) RLMBrowserRealm *browserRealm;
 @property (nonatomic, assign) BOOL isDefaultRealm;
 
-- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm;
+- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserList:(RLMBrowserList *)list;
 
 @end

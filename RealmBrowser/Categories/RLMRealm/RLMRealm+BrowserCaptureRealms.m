@@ -219,6 +219,7 @@
     // Get a reference to the main list (Or create it in the process)
     RLMBrowserList *defaultList = [RLMRealm RLMBrowser_defaultRealmBrowserListObjectInRealm:browserRealm];
     RLMArray *allRealmsList = defaultList.allRealms;
+    RLMArray *starredRealmsList = defaultList.starredRealms;
     
     // Assess the arguments provided to see if we need to perform a write
     BOOL writeRequired = NO;
@@ -252,14 +253,22 @@
         }
         
         // Update the lists with the placement of this Realm
-        NSUInteger index = [defaultList.allRealms indexOfObject:updatedRealm];
-        if (index != NSNotFound) {
-            [defaultList.allRealms moveObjectAtIndex:index toIndex:0];
+        NSUInteger allRealmsIndex = [allRealmsList indexOfObject:updatedRealm];
+        NSUInteger starredRealmsIndex = [starredRealmsList indexOfObject:updatedRealm];
+
+        // If it's a favorited item, move it to the top
+        if (starredRealmsIndex != NSNotFound) {
+            [starredRealmsList moveObjectAtIndex:starredRealmsIndex toIndex:0];
         }
-        else {
-            [defaultList.allRealms insertObject:updatedRealm atIndex:0];
+        else { // If it's not starred, move it to the top, or add it for the first time
+            if (allRealmsIndex != NSNotFound) {
+                [allRealmsList moveObjectAtIndex:allRealmsIndex toIndex:0];
+            }
+            else {
+                [allRealmsList insertObject:updatedRealm atIndex:0];
+            }
         }
-        
+
         // Check if this particular Realm is the default Realm, and promote it if need be
         if ([configuration RLMBrowser_isEqualToConfiguration:[RLMRealmConfiguration defaultConfiguration]]) {
             defaultList.defaultRealm = updatedRealm;

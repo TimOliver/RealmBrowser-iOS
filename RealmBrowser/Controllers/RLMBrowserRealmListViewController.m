@@ -102,25 +102,25 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     
     self.defaultRealm = self.realmList.defaultRealm;
     self.starredRealms = self.realmList.starredRealms;
-    self.filteredRealms = [self.realmList.allRealms objectsWhere:@"(self.uuid != %@) AND NOT (self.uuid in %@)",
-                                                                    self.defaultRealm.uuid, self.starredRealms];
-
-    //Set up notification tokens
-    self.starredRealmsToken = [self.starredRealms addNotificationBlock:^(RLMArray<RLMBrowserRealm *> *array, RLMCollectionChange *changes, NSError *error) {
-        if (error) { return; }
-        NSInteger offset = weakSelf.defaultRealm ? 1 : 0;
-        [weakSelf updateTableViewWithOffset:offset changes:changes];
-    }];
+    self.filteredRealms = [self.realmList.allRealms objectsWhere:@"(self.uuid != %@)", self.defaultRealm.uuid];
 
     self.allRealmsToken = [self.filteredRealms addNotificationBlock:^(RLMResults<RLMBrowserRealm *> *results, RLMCollectionChange *changes, NSError *error) {
         if (error) { return; }
 
-        NSInteger offset = weakSelf.defaultRealm ? 1 : 0;
-        if (weakSelf.starredRealms.count) {
-            offset += weakSelf.realmList.starredRealmsCollapsed ? 1 : weakSelf.starredRealms.count;
-        }
+        UITableView *tableView = weakSelf.tableView;
 
-        [weakSelf updateTableViewWithOffset:offset changes:changes];
+        // Animate cross fade
+        UIView *screenshot = [tableView snapshotViewAfterScreenUpdates:NO];
+        screenshot.frame = tableView.frame;
+        [tableView.superview addSubview:screenshot];
+
+        [weakSelf.tableView reloadData];
+
+        [UIView animateWithDuration:0.3f animations:^{
+            screenshot.alpha = 0.0f;
+        } completion:^(BOOL complete) {
+            [screenshot removeFromSuperview];
+        }];
     }];
 
     // Register the table cells
@@ -180,7 +180,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     NSInteger offset = self.defaultRealm ? 1 : 0;
     
     // If there are any starred Realms, check if the index is in that range
-    if (self.starredRealms.count && index < self.starredRealms.count - offset) {
+    if (self.starredRealms.count && index - offset < self.starredRealms.count) {
         return self.starredRealms[index - offset];
     }
     
@@ -238,7 +238,7 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 
     NSInteger numberOfSections = self.starredRealms.count;
     [self.tableView beginUpdates];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationFade];
     for (NSInteger i = 1; i < numberOfSections; i++) {
         NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:section + i];
         if (hidden) {
@@ -328,15 +328,13 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
             [weakSelf setDefaultRealmSectionHidden:self.realmList.defaultRealmCollapsed];
         };
     }
-    else if (self.starredRealms.count > 0) {
-        if ((!self.defaultRealm && section == 0) || section == 1) {
-            headerView.titleLabel.text = @"FAVORITE REALMS";
-            headerView.collapsed = self.realmList.starredRealmsCollapsed;
-            headerView.collapseToggledHandler = ^{
-                [weakSelf toggleRealmSectionProperty:@"starredRealmsCollapsed"];
-                [weakSelf setStarredRealmSectionHidden:weakSelf.realmList.starredRealmsCollapsed];
-            };
-        }
+    else if (self.starredRealms.count > 0 && ((!self.defaultRealm && section == 0) || section == 1)) {
+        headerView.titleLabel.text = @"FAVORITE REALMS";
+        headerView.collapsed = self.realmList.starredRealmsCollapsed;
+        headerView.collapseToggledHandler = ^{
+            [weakSelf toggleRealmSectionProperty:@"starredRealmsCollapsed"];
+            [weakSelf setStarredRealmSectionHidden:weakSelf.realmList.starredRealmsCollapsed];
+        };
     }
     else {
         headerView.titleLabel.text = @"REALMS";
@@ -437,7 +435,8 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
         RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
     }
     else {
-        RLMBrowserRealmTableViewController *controller = [[RLMBrowserRealmTableViewController alloc] initWithBrowserRealm:realm];
+        RLMBrowserRealmTableViewController *controller = [[RLMBrowserRealmTableViewController alloc] initWithBrowserRealm:realm browserList:self.realmList];
+        controller.isDefaultRealm = [realm isEqual:self.defaultRealm];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
         [self to_showSecondaryViewController:nil sender:self];
         [self to_showDetailViewController:navigationController sender:self];

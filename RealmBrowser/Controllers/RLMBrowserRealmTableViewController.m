@@ -16,11 +16,14 @@
 #import "UIColor+BrowserRealmColors.h"
 #import "RLMBrowserObjectContentView.h"
 #import "UILabel+RealmBrowser.h"
+#import "RLMBrowserList.h"
+#import "RLMBrowserConfiguration.h"
 
 const NSInteger kRLMBrowserRealmViewTag = 101;
 
 @interface RLMBrowserRealmTableViewController ()
 
+@property (nonatomic, strong, readwrite) RLMBrowserList *browserList;
 @property (nonatomic, strong, readwrite) RLMBrowserRealm *browserRealm;
 
 @property (nonatomic, strong) UIImage *circleIcon;
@@ -36,17 +39,19 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
 @property (nonatomic, strong) NSString *syncUserIdentifier;
 
 /* Favorites Button Images */
-@property (nonatomic, strong) UIImage *favoriteButton;
-@property (nonatomic, strong) UIImage *favoriteButtonFilled;
+@property (nonatomic, strong) UIImage *favoriteButtonImage;
+@property (nonatomic, strong) UIImage *favoriteButtonFilledImage;
+@property (nonatomic, strong) UIBarButtonItem *favoritesButton;
 
 @end
 
 @implementation RLMBrowserRealmTableViewController
 
-- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm
+- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserList:(RLMBrowserList *)list
 {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
         _browserRealm = realm;
+        _browserList = list;
     }
 
     return self;
@@ -76,17 +81,26 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
     self.navigationController.toolbarHidden = NO;
 
     NSInteger numberOfObjectClasses = self.browserRealm.schema.count;
-    NSString *text = [NSString stringWithFormat:@"%ld Object Class%@", numberOfObjectClasses, numberOfObjectClasses == 1 ? @"" : @"2s"];
+    NSString *text = [NSString stringWithFormat:@"%ld Object Class%@", numberOfObjectClasses, numberOfObjectClasses == 1 ? @"" : @"es"];
     UILabel *objectsLabel = [UILabel RLMBrowser_toolbarLabelWithText:text];
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
-    self.favoriteButton = [UIImage RLMBrowser_favoriteIconFilled:NO];
-    self.favoriteButtonFilled = [UIImage RLMBrowser_favoriteIconFilled:YES];
-    UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:self.favoriteButton style:UIBarButtonItemStylePlain target:self action:@selector(favoriteButtonTapped:)];
-
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *fileManagerButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonTapped:)];
-    self.toolbarItems = @[favoriteButton, flexibleSpaceItem, labelItem, flexibleSpaceItem, fileManagerButton];
+
+    if (!self.isDefaultRealm) {
+        self.favoriteButtonImage = [UIImage RLMBrowser_favoriteIconFilled:NO];
+        self.favoriteButtonFilledImage = [UIImage RLMBrowser_favoriteIconFilled:YES];
+        self.favoritesButton = [[UIBarButtonItem alloc] initWithImage:self.favoriteButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(favoriteButtonTapped:)];
+        self.toolbarItems = @[self.favoritesButton, flexibleSpaceItem, labelItem, flexibleSpaceItem, fileManagerButton];
+
+        if ([self.browserList.starredRealms indexOfObject:self.browserRealm] != NSNotFound) {
+            self.favoritesButton.image = self.favoriteButtonFilledImage;
+        }
+    }
+    else {
+        self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem, fileManagerButton];
+    }
 }
 
 - (void)precomputeRealmProperties
@@ -126,7 +140,22 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
 
 - (void)favoriteButtonTapped:(id)sender
 {
+    NSInteger listIndex = [self.browserList.starredRealms indexOfObject:self.browserRealm];
+    [self.browserList.realm transactionWithBlock:^{
+        if (listIndex != NSNotFound) {
+            [self.browserList.starredRealms removeObjectAtIndex:listIndex];
+            [self.browserList.allRealms insertObject:self.browserRealm atIndex:0];
+        }
+        else {
+            NSInteger allRealmIndex = [self.browserList.allRealms indexOfObject:self.browserRealm];
+            if (allRealmIndex != NSNotFound) {
+                [self.browserList.allRealms removeObjectAtIndex:allRealmIndex];
+            }
+            [self.browserList.starredRealms insertObject:self.browserRealm atIndex:0];
+        }
+    }];
 
+    self.favoritesButton.image = (listIndex == NSNotFound) ? self.favoriteButtonFilledImage : self.favoriteButtonImage;
 }
 
 #pragma mark - Table View Data Source -
