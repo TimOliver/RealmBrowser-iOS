@@ -156,7 +156,7 @@
         return self.inMemoryIdentifier;
     }
     else if (self.type == RLMBrowserRealmTypeSync) {
-        return self.syncUserURL;
+        return self.syncURL;
     }
 
     return nil;

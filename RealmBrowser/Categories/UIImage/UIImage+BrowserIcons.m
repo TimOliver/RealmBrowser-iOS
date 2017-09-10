@@ -1060,4 +1060,39 @@
     return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
++ (UIImage *)RLMBrowser_favoriteIconFilled:(BOOL)filled
+{
+    UIImage *image = nil;
+    UIGraphicsBeginImageContextWithOptions((CGSize){27,22}, NO, 0.0f);
+    {
+
+        //// Bezier 2 Drawing
+        UIBezierPath* bezier2Path = [UIBezierPath bezierPath];
+        [bezier2Path moveToPoint: CGPointMake(13.52, 21.5)];
+        [bezier2Path addCurveToPoint: CGPointMake(0.5, 7.24) controlPoint1: CGPointMake(11.39, 20.27) controlPoint2: CGPointMake(0.5, 13.67)];
+        [bezier2Path addCurveToPoint: CGPointMake(7.4, 0.5) controlPoint1: CGPointMake(0.5, 3.52) controlPoint2: CGPointMake(3.6, 0.5)];
+        [bezier2Path addCurveToPoint: CGPointMake(12.89, 3.16) controlPoint1: CGPointMake(9.57, 0.5) controlPoint2: CGPointMake(11.57, 1.47)];
+        [bezier2Path addLineToPoint: CGPointMake(13.5, 3.94)];
+        [bezier2Path addLineToPoint: CGPointMake(14.11, 3.16)];
+        [bezier2Path addCurveToPoint: CGPointMake(19.6, 0.5) controlPoint1: CGPointMake(15.43, 1.47) controlPoint2: CGPointMake(17.43, 0.5)];
+        [bezier2Path addCurveToPoint: CGPointMake(26.5, 7.24) controlPoint1: CGPointMake(23.4, 0.5) controlPoint2: CGPointMake(26.5, 3.52)];
+        [bezier2Path addCurveToPoint: CGPointMake(13.52, 21.5) controlPoint1: CGPointMake(26.5, 14.24) controlPoint2: CGPointMake(15.65, 20.36)];
+        [bezier2Path closePath];
+        if (filled) {
+        [UIColor.blackColor setFill];
+        [bezier2Path fill];
+        }
+        [UIColor.blackColor setStroke];
+        bezier2Path.lineWidth = 1;
+        bezier2Path.miterLimit = 4;
+        [bezier2Path stroke];
+
+
+        image = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    UIGraphicsEndImageContext();
+
+    return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end

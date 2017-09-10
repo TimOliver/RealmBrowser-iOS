@@ -35,6 +35,10 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
 @property (nonatomic, strong) NSString *syncURL;
 @property (nonatomic, strong) NSString *syncUserIdentifier;
 
+/* Favorites Button Images */
+@property (nonatomic, strong) UIImage *favoriteButton;
+@property (nonatomic, strong) UIImage *favoriteButtonFilled;
+
 @end
 
 @implementation RLMBrowserRealmTableViewController
@@ -76,23 +80,29 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
     UILabel *objectsLabel = [UILabel RLMBrowser_toolbarLabelWithText:text];
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
+    self.favoriteButton = [UIImage RLMBrowser_favoriteIconFilled:NO];
+    self.favoriteButtonFilled = [UIImage RLMBrowser_favoriteIconFilled:YES];
+    UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:self.favoriteButton style:UIBarButtonItemStylePlain target:self action:@selector(favoriteButtonTapped:)];
+
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *fileManagerButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonTapped:)];
-    self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem, fileManagerButton];
+    self.toolbarItems = @[favoriteButton, flexibleSpaceItem, labelItem, flexibleSpaceItem, fileManagerButton];
 }
 
 - (void)precomputeRealmProperties
 {
-    if (self.browserRealm.type == RLMBrowserRealmTypeLocal) {
-        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.browserRealm.absoluteFilePath error:nil];
-        self.localFileSize = [NSByteCountFormatter stringFromByteCount:attributes.fileSize countStyle:NSByteCountFormatterCountStyleFile];
-
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.timeStyle = NSDateFormatterMediumStyle;
-        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-        self.localCreationDate = [dateFormatter stringFromDate:attributes.fileCreationDate];
-        self.localModificationDate = [dateFormatter stringFromDate:attributes.fileModificationDate];
+    if (self.browserRealm.type != RLMBrowserRealmTypeLocal) {
+        return;
     }
+
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.browserRealm.absoluteFilePath error:nil];
+    self.localFileSize = [NSByteCountFormatter stringFromByteCount:attributes.fileSize countStyle:NSByteCountFormatterCountStyleFile];
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    self.localCreationDate = [dateFormatter stringFromDate:attributes.fileCreationDate];
+    self.localModificationDate = [dateFormatter stringFromDate:attributes.fileModificationDate];
 }
 
 - (UIImage *)imageForType:(RLMBrowserRealmType)type
@@ -110,6 +120,11 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
 #pragma mark - Interaction -
 
 - (void)actionButtonTapped:(id)sender
+{
+
+}
+
+- (void)favoriteButtonTapped:(id)sender
 {
 
 }
@@ -229,7 +244,7 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
             break;
         case 5:
             name = NSLocalizedString(@"Schema Version", @"");
-            value = [NSString stringWithFormat:@"%ld", self.browserRealm.schemaVersion];
+            value = [NSString stringWithFormat:@"%lld", self.browserRealm.schemaVersion];
             break;
     }
 

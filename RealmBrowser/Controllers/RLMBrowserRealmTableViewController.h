@@ -13,6 +13,7 @@
 @interface RLMBrowserRealmTableViewController : UITableViewController
 
 @property (nonatomic, readonly) RLMBrowserRealm *browserRealm;
+@property (nonatomic, assign) BOOL isDefaultRealm;
 
 - (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm;
 

@@ -41,4 +41,7 @@
 /* A checkmark icon for the Realm schema configuration view */
 + (UIImage *)RLMBrowser_checkmarkIcon;
 
+/* A favorite icon used to save specific Realms in the favorites list */
++ (UIImage *)RLMBrowser_favoriteIconFilled:(BOOL)filled;
+
 @end

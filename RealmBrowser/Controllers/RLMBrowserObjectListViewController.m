@@ -45,6 +45,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 @property (nonatomic, strong) RLMRealm *realm;
 @property (nonatomic, strong) RLMObjectSchema *schema;
 @property (nonatomic, strong) RLMResults *objects;
+@property (nonatomic, strong) RLMResults *filteredObjects;
 
 @property (nonatomic, strong) NSString *preferredPropertyName;
 @property (nonatomic, strong) RLMArray *preferredSecondaryPropertyNames;
@@ -73,6 +74,8 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    __weak typeof(self) weakSelf = self;
+
     RLM_RESET_NAVIGATION_CONTROLLER(self.navigationController);
 
     // Set default settings
@@ -85,6 +88,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     
     // Set up the header search bar
     self.tableHeaderView = [[RLMBrowserTableHeaderView alloc] init];
+    self.tableHeaderView.searchBarTextChangedHandler = ^(UISearchBar *bar, NSString *text) { [weakSelf searchBarEnteredText:text]; };
     self.tableView.tableHeaderView = self.tableHeaderView;
     
     // Load the Realm file
@@ -127,7 +131,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     // Add a notification for when the split view controller will collapse or expand
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(splitViewControllerDetailStateChanged:)
-                                                 name:UIViewControllerShowDetailTargetDidChangeNotification
+                                                 name:TOSplitViewControllerShowTargetDidChangeNotification
                                                object:nil];
 }
 
@@ -136,7 +140,85 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     [super viewWillDisappear:animated];
     
     // Remove the split view controller notification observer
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIViewControllerShowDetailTargetDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
+}
+
+#pragma mark - Search Bar Notifications -
+- (void)searchBarEnteredText:(NSString *)searchText
+{
+    if (searchText.length == 0) {
+        self.filteredObjects = nil;
+        [self.tableView reloadData];
+        return;
+    }
+
+    // Build up the search predicate
+    NSMutableArray *predicates = [NSMutableArray arrayWithCapacity:0];
+
+    NSNumberFormatter *floatFormatter = [[NSNumberFormatter alloc] init];
+    NSNumberFormatter *integerFormatter = [[NSNumberFormatter alloc] init];
+    integerFormatter.allowsFloats = NO;
+
+    for (RLMProperty *property in self.schema.properties) {
+        NSExpression *propertyExpression = [NSExpression expressionForKeyPath:property.name];
+        NSExpression *valueExpression;
+        NSPredicateOperatorType comparisonOperator = NSEqualToPredicateOperatorType;
+        NSComparisonPredicateOptions comparisonOptions = 0;
+
+        switch (property.type) {
+            case RLMPropertyTypeBool: {
+                if ([searchText caseInsensitiveCompare:@"true"] == NSOrderedSame ||
+                    [searchText caseInsensitiveCompare:@"YES"] == NSOrderedSame) {
+                    valueExpression = [NSExpression expressionForConstantValue:@YES];
+                }
+                else if ([searchText caseInsensitiveCompare:@"false"] == NSOrderedSame ||
+                         [searchText caseInsensitiveCompare:@"NO"] == NSOrderedSame) {
+                    valueExpression = [NSExpression expressionForConstantValue:@NO];
+                }
+                break;
+            }
+            case RLMPropertyTypeInt: {
+                NSNumber *value = [integerFormatter numberFromString:searchText];
+                if (value) {
+                    valueExpression = [NSExpression expressionForConstantValue:value];
+                }
+                break;
+            }
+            case RLMPropertyTypeString: {
+                valueExpression = [NSExpression expressionForConstantValue:searchText];
+                comparisonOperator = NSContainsPredicateOperatorType;
+                comparisonOptions = NSCaseInsensitivePredicateOption;
+
+                break;
+            }
+            case RLMPropertyTypeFloat:
+            case RLMPropertyTypeDouble: {
+                NSNumber *value = [floatFormatter numberFromString:searchText];
+                if (value) {
+                    valueExpression = [NSExpression expressionForConstantValue:value];
+                }
+                break;
+            }
+            default:
+                break;
+        }
+
+        if (!valueExpression) {
+            // We were unable to convert the search text into a predicate for this property type.
+            continue;
+        }
+
+        NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:propertyExpression
+                                                                    rightExpression:valueExpression
+                                                                           modifier:NSDirectPredicateModifier
+                                                                               type:comparisonOperator
+                                                                            options:comparisonOptions];
+        [predicates addObject:predicate];
+    }
+
+    NSPredicate *predicate = [NSCompoundPredicate orPredicateWithSubpredicates:predicates];
+    self.filteredObjects = [self.objects objectsWithPredicate:predicate];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Notifications -
@@ -169,6 +251,10 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.filteredObjects) {
+        return self.filteredObjects.count;
+    }
+
     return self.objects.count;
 }
 
@@ -209,7 +295,14 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     }
 
     // Get the object
-    RLMObject *object = self.objects[indexPath.row];
+    RLMObject *object = nil;
+    if (self.filteredObjects) {
+        object = self.filteredObjects[indexPath.row];
+    }
+    else {
+        object = self.objects[indexPath.row];
+    }
+
     [contentView configureCellWithRealmObject:object titleProperty:self.preferredPropertyName secondaryProperties:secondaryPropertyNames];
     
     contentView.indexLabel.text = [NSString stringWithFormat:@"%ld", [self.objects indexOfObject:object] + 1];
@@ -222,7 +315,14 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RLMObject *object = self.objects[indexPath.row];
+    RLMObject *object = nil;
+    if (self.filteredObjects) {
+        object = self.filteredObjects[indexPath.row];
+    }
+    else {
+        object = self.objects[indexPath.row];
+    }
+
     RLMBrowserObjectViewController *objectController = [[RLMBrowserObjectViewController alloc] initWithObject:object
                                                                                               forBrowserRealm:self.browserRealm
                                                                                                 browserSchema:self.browserSchema];
