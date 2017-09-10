@@ -230,6 +230,7 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
         cell.textLabel.text = self.browserRealm.schema[indexPath.row].className;
         cell.detailTextLabel.text = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     else {
         if (self.browserRealm.type == RLMBrowserRealmTypeLocal) {
@@ -240,6 +241,7 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
         }
 
         cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
     // Return the cell
@@ -283,7 +285,35 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
 
 - (void)configureCell:(UITableViewCell *)cell forSyncRealmPropertyAtRow:(NSInteger)row
 {
+    NSString *name, *value;
 
+    switch(row) {
+        case 0:
+            name = NSLocalizedString(@"Sync URL", @"");
+            value = self.browserRealm.syncURL;
+            break;
+        case 1:
+            name = NSLocalizedString(@"User Identifier", @"");
+            value = self.browserRealm.syncUserIdentifier;
+            break;
+        case 2:
+            name = NSLocalizedString(@"Encryption Key", @"");
+            value = @"nil";
+            break;
+        case 3:
+            name = NSLocalizedString(@"Schema Version", @"");
+            value = [NSString stringWithFormat:@"%lld", self.browserRealm.schemaVersion];
+            break;
+    }
+
+    cell.textLabel.text = name;
+    cell.detailTextLabel.text = value;
+}
+
+#pragma mark - Cell Interaction -
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
