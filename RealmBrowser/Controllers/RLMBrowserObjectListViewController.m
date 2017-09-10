@@ -125,7 +125,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
         RLMBrowserLogoViewController *logoController = [[RLMBrowserLogoViewController alloc] init];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:logoController];
         RLM_RESET_NAVIGATION_CONTROLLER(navController);
-        [self to_showSecondaryViewController:self withDetailViewController:navController sender:self];
+        [self to_setPendingDetailViewController:navController sender:self];
     }
 }
 
@@ -349,7 +349,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
         [self to_showDetailViewController:controller sender:self];
     }
     else {
-        [self to_showSecondaryViewController:self.navigationController withDetailViewController:controller sender:self];
+        [self to_setPendingDetailViewController:controller sender:self];
     }
 }
 
