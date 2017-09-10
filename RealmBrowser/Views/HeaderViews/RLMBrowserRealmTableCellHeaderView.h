@@ -28,6 +28,9 @@
 /** The horizontal inset of the content to line up with the table view content */
 @property (nonatomic, assign) UIEdgeInsets contentInset;
 
+/** The handler block that is called when the user taps it */
+@property (nonatomic, copy) void (^collapseToggledHandler)(void);
+
 /** Animate the view transitioning between collapsed and uncollapsed states */
 - (void)setCollapsed:(BOOL)collapsed animated:(BOOL)animated;
 

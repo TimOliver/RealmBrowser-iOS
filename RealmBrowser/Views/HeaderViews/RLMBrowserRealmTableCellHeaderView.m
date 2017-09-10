@@ -89,6 +89,12 @@
     self.countLabel.frame = frame;
 }
 
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    self.collapseToggledHandler = nil;
+}
+
 - (void)setCollapsed:(BOOL)collapsed
 {
     [self setCollapsed:collapsed animated:NO];
@@ -99,6 +105,10 @@
     if (collapsed == _collapsed) { return; }
 
     _collapsed = collapsed;
+
+    if (self.collapseToggledHandler) {
+        self.collapseToggledHandler();
+    }
 
     void (^animationBlock)(void) = ^{
         CGFloat angle = _collapsed ? 0.0f : M_PI_2;
