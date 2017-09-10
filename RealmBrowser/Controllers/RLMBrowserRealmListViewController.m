@@ -444,5 +444,4 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     }
 }
 
-
 @end

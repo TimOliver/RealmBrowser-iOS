@@ -15,10 +15,12 @@
 
 #import "RLMBrowserAppGroupRealm.h"
 #import "RLMBrowserRealm.h"
+#import "RLMBrowserList.h"
 #import "RLMRealm+BrowserCaptureRealms.h"
 #import "RLMRealm+BrowserCaptureWrites.h"
 #import "RLMBrowserConfiguration.h"
 #import "RLMBrowserEmptyViewController.h"
+#import "RLMBrowserRealmTableViewController.h"
 
 @interface RLMBrowserViewController () <TOSplitViewControllerDelegate>
 
@@ -26,9 +28,6 @@
 
 @property (nonatomic, strong) UINavigationController *realmListNavigationController;
 @property (nonatomic, strong) RLMBrowserRealmListViewController *realmListController;
-
-@property (nonatomic, strong) UINavigationController *logoNavigationController;
-@property (nonatomic, strong) RLMBrowserLogoViewController *logoController;
 
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
 
@@ -63,10 +62,23 @@
 
     // Check to see if we have any Realm entries present
     RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
-    if ([RLMBrowserRealm allObjectsInRealm:browserRealm].count > 0) {
+    RLMBrowserList *browserList = [RLMBrowserList allObjectsInRealm:browserRealm].firstObject;
+
+    // Try each list of Realms
+    RLMBrowserRealm *realmToDisplay = browserList.defaultRealm;
+    if (realmToDisplay == nil) {
+        realmToDisplay = browserList.starredRealms.firstObject;
+    }
+
+    if (realmToDisplay == nil) {
+        realmToDisplay = browserList.allRealms.firstObject;
+    }
+
+    if (realmToDisplay == nil) {
         RLMBrowserEmptyViewController *controller = [[RLMBrowserEmptyViewController alloc] init];
         controller.navigationItem.rightBarButtonItem = _doneButton;
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+        RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
         self.viewControllers = @[navigationController];
     }
     else {
@@ -74,12 +86,10 @@
         _realmListNavigationController = [[UINavigationController alloc] initWithRootViewController:_realmListController];
         RLM_RESET_NAVIGATION_CONTROLLER(_realmListNavigationController);
 
-        _logoController = [[RLMBrowserLogoViewController alloc] init];
-        _logoController.navigationItem.rightBarButtonItem = _doneButton;
-        _logoNavigationController = [[UINavigationController alloc] initWithRootViewController:_logoController];
-        RLM_RESET_NAVIGATION_CONTROLLER(_logoNavigationController);
-
-        self.viewControllers = @[_realmListNavigationController, _logoNavigationController];
+        RLMBrowserRealmTableViewController *tableViewController = [[RLMBrowserRealmTableViewController alloc] initWithBrowserRealm:realmToDisplay browserList:browserList];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:tableViewController];
+        RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
+        self.viewControllers = @[_realmListNavigationController, navigationController];
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(splitViewControllerChangedNotification:) name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
@@ -105,14 +115,14 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)splitViewController:(TOSplitViewController *)splitViewController
-     collapseViewController:(UIViewController *)auxiliaryViewController
-                     ofType:(TOSplitViewControllerType)controllerType
-  ontoPrimaryViewController:(UIViewController *)primaryViewController
-              shouldAnimate:(BOOL)animate
-{
-    return NO;
-}
+//- (BOOL)splitViewController:(TOSplitViewController *)splitViewController
+//     collapseViewController:(UIViewController *)auxiliaryViewController
+//                     ofType:(TOSplitViewControllerType)controllerType
+//  ontoPrimaryViewController:(UIViewController *)primaryViewController
+//              shouldAnimate:(BOOL)animate
+//{
+//    return YES;
+//}
 
 #pragma mark - Registering App Group Realms -
 + (void)registerAppGroupRealmAtRelativePath:(NSString *)path forGroupIdentifier:(NSString *)identifier

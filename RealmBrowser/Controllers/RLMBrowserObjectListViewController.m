@@ -24,6 +24,7 @@
 #import "UIImage+BrowserIcons.h"
 #import "UILabel+RealmBrowser.h"
 #import "RLMRealm+BrowserCaptureRealms.h"
+#import "RLMBrowserLogoViewController.h"
 
 #import <Realm/Realm.h>
 #import <Realm/RLMRealm_Dynamic.h>
@@ -116,6 +117,16 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem, tweaksButton];
+
+    if (self.objects.count) {
+        [self pushObjectViewControllerwithObject:self.objects.firstObject collapsed:NO];
+    }
+    else {
+        RLMBrowserLogoViewController *logoController = [[RLMBrowserLogoViewController alloc] init];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:logoController];
+        RLM_RESET_NAVIGATION_CONTROLLER(navController);
+        [self to_showSecondaryViewController:self withDetailViewController:navController sender:self];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -323,12 +334,23 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
         object = self.objects[indexPath.row];
     }
 
+    [self pushObjectViewControllerwithObject:object collapsed:YES];
+}
+
+- (void)pushObjectViewControllerwithObject:(RLMObject *)object collapsed:(BOOL)collapsed
+{
     RLMBrowserObjectViewController *objectController = [[RLMBrowserObjectViewController alloc] initWithObject:object
                                                                                               forBrowserRealm:self.browserRealm
                                                                                                 browserSchema:self.browserSchema];
     UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:objectController];
-    [self to_showDetailViewController:controller sender:self];
     RLM_RESET_NAVIGATION_CONTROLLER(controller);
+
+    if (collapsed) {
+        [self to_showDetailViewController:controller sender:self];
+    }
+    else {
+        [self to_showSecondaryViewController:self.navigationController withDetailViewController:controller sender:self];
+    }
 }
 
 @end
