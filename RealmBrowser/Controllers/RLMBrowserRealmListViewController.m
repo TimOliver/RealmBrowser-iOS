@@ -142,8 +142,8 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *fileManagerButton = [[UIBarButtonItem alloc] initWithTitle:@"Files" style:UIBarButtonItemStylePlain target:self action:@selector(filesButtonTapped:)];
-    self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem, fileManagerButton];
+    //UIBarButtonItem *fileManagerButton = [[UIBarButtonItem alloc] initWithTitle:@"Files" style:UIBarButtonItemStylePlain target:self action:@selector(filesButtonTapped:)];
+    self.toolbarItems = @[flexibleSpaceItem, labelItem, flexibleSpaceItem/*, fileManagerButton*/];
 }
 
 - (void)viewWillAppear:(BOOL)animated

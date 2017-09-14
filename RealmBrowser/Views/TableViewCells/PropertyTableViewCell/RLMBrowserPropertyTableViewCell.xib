@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <development version="8000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -30,7 +30,7 @@
                         <rect key="frame" x="12" y="17" width="15" height="15"/>
                     </imageView>
                     <view contentMode="scaleToFill" misplaced="YES" id="zpt-cx-d8T" userLabel="DetailsContainer">
-                        <rect key="frame" x="170" y="5" width="108" height="38"/>
+                        <rect key="frame" x="201" y="5" width="108" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Boolean" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" adjustsLetterSpacingToFitWidth="YES" id="SgK-TH-dF2" userLabel="Type">
@@ -51,16 +51,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="Nvt-eg-DkT">
-                        <rect key="frame" x="291" y="20" width="13" height="10"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="38" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
-                <outlet property="checkmarkView" destination="Nvt-eg-DkT" id="MSC-AN-MPh"/>
                 <outlet property="iconView" destination="464-DS-FxV" id="EZh-YT-ObL"/>
                 <outlet property="subtitleLabel" destination="3dq-Es-kYt" id="HLW-Lp-qQ5"/>
                 <outlet property="titleLabel" destination="E9u-pt-xNA" id="ajo-d8-WpQ"/>

@@ -18,6 +18,8 @@
 #import "UILabel+RealmBrowser.h"
 #import "RLMBrowserList.h"
 #import "RLMBrowserConfiguration.h"
+#import "RLMRealm+BrowserCaptureRealms.h"
+#import "RLMBrowserObjectSchemaViewController.h"
 
 const NSInteger kRLMBrowserRealmViewTag = 101;
 
@@ -86,7 +88,7 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
     UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:objectsLabel];
 
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *fileManagerButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonTapped:)];
+    UIBarButtonItem *fileManagerButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Export", @"") style:UIBarButtonItemStylePlain target:self action:@selector(actionButtonTapped:)];
 
     if (!self.isDefaultRealm) {
         self.favoriteButtonImage = [UIImage RLMBrowser_favoriteIconFilled:NO];
@@ -314,6 +316,21 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0) {
+        return;
+    }
+
+    NSString *className = self.browserRealm.schema[indexPath.row].className;
+    RLMRealmConfiguration *configuration = self.browserRealm.realmConfiguration;
+    RLMRealm *realm = [RLMRealm RLMBrowser_realmWithConfiguration:configuration error:nil];
+    RLMObjectSchema *schema = realm.schema[className];
+
+    RLMBrowserObjectSchemaViewController *controller = [[RLMBrowserObjectSchemaViewController alloc] initWithObjectSchema:schema];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    navController.modalPresentationStyle = UIModalPresentationPopover;
+    navController.popoverPresentationController.sourceView = tableView;
+    navController.popoverPresentationController.sourceRect = [tableView rectForRowAtIndexPath:indexPath];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 @end

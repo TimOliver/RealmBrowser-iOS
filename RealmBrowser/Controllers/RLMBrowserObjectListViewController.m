@@ -17,7 +17,7 @@
 #import "RLMBrowserRealmTableViewCell.h"
 
 #import "RLMBrowserObjectViewController.h"
-#import "RLMBrowserObjectSchemaViewController.h"
+#import "RLMBrowserObjectSchemaPickerViewController.h"
 
 #import "RLMBrowserObjectListContentView.h"
 #import "UIColor+BrowserRealmColors.h"
@@ -65,9 +65,21 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     if (self = [super init]) {
         _browserRealm = realm;
         _browserSchema = schema;
+
+        // Add a notification for when the split view controller will collapse or expand
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(splitViewControllerDetailStateChanged:)
+                                                     name:TOSplitViewControllerShowTargetDidChangeNotification
+                                                   object:nil];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    // Remove the split view controller notification observer
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
 }
 
 #pragma mark - View Creation -
@@ -125,7 +137,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
         RLMBrowserLogoViewController *logoController = [[RLMBrowserLogoViewController alloc] init];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:logoController];
         RLM_RESET_NAVIGATION_CONTROLLER(navController);
-        [self to_setPendingDetailViewController:navController sender:self];
+        [self to_setDetailViewController:navController sender:self];
     }
 }
 
@@ -133,25 +145,6 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 {
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:NO animated:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    // Add a notification for when the split view controller will collapse or expand
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(splitViewControllerDetailStateChanged:)
-                                                 name:TOSplitViewControllerShowTargetDidChangeNotification
-                                               object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    // Remove the split view controller notification observer
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
 }
 
 #pragma mark - Search Bar Notifications -
@@ -244,7 +237,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
 
 - (void)tweaksButtonTapped:(id)sender
 {
-    RLMBrowserObjectSchemaViewController *controller = [[RLMBrowserObjectSchemaViewController alloc] initWithBrowserRealm:self.browserRealm
+    RLMBrowserObjectSchemaPickerViewController *controller = [[RLMBrowserObjectSchemaPickerViewController alloc] initWithBrowserRealm:self.browserRealm
                                                                                                             browserSchema:self.browserSchema
                                                                                                                demoObject:self.objects.firstObject];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -349,7 +342,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
         [self to_showDetailViewController:controller sender:self];
     }
     else {
-        [self to_setPendingDetailViewController:controller sender:self];
+        [self to_setDetailViewController:controller sender:self];
     }
 }
 

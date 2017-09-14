@@ -1,19 +1,16 @@
 //
 //  RLMBrowserObjectSchemaViewController.h
-//  RealmBrowser
+//  RealmBrowserExample
 //
-//  Created by Tim Oliver on 12/4/16.
-//  Copyright © 2016 Tim Oliver. All rights reserved.
+//  Created by Tim Oliver on 9/14/17.
+//  Copyright © 2017 Tim Oliver. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import <Realm/Realm.h>
 
-@class RLMObject;
-@class RLMBrowserRealm;
-@class RLMBrowserSchema;
+@interface RLMBrowserObjectSchemaViewController : UITableViewController
 
-@interface RLMBrowserObjectSchemaViewController : UIViewController
-
-- (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema demoObject:(RLMObject *)object;
+- (instancetype)initWithObjectSchema:(RLMObjectSchema *)objectSchema;
 
 @end

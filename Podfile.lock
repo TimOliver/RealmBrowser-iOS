@@ -3,11 +3,11 @@ PODS:
     - Realm/Headers (= 2.10.0)
   - Realm/Headers (2.10.0)
   - Reveal-SDK (10)
-  - TODocumentPickerViewController (0.1.0)
+  - TODocumentPickerViewController (0.1.1)
   - TOPagerView (0.0.1)
   - TORoundedTableView (0.1.3)
-  - TOSplitViewController (0.0.2)
-  - TOStatusBarSimulator (0.0.2)
+  - TOSplitViewController (0.0.3)
+  - TOStatusBarSimulator (0.1.0)
 
 DEPENDENCIES:
   - Realm
@@ -29,12 +29,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Realm: 98b3a25643cf6b3e07d2b99fb43fe0eb9c801dec
   Reveal-SDK: 7869ddf1f902cabbb07a1f0dd06bd25861a126f7
-  TODocumentPickerViewController: 81a2943cf33dc330aa64d6529ad32e759de3676b
+  TODocumentPickerViewController: 563d97ad8d8014e6b30245e31bf4248f2778c0fb
   TOPagerView: 5d759c6cdb785b6359637889dec6985f7abc0070
   TORoundedTableView: cd1437ef81ab3888dea8c06d2dfe4795bcaac768
-  TOSplitViewController: d39bfa0ce472fdf7389ad2b02b77ececf707911c
-  TOStatusBarSimulator: 6e14f3ef6aac1d611166db5e7eb0a5f4f00825f1
+  TOSplitViewController: 8a49793a622156aad64af94a06f8c85c2d7dd1eb
+  TOStatusBarSimulator: 0f70784fd8620b5b268b4930467c52b916facf7f
 
 PODFILE CHECKSUM: e403bb3ddf0d0cfab04b12034097a64e10cbd858
 
-COCOAPODS: 1.3.0.beta.2
+COCOAPODS: 1.3.1

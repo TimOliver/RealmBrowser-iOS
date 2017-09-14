@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Realm/Realm.h>
 #import "RLMBrowserTableViewCell.h"
 
 @interface RLMBrowserPropertyTableViewCell : RLMBrowserTableViewCell
@@ -17,6 +18,6 @@
 
 @property (nonatomic, weak) IBOutlet UIImageView *iconView;
 
-@property (nonatomic, weak) IBOutlet UIImageView *checkmarkView;
+- (void)configureCellWithProperty:(RLMProperty *)property;
 
 @end

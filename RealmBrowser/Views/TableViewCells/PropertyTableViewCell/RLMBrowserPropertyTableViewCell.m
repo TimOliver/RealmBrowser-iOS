@@ -7,7 +7,15 @@
 //
 
 #import "RLMBrowserPropertyTableViewCell.h"
+#import "RLMProperty+BrowserDescription.h"
 
 @implementation RLMBrowserPropertyTableViewCell
+
+- (void)configureCellWithProperty:(RLMProperty *)property
+{
+    self.titleLabel.text = property.name;
+    self.subtitleLabel.text = property.RLMBrowser_configurationDescription;
+    self.typeLabel.text = property.RLMBrowser_typeDescription;
+}
 
 @end
