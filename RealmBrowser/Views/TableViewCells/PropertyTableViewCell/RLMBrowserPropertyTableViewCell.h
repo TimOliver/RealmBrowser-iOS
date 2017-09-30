@@ -13,10 +13,14 @@
 @interface RLMBrowserPropertyTableViewCell : RLMBrowserTableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+
+@property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (nonatomic, weak) IBOutlet UILabel *subtitleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *typeLabel;
 
 @property (nonatomic, weak) IBOutlet UIImageView *iconView;
+
+@property (nonatomic, assign) CGFloat rightInset;
 
 - (void)configureCellWithProperty:(RLMProperty *)property;
 

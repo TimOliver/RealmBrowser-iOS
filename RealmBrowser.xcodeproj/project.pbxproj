@@ -657,7 +657,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-RealmBrowserExample/Pods-RealmBrowserExample-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${PODS_ROOT}/Reveal-SDK/RevealServer-10/iOS/RevealServer.framework",
+				"${PODS_ROOT}/Reveal-SDK/RevealServer-11/iOS/RevealServer.framework",
 				"${BUILT_PRODUCTS_DIR}/TODocumentPickerViewController/TODocumentPickerViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/TOPagerView/TOPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/TORoundedTableView/TORoundedTableView.framework",

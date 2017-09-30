@@ -115,14 +115,14 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-//- (BOOL)splitViewController:(TOSplitViewController *)splitViewController
-//     collapseViewController:(UIViewController *)auxiliaryViewController
-//                     ofType:(TOSplitViewControllerType)controllerType
-//  ontoPrimaryViewController:(UIViewController *)primaryViewController
-//              shouldAnimate:(BOOL)animate
-//{
-//    return YES;
-//}
+- (BOOL)splitViewController:(TOSplitViewController *)splitViewController
+     collapseViewController:(UIViewController *)auxiliaryViewController
+                     ofType:(TOSplitViewControllerType)controllerType
+  ontoPrimaryViewController:(UIViewController *)primaryViewController
+              shouldAnimate:(BOOL)animate
+{
+    return YES;
+}
 
 #pragma mark - Registering App Group Realms -
 + (void)registerAppGroupRealmAtRelativePath:(NSString *)path forGroupIdentifier:(NSString *)identifier

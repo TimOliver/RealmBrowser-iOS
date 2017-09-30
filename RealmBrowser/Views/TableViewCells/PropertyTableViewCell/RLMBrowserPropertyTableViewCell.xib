@@ -56,6 +56,7 @@
             </tableViewCellContentView>
             <inset key="separatorInset" minX="38" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
+                <outlet property="containerView" destination="zpt-cx-d8T" id="EYS-D2-BT6"/>
                 <outlet property="iconView" destination="464-DS-FxV" id="EZh-YT-ObL"/>
                 <outlet property="subtitleLabel" destination="3dq-Es-kYt" id="HLW-Lp-qQ5"/>
                 <outlet property="titleLabel" destination="E9u-pt-xNA" id="ajo-d8-WpQ"/>

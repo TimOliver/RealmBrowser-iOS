@@ -27,6 +27,7 @@
 
 // ------------------------------------------------------------------
 
+CGFloat const kRLMBrowserObjectSchemaTableViewCellContentInset = 30.0f;
 NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCell";
 
 // ------------------------------------------------------------------
@@ -117,6 +118,7 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     self.segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin
                                                 | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     [self.segmentedControl addTarget:self action:@selector(segmentControlChanged:) forControlEvents:UIControlEventValueChanged];
+
     UIBarButtonItem *controlItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 
@@ -219,6 +221,8 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
 {
     RLMBrowserPropertyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRLMBrowserObjectSchemaTableViewCellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+
+    cell.rightInset = kRLMBrowserObjectSchemaTableViewCellContentInset;
 
     RLMProperty *property = self.schema.properties[indexPath.row];
     cell.iconView.image = self.circleIcon;
