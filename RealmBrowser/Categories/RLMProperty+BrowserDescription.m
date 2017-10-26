@@ -12,30 +12,43 @@
 
 - (NSString *)RLMBrowser_typeDescription
 {
+    NSString *propertyString = nil;
     switch (self.type) {
         case RLMPropertyTypeInt:
-            return @"Integer";
+            propertyString = @"Integer";
+            break;
         case RLMPropertyTypeBool:
-            return @"Boolean";
+            propertyString = @"Boolean";
+            break;
         case RLMPropertyTypeFloat:
-            return @"Float";
+            propertyString = @"Float";
+            break;
         case RLMPropertyTypeDouble:
-            return @"Double";
+            propertyString = @"Double";
+            break;
         case RLMPropertyTypeString:
-            return @"String";
+            propertyString = @"String";
+            break;
         case RLMPropertyTypeData:
-            return @"Data";
+            propertyString = @"Data";
+            break;
         case RLMPropertyTypeDate:
-            return @"Date";
+            propertyString = @"Date";
+            break;
         case RLMPropertyTypeObject:
-            return self.objectClassName;
-        case RLMPropertyTypeArray:
-            return [NSString stringWithFormat:@"Array <%@>", self.objectClassName];
+            propertyString = self.objectClassName;
+            break;
         case RLMPropertyTypeLinkingObjects:
-            return [NSString stringWithFormat:@"LinkingObjects <%@>", self.objectClassName];
+            return [NSString stringWithFormat:@"LinkingObjects <%@>", self.linkOriginPropertyName];
         default:
             return @"Unknown";
     }
+    
+    if (self.array) {
+        propertyString = [NSString stringWithFormat:@"Array <%@", propertyString];
+    }
+    
+    return propertyString;
 }
 
 - (NSString *)RLMBrowser_configurationDescription
