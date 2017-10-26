@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '8.0'
 
 target 'RealmBrowserExample' do
 	use_frameworks!
@@ -8,6 +8,6 @@ target 'RealmBrowserExample' do
 	pod 'TORoundedTableView'
 	pod 'TOSplitViewController', :path => '~/Projects/TOSplitViewController'
 	pod 'TOPagerView'
-	pod 'TODocumentPickerViewController', :path => '~/Projects/TODocumentPickerViewController'
+	pod 'TODocumentPickerViewController'
 	pod 'TOStatusBarSimulator', :path => '~/Projects/TOStatusBarSimulator'
 end

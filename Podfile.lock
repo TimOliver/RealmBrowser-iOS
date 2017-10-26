@@ -1,23 +1,38 @@
 PODS:
-  - Realm (3.0.0):
-    - Realm/Headers (= 3.0.0)
-  - Realm/Headers (3.0.0)
+  - Realm (3.0.1):
+    - Realm/Headers (= 3.0.1)
+  - Realm/Headers (3.0.1)
   - Reveal-SDK (11)
+  - TODocumentPickerViewController (0.1.1)
+  - TOPagerView (0.0.1)
   - TORoundedTableView (0.1.3)
-  - XLForm (3.3.0)
+  - TOSplitViewController (0.0.4)
+  - TOStatusBarSimulator (0.2.0)
 
 DEPENDENCIES:
   - Realm
   - Reveal-SDK
+  - TODocumentPickerViewController
+  - TOPagerView
   - TORoundedTableView
-  - XLForm
+  - TOSplitViewController (from `~/Projects/TOSplitViewController`)
+  - TOStatusBarSimulator (from `~/Projects/TOStatusBarSimulator`)
+
+EXTERNAL SOURCES:
+  TOSplitViewController:
+    :path: ~/Projects/TOSplitViewController
+  TOStatusBarSimulator:
+    :path: ~/Projects/TOStatusBarSimulator
 
 SPEC CHECKSUMS:
-  Realm: dec0de73be8c57506e39db72694d513c189493b3
+  Realm: ba6144c74f835f7497791f6599d63a7755377b83
   Reveal-SDK: 7fa13d04bb55db61ff2342a990cf731d5159361d
+  TODocumentPickerViewController: 563d97ad8d8014e6b30245e31bf4248f2778c0fb
+  TOPagerView: 5d759c6cdb785b6359637889dec6985f7abc0070
   TORoundedTableView: cd1437ef81ab3888dea8c06d2dfe4795bcaac768
-  XLForm: d5c391dfc62865927b5bcab0a5a0dbfb3e02b0ec
+  TOSplitViewController: 3d59b95c3e09511cc4540bc05d1db6a7d3289eed
+  TOStatusBarSimulator: 8c2883cbdb424137cfda8ce8427cf37da3a1112b
 
-PODFILE CHECKSUM: 87d55955a96f83fdb5b233c44e832ff02fb945b9
+PODFILE CHECKSUM: 1c68d57c4be3f121851444e7cf3eecc441f0a13e
 
 COCOAPODS: 1.3.1

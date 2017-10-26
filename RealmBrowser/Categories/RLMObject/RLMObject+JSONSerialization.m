@@ -49,14 +49,14 @@
         }
         case RLMPropertyTypeObject:
             return [[self class] JSONDictionaryForObject:value];
-        case RLMPropertyTypeArray:
-        {
-            NSMutableArray *array = [NSMutableArray array];
-            for (RLMObject *object in (RLMArray *)value) {
-                [array addObject:[[self class] JSONDictionaryForObject:object]];
-            }
-            return array;
-        }
+//        case RLMPropertyTypeArray:
+//        {
+//            NSMutableArray *array = [NSMutableArray array];
+//            for (RLMObject *object in (RLMArray *)value) {
+//                [array addObject:[[self class] JSONDictionaryForObject:object]];
+//            }
+//            return array;
+//        }
         default:
             break;
     }

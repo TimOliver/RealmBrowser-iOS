@@ -56,12 +56,12 @@ static inline NSString *RLM_OBJECT_VALUE_DESCRIPTION(RLMObject *object, NSString
             if (!childObject) { return nil; }
             return childObject.objectSchema.className;
         }
-        case RLMPropertyTypeArray:
-        {
-            RLMArray *array = object[key];
-            NSString *className = array.objectClassName;
-            return [NSString stringWithFormat:@"RLMArray<%@>", className];
-        }
+//        case RLMPropertyTypeArray:
+//        {
+//            RLMArray *array = object[key];
+//            NSString *className = array.objectClassName;
+//            return [NSString stringWithFormat:@"RLMArray<%@>", className];
+//        }
         default: return nil;
     }
 }
