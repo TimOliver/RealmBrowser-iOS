@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <TOSplitViewController/TOSplitViewController.h>
 
-@interface RLMBrowserViewController : UISplitViewController
+@interface RLMBrowserViewController : TOSplitViewController
+
++ (void)registerAppGroupRealmAtRelativePath:(NSString *)path forGroupIdentifier:(NSString *)identifier;
 
 - (void)show;
++ (void)show;
+
++ (void)reset;
 
 @end

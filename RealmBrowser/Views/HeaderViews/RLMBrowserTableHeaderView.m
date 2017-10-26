@@ -36,7 +36,12 @@ CGFloat const kRLMRealmLogoSize = 60.0f;
 
 - (instancetype)initWithStyle:(RLMTableHeaderViewStyle)style
 {
-    if (self = [super initWithFrame:CGRectMake(0,0,320.0f,44.0f)]) {
+    CGFloat height = 44.0f;
+    if (@available(iOS 11.0, *)) {
+        height = 54.0f;
+    }
+
+    if (self = [super initWithFrame:CGRectMake(0,0,320.0f,height)]) {
         _style = style;
     }
     

@@ -10,6 +10,8 @@
 
 @implementation RLMBrowserRealmTableViewCell
 
+@synthesize imageView = __imageView;
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

@@ -6,27 +6,30 @@
 //  Copyright © 2016 Timothy Oliver. All rights reserved.
 //
 
+#import "RLMBrowserConstants.h"
 #import "RLMBrowserViewController.h"
 #import "RLMBrowserRealmListViewController.h"
 #import "RLMBrowserObjectListViewController.h"
 #import "RLMBrowserObjectViewController.h"
 #import "RLMBrowserLogoViewController.h"
 
-@interface RLMBrowserViewController () <UISplitViewControllerDelegate>
+#import "RLMBrowserAppGroupRealm.h"
+#import "RLMBrowserRealm.h"
+#import "RLMBrowserList.h"
+#import "RLMRealm+BrowserCaptureRealms.h"
+#import "RLMRealm+BrowserCaptureWrites.h"
+#import "RLMBrowserConfiguration.h"
+#import "RLMBrowserEmptyViewController.h"
+#import "RLMBrowserRealmTableViewController.h"
+
+@interface RLMBrowserViewController () <TOSplitViewControllerDelegate>
 
 @property (nonatomic, strong) UISplitViewController *innerSplitController;
 
 @property (nonatomic, strong) UINavigationController *realmListNavigationController;
 @property (nonatomic, strong) RLMBrowserRealmListViewController *realmListController;
 
-@property (nonatomic, strong) UINavigationController *logoNavigationController;
-@property (nonatomic, strong) RLMBrowserLogoViewController *logoController;
-
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
-
-- (void)setUp;
-- (void)doneButtonTapped:(id)sender;
-- (void)removeDoneButtonFromStackInNavigationController:(UINavigationController *)navController;
 
 @end
 
@@ -54,28 +57,57 @@
 {
     self.delegate = self;
     self.modalPresentationStyle = UIModalPresentationFullScreen;
-    self.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
 
     _doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonTapped:)];
-    
-    _realmListController = [[RLMBrowserRealmListViewController alloc] init];
-    _realmListNavigationController = [[UINavigationController alloc] initWithRootViewController:_realmListController];
-    
-    _logoController = [[RLMBrowserLogoViewController alloc] init];
-    _logoController.navigationItem.rightBarButtonItem = _doneButton;
-    _logoNavigationController = [[UINavigationController alloc] initWithRootViewController:_logoController];
-    
-    self.viewControllers = @[_realmListNavigationController, _logoNavigationController];
+
+    // Check to see if we have any Realm entries present
+    RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
+    RLMBrowserList *browserList = [RLMBrowserList allObjectsInRealm:browserRealm].firstObject;
+
+    // Try each list of Realms
+    RLMBrowserRealm *realmToDisplay = browserList.defaultRealm;
+    if (realmToDisplay == nil) {
+        realmToDisplay = browserList.starredRealms.firstObject;
+    }
+
+    if (realmToDisplay == nil) {
+        realmToDisplay = browserList.allRealms.firstObject;
+    }
+
+    if (realmToDisplay == nil) {
+        RLMBrowserEmptyViewController *controller = [[RLMBrowserEmptyViewController alloc] init];
+        controller.navigationItem.rightBarButtonItem = _doneButton;
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+        RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
+        self.viewControllers = @[navigationController];
+    }
+    else {
+        _realmListController = [[RLMBrowserRealmListViewController alloc] init];
+        _realmListNavigationController = [[UINavigationController alloc] initWithRootViewController:_realmListController];
+        RLM_RESET_NAVIGATION_CONTROLLER(_realmListNavigationController);
+
+        RLMBrowserRealmTableViewController *tableViewController = [[RLMBrowserRealmTableViewController alloc] initWithBrowserRealm:realmToDisplay browserList:browserList];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:tableViewController];
+        RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
+        self.viewControllers = @[_realmListNavigationController, navigationController];
+    }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(splitViewControllerChangedNotification:) name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOSplitViewControllerShowTargetDidChangeNotification object:nil];
+}
 
 #pragma mark - Done Button Handling -
-- (void)removeDoneButtonFromStackInNavigationController:(UINavigationController *)navController
+
+- (void)splitViewControllerChangedNotification:(NSNotification *)notification;
 {
-    // Loop through all the controllers and remove the 'Done' button from them
-    for (UIViewController *controller in navController.viewControllers) {
-        controller.navigationItem.rightBarButtonItem = nil;
-    }
+    // Set the done button to whichever last view controller is visible
+    UINavigationController *lastController = (UINavigationController *)self.visibleViewControllers.lastObject;
+    if ([lastController isKindOfClass:[UINavigationController class]] == NO) { return; }
+    lastController.visibleViewController.navigationItem.rightBarButtonItem = self.doneButton;
 }
 
 - (void)doneButtonTapped:(id)sender
@@ -83,62 +115,66 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - UISplitViewController Delegate -
-- (BOOL)splitViewController:(UISplitViewController *)splitViewController
-    collapseSecondaryViewController:(UIViewController *)secondaryViewController
-          ontoPrimaryViewController:(UIViewController *)primaryViewController
+- (BOOL)splitViewController:(TOSplitViewController *)splitViewController
+     collapseViewController:(UIViewController *)auxiliaryViewController
+                     ofType:(TOSplitViewControllerType)controllerType
+  ontoPrimaryViewController:(UIViewController *)primaryViewController
+              shouldAnimate:(BOOL)animate
 {
-    UINavigationController *primaryNavigationController = (UINavigationController *)primaryViewController;
-    primaryViewController = primaryNavigationController.visibleViewController;
-    
-    UINavigationController *secondaryNavigationController = (UINavigationController *)secondaryViewController;
-    secondaryViewController = secondaryNavigationController.visibleViewController;
-    
-    // We only care about changing the collapse if there is an object view controller visible,
-    // otherwise the default functionality is fine
-    if (secondaryNavigationController != self.logoNavigationController) {
-        [primaryNavigationController pushViewController:secondaryViewController animated:NO];
-    }
-    
-    // Strip out and then add back in the done button
-    [self removeDoneButtonFromStackInNavigationController:primaryNavigationController];
-    primaryNavigationController.visibleViewController.navigationItem.rightBarButtonItem = self.doneButton;
-    
     return YES;
 }
 
-- (UIViewController *)splitViewController:(UISplitViewController *)splitViewController
-                separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController
+#pragma mark - Registering App Group Realms -
++ (void)registerAppGroupRealmAtRelativePath:(NSString *)path forGroupIdentifier:(NSString *)identifier
 {
-    UINavigationController *primaryNavigationController = (UINavigationController *)primaryViewController;
-    
-    // Remove the done button from all of the primary controller childen
-    [self removeDoneButtonFromStackInNavigationController:(UINavigationController *)primaryNavigationController];
-    
-    UINavigationController *newSecondaryController = nil;
-    
-    // If a legit content view controller is at the end of this stack, defer to that
-    if ([primaryNavigationController.viewControllers.lastObject isKindOfClass:[RLMBrowserObjectViewController class]]) {
-        UIViewController *lastController = [primaryNavigationController.viewControllers lastObject];
-        newSecondaryController = [[UINavigationController alloc] initWithRootViewController:lastController];
-        [primaryNavigationController popViewControllerAnimated:NO];
+    // Add a leading '/'
+    if ([path characterAtIndex:0] != '/') {
+        path = [NSString stringWithFormat:@"/%@", path];
     }
-    else { // otherwise, defer back to the empty view controller
-        newSecondaryController = self.logoNavigationController;
-    }
-    
-    // Add it to the new secondary controller
-    newSecondaryController.visibleViewController.navigationItem.rightBarButtonItem = self.doneButton;
-    
-    return self.logoNavigationController;
+
+    RLMRealm *browserRealm = [RLMRealm RLMBrowser_realmWithConfiguration:[RLMBrowserConfiguration configuration] error:nil];
+
+    // Check if we already registered this Realm file
+    RLMResults *appGroupRealms = [RLMBrowserAppGroupRealm objectsInRealm:browserRealm
+                                                                   where:@"groupIdentifier == %@ && realmFilePath == %@",
+                                                                      identifier, path];
+
+    if (appGroupRealms.count > 0) { return; }
+
+    // Add this entry to the browser realm
+    RLMBrowserAppGroupRealm *appGroupRealm = [[RLMBrowserAppGroupRealm alloc] init];
+    appGroupRealm.realmFilePath = path;
+    appGroupRealm.groupIdentifier = identifier;
+
+    [browserRealm beginWriteTransaction];
+    [browserRealm addObject:appGroupRealm];
+    [browserRealm RLMBrowser_commitWriteTransaction:nil];
 }
 
 #pragma mark - Display -
++ (void)show
+{
+    @autoreleasepool {
+        RLMBrowserViewController *controller = [[RLMBrowserViewController alloc] init];
+        [controller show];
+    }
+}
+
 - (void)show
 {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     UIViewController *rootController = window.rootViewController;
+    if ([rootController.presentedViewController isKindOfClass:[RLMBrowserViewController class]]) {
+        return;
+    }
+
     [rootController presentViewController:self animated:YES completion:nil];
+}
+
++ (void)reset
+{
+    RLMRealmConfiguration *configuration = [RLMBrowserConfiguration configuration];
+    [[NSFileManager defaultManager] removeItemAtURL:configuration.fileURL.URLByDeletingLastPathComponent error:nil];
 }
 
 @end
