@@ -19,5 +19,5 @@ Realm Browser for iOS is licensed under the MIT license. Please see the [LICENSE
 
 Realm Browser for iOS was designed and developed by [Tim Oliver](http://timoliver.blog).
 
-iPad Air 2 perspective mockup by [Pixeden](http://pixeden.com).
+iPad Pro mockup by [Pixeden](http://pixeden.com).
 
