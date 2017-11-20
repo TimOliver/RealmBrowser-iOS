@@ -14,6 +14,8 @@
 
 @interface RLMBrowserObjectSchemaPickerViewController : UIViewController
 
+@property (nonatomic, copy) void (^doneHandler)(void);
+
 - (instancetype)initWithBrowserRealm:(RLMBrowserRealm *)realm browserSchema:(RLMBrowserSchema *)schema demoObject:(RLMObject *)object;
 
 @end

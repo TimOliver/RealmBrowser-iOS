@@ -87,6 +87,7 @@
         RLM_RESET_NAVIGATION_CONTROLLER(_realmListNavigationController);
 
         RLMBrowserRealmTableViewController *tableViewController = [[RLMBrowserRealmTableViewController alloc] initWithBrowserRealm:realmToDisplay browserList:browserList];
+        tableViewController.navigationItem.rightBarButtonItem = self.doneButton;
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:tableViewController];
         RLM_RESET_NAVIGATION_CONTROLLER(navigationController);
         self.viewControllers = @[_realmListNavigationController, navigationController];
@@ -102,12 +103,17 @@
 
 #pragma mark - Done Button Handling -
 
-- (void)splitViewControllerChangedNotification:(NSNotification *)notification;
+- (void)updateDoneButtonLocation
 {
     // Set the done button to whichever last view controller is visible
     UINavigationController *lastController = (UINavigationController *)self.visibleViewControllers.lastObject;
     if ([lastController isKindOfClass:[UINavigationController class]] == NO) { return; }
     lastController.visibleViewController.navigationItem.rightBarButtonItem = self.doneButton;
+}
+
+- (void)splitViewControllerChangedNotification:(NSNotification *)notification;
+{
+    [self updateDoneButtonLocation];
 }
 
 - (void)doneButtonTapped:(id)sender
@@ -121,7 +127,43 @@
   ontoPrimaryViewController:(UIViewController *)primaryViewController
               shouldAnimate:(BOOL)animate
 {
+    if (controllerType == TOSplitViewControllerTypeDetail) {
+        auxiliaryViewController.navigationItem.rightBarButtonItem = self.doneButton;
+    }
+    
     return YES;
+}
+
+- (BOOL)splitViewController:(TOSplitViewController *)splitViewController
+showSecondaryViewController:(UIViewController *)viewController
+                     sender:(id)sender
+{
+    if (splitViewController.detailViewController) { return NO; }
+    
+    if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UIViewController *vc = [(UINavigationController *)viewController visibleViewController];
+        vc.navigationItem.rightBarButtonItem = self.doneButton;
+    }
+    else {
+        viewController.navigationItem.rightBarButtonItem = self.doneButton;
+    }
+    
+    return NO;
+}
+
+- (BOOL)splitViewController:(TOSplitViewController *)splitViewController
+   showDetailViewController:(UIViewController *)viewController
+                     sender:(id)sender
+{
+    if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UIViewController *vc = [(UINavigationController *)viewController visibleViewController];
+        vc.navigationItem.rightBarButtonItem = self.doneButton;
+    }
+    else {
+        viewController.navigationItem.rightBarButtonItem = self.doneButton;
+    }
+    
+    return NO;
 }
 
 #pragma mark - Registering App Group Realms -

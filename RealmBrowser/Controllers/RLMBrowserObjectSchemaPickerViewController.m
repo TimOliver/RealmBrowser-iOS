@@ -29,6 +29,7 @@
 
 CGFloat const kRLMBrowserObjectSchemaTableViewCellContentInset = 30.0f;
 NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCell";
+NSInteger const kRLMBrowserObjectSchemaPickerCheckTag = 101;
 
 // ------------------------------------------------------------------
 
@@ -149,6 +150,14 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     self.segmentedControl.selectedSegmentIndex = 0;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (self.doneHandler) {
+        self.doneHandler();
+    }
+}
+
 #pragma mark - Presentation Management -
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
 {
@@ -230,20 +239,102 @@ NSString * const kRLMBrowserObjectSchemaTableViewCellIdentifier = @"ObjectListCe
     cell.titleLabel.text = property.name;
     cell.subtitleLabel.text = property.RLMBrowser_configurationDescription;
     cell.typeLabel.text = property.RLMBrowser_typeDescription;
-//    cell.checkmarkView.image = self.checkmarkIcon;
-//
-//    if (self.showingSecondarySettings) {
-//        cell.checkmarkView.hidden = ![self.secondaryPropertyStrings containsObject:property.name];
-//    }
-//    else {
-//        cell.checkmarkView.hidden = ![property.name isEqualToString:self.browserSchema.preferredPropertyName];
-//    }
+
+    // Set up the check mark view if we haven't done so before
+    UIImageView *checkmarkView = [cell.contentView viewWithTag:kRLMBrowserObjectSchemaPickerCheckTag];
+    if (checkmarkView == nil) {
+        checkmarkView = [[UIImageView alloc] initWithImage:self.checkmarkIcon];
+        checkmarkView.tag = kRLMBrowserObjectSchemaPickerCheckTag;
+        CGRect frame = checkmarkView.frame;
+        frame.origin.x = (cell.contentView.frame.size.width - kRLMBrowserObjectSchemaTableViewCellContentInset) + 2;
+        frame.origin.y = CGRectGetMidY(cell.contentView.bounds) - (frame.size.height * 0.5f);
+        checkmarkView.frame = frame;
+        
+        checkmarkView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin |
+                                            UIViewAutoresizingFlexibleBottomMargin;
+        [cell.contentView addSubview:checkmarkView];
+    }
+    
+    if (self.showingSecondarySettings) {
+        checkmarkView.hidden = ![self.secondaryPropertyStrings containsObject:property.name];
+    }
+    else {
+        checkmarkView.hidden = ![property.name isEqualToString:self.browserSchema.preferredPropertyName];
+    }
 
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    RLMProperty *newProperty = self.schema.properties[indexPath.row];
+    
+    [self.browserRealm.realm transactionWithBlock:^{
+        
+        // If primary, just overwrite the old value
+        if (!self.showingSecondarySettings) {
+            self.browserSchema.preferredPropertyName = newProperty.name;
+        }
+        else {
+            // If secondary, either add or remove it if it is found
+            NSInteger i = 0;
+            BOOL found = NO;
+            for (RLMBrowserObjectProperty *propertyName in self.browserSchema.secondaryPropertyNames) {
+                if ([propertyName.name isEqualToString:newProperty.name]) {
+                    [self.browserSchema.secondaryPropertyNames removeObjectAtIndex:i];
+                    found = YES;
+                    break;
+                }
+                i++;
+            }
+            
+            if (found == NO) {
+                RLMArray *secondaryPropertyNames = self.browserSchema.secondaryPropertyNames;
+                
+                RLMBrowserObjectProperty *newObjectProperty = [[RLMBrowserObjectProperty alloc] init];
+                newObjectProperty.name = newProperty.name;
+                [secondaryPropertyNames addObject:newObjectProperty];
+                
+                // Re-order the list
+                NSMutableArray *objectPropertiesCopy = [NSMutableArray array];
+                for (RLMBrowserObjectProperty *property in secondaryPropertyNames) {
+                    [objectPropertiesCopy addObject:property];
+                }
+                
+                [secondaryPropertyNames removeAllObjects];
+            
+                for (RLMProperty *property in self.schema.properties) {
+                    for (RLMBrowserObjectProperty *objectProperty in objectPropertiesCopy) {
+                        if ([property.name isEqualToString:objectProperty.name]) {
+                            [secondaryPropertyNames addObject:objectProperty];
+                        }
+                    }
+                }
+            }
+        }
+    }];
+    
+    self.secondaryPropertyStrings = self.browserSchema.secondaryPropertyNameStrings;
+    
+    // Update the table views
+    NSArray *cellPaths = [self.tableView indexPathsForVisibleRows];
+    for (NSIndexPath *indexPath in cellPaths) {
+        RLMBrowserPropertyTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        RLMProperty *property = self.schema.properties[indexPath.row];
+        
+        UIImageView *checkmarkView = [cell.contentView viewWithTag:kRLMBrowserObjectSchemaPickerCheckTag];
+        if (self.showingSecondarySettings) {
+            checkmarkView.hidden = ![self.secondaryPropertyStrings containsObject:property.name];
+        }
+        else {
+            checkmarkView.hidden = ![property.name isEqualToString:self.browserSchema.preferredPropertyName];
+        }
+    }
+    
+    [self.previewView.objectPreviewView configureCellWithRealmObject:self.demoObject
+                                                       titleProperty:self.browserSchema.preferredPropertyName
+                                                 secondaryProperties:self.secondaryPropertyStrings];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

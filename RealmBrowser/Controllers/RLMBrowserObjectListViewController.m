@@ -240,6 +240,7 @@ NSInteger const kRLMBrowserObjectListViewTag = 101;
     RLMBrowserObjectSchemaPickerViewController *controller = [[RLMBrowserObjectSchemaPickerViewController alloc] initWithBrowserRealm:self.browserRealm
                                                                                                             browserSchema:self.browserSchema
                                                                                                                demoObject:self.objects.firstObject];
+    controller.doneHandler = ^{ [self.tableView reloadData]; };
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     UIPopoverPresentationController *popoverController = navigationController.popoverPresentationController;
