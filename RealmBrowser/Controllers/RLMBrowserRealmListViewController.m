@@ -136,12 +136,13 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
             [screenshot removeFromSuperview];
         }];
     }];
-
+    
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
     // Register the table cells
-    UINib *realmTableCellNib = [UINib nibWithNibName:@"RLMBrowserRealmTableViewCell" bundle:nil];
+    UINib *realmTableCellNib = [UINib nibWithNibName:@"RLMBrowserRealmTableViewCell" bundle:bundle];
     [self.tableView registerNib:realmTableCellNib forCellReuseIdentifier:kRLMBrowserRealmTableViewCellIdentifier];
 
-    UINib *schemaTableCellNib = [UINib nibWithNibName:@"RLMBrowserSchemaTableViewCell" bundle:nil];
+    UINib *schemaTableCellNib = [UINib nibWithNibName:@"RLMBrowserSchemaTableViewCell" bundle:bundle];
     [self.tableView registerNib:schemaTableCellNib forCellReuseIdentifier:kRLMBrowserSchemaTableViewCellIdentifier];
 
     self.lightColors = [[[UIColor RLMBrowser_realmColorsLight] reverseObjectEnumerator] allObjects];
