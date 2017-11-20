@@ -104,7 +104,8 @@ NSInteger const kRLMBrowserObjectSchemaPickerCheckTag = 101;
     [self.view addSubview:self.tableView];
     
     // Configure table cell
-    UINib *tableNib = [UINib nibWithNibName:@"RLMBrowserPropertyTableViewCell" bundle:nil];
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    UINib *tableNib = [UINib nibWithNibName:@"RLMBrowserPropertyTableViewCell" bundle:bundle];
     [self.tableView registerNib:tableNib forCellReuseIdentifier:kRLMBrowserObjectSchemaTableViewCellIdentifier];
     
     // Load Realm and the schema
