@@ -26,7 +26,7 @@
 
 + (instancetype)contentView
 {
-    return [[[NSBundle mainBundle] loadNibNamed:@"RLMBrowserSchemaPreviewView" owner:self options:nil] firstObject];
+    return [[[NSBundle bundleForClass:self.class] loadNibNamed:@"RLMBrowserSchemaPreviewView" owner:self options:nil] firstObject];
 }
 
 - (void)awakeFromNib

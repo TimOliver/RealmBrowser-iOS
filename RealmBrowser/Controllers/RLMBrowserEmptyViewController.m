@@ -47,7 +47,7 @@
 
     self.navigationItem.titleView = [[RLMRealmLogoView alloc] initWithFrame:(CGRect){0,0,30,30}];
 
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(id)kCFBundleNameKey];
+    NSString *appName = [[[NSBundle bundleForClass:self.class] infoDictionary] objectForKey:(id)kCFBundleNameKey];
     NSString *subtitleString = [NSString stringWithFormat:NSLocalizedString(@"%@ needs to open each Realm before it will appear here.", @""), appName];
     self.emptyView.subtitleLabel.text = subtitleString;
 }

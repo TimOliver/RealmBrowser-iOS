@@ -26,7 +26,7 @@
 
 - (instancetype)init
 {
-    if ((self = [[NSBundle mainBundle] loadNibNamed:@"RLMBrowserNavigationTitleView"
+    if ((self = [[NSBundle bundleForClass:self.class] loadNibNamed:@"RLMBrowserNavigationTitleView"
                                                owner:self options:nil].firstObject)) {
         
     }

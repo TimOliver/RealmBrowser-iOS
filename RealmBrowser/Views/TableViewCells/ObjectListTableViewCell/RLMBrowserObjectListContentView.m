@@ -26,7 +26,7 @@
 
 + (instancetype)objectListContentView
 {
-    return [[[NSBundle mainBundle] loadNibNamed:@"RLMBrowserObjectListContentView" owner:nil options:nil] firstObject];
+    return [[[NSBundle bundleForClass:self.class] loadNibNamed:@"RLMBrowserObjectListContentView" owner:nil options:nil] firstObject];
 }
 
 - (void)configureCellWithRealmObject:(RLMObject *)object
