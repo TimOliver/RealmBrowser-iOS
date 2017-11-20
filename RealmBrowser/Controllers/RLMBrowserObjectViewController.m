@@ -197,7 +197,7 @@ const NSInteger kRLMBrowserObjectViewTag = 101;
     contentView.propertyName = property.name;
     contentView.propertyStats = [property RLMBrowser_typeAndConfigurationDescription];
     contentView.objectValue = RLM_OBJECT_VALUE_DESCRIPTION(self.realmObject, property.name);;
-    contentView.quickLookButton.hidden = ![self.quickLookProperties[indexPath.row] boolValue];
+    contentView.quickLookButton.hidden = YES; //![self.quickLookProperties[indexPath.row] boolValue];
 
     contentView.nilValue = (contentView.objectValue == nil);
 
