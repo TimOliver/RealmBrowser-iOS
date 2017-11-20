@@ -53,8 +53,9 @@ static NSString *kRLMBrowserObjectPropertyTableViewCellIdentifier = @"PropertyCe
 
     self.circleImage = [UIImage RLMBrowser_tintedCircleImageForRadius:15.0f];
     self.realmColors = self.realmColors = [[[UIColor RLMBrowser_realmColors] reverseObjectEnumerator] allObjects];
-
-    UINib *tableNib = [UINib nibWithNibName:@"RLMBrowserPropertyTableViewCell" bundle:nil];
+    
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    UINib *tableNib = [UINib nibWithNibName:@"RLMBrowserPropertyTableViewCell" bundle:bundle];
     [self.tableView registerNib:tableNib forCellReuseIdentifier:kRLMBrowserObjectPropertyTableViewCellIdentifier];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonTapped)];
