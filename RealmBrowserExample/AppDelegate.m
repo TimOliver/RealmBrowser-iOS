@@ -10,8 +10,6 @@
 #import <Realm/Realm.h>
 #import "Person.h"
 
-#import <TOStatusBarSimulator/TOStatusBarSimulator.h>
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -22,9 +20,6 @@
             [realm addObjects:[Person generateTestData]];
         }];
     }
-
-    [TOStatusBarSimulator show];
-    [TOStatusBarSimulator setCarrierString:@"Realm"];
 
     return YES;
 }

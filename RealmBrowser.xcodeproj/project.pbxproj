@@ -659,20 +659,16 @@
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${PODS_ROOT}/Reveal-SDK/RevealServer-11/iOS/RevealServer.framework",
 				"${BUILT_PRODUCTS_DIR}/TODocumentPickerViewController/TODocumentPickerViewController.framework",
-				"${BUILT_PRODUCTS_DIR}/TOPagerView/TOPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/TORoundedTableView/TORoundedTableView.framework",
 				"${BUILT_PRODUCTS_DIR}/TOSplitViewController/TOSplitViewController.framework",
-				"${BUILT_PRODUCTS_DIR}/TOStatusBarSimulator/TOStatusBarSimulator.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TODocumentPickerViewController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TORoundedTableView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOSplitViewController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOStatusBarSimulator.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
