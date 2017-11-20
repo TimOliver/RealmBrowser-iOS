@@ -6,8 +6,7 @@ target 'RealmBrowserExample' do
  	pod 'Realm'
 	pod 'Reveal-SDK', :configurations => ['Debug']
 	pod 'TORoundedTableView'
-	pod 'TOSplitViewController', :path => '~/Projects/TOSplitViewController'
+	pod 'TOSplitViewController'
 	pod 'TOPagerView'
 	pod 'TODocumentPickerViewController'
-	pod 'TOStatusBarSimulator', :path => '~/Projects/TOStatusBarSimulator'
 end
