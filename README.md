@@ -3,7 +3,7 @@
 
 <img src="https://raw.githubusercontent.com/TimOliver/RealmBrowser-iOS/master/screenshot.jpg" />
 
-**This library is still a heavy WIP with several relatively crucial features still missing. In any case, it's finished to the point where it's presentable, so I'm sharing it now. Enjoy!**
+**This library is still a heavy WIP with several relatively crucial features still missing. In any case, it's finished to the point where it's presentable, so I figured I'd stop hoarding it to myself. Enjoy!**
 
 The Realm Browser for iOS is an unofficial debugging framework for apps that implement [Realm](http://realm.io). It uses the Objective-C dynamic runtime to monitor an app's interaction with Realm, and then allows developers to present a UI dialog displaying the contents of any Realm files in the app.
 
