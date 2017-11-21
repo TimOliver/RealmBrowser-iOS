@@ -27,7 +27,7 @@
 
 + (instancetype)emptyView
 {
-    return [[NSBundle mainBundle] loadNibNamed:@"RLMBrowserEmptyContentView" owner:self options:nil].firstObject;
+    return [[NSBundle bundleForClass:self.class] loadNibNamed:@"RLMBrowserEmptyContentView" owner:self options:nil].firstObject;
 }
 
 - (void)awakeFromNib

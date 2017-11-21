@@ -37,7 +37,7 @@
 
 + (instancetype)objectContentView
 {
-    RLMBrowserObjectContentView *contentView = [[[NSBundle mainBundle] loadNibNamed:@"RLMBrowserObjectContentView" owner:nil options:nil] firstObject];
+    RLMBrowserObjectContentView *contentView = [[[NSBundle bundleForClass:self.class] loadNibNamed:@"RLMBrowserObjectContentView" owner:nil options:nil] firstObject];
     contentView.propertyStatsLabel.hidden = YES;
     contentView.propertyStats = nil;
     return contentView;

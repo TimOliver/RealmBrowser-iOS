@@ -26,7 +26,7 @@
 
 + (RLMBrowserRealmHeaderView *)headerView
 {
-    return [[NSBundle mainBundle] loadNibNamed:@"RLMBrowserRealmHeaderView"
+    return [[NSBundle bundleForClass:self.class] loadNibNamed:@"RLMBrowserRealmHeaderView"
                                          owner:self options:nil].firstObject;
 }
 
