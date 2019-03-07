@@ -8,4 +8,6 @@ target 'RealmBrowserExample' do
 	pod 'TORoundedTableView'
 	pod 'TOSplitViewController'
 	pod 'TODocumentPickerViewController'
+    pod 'MLeaksFinder'
+
 end

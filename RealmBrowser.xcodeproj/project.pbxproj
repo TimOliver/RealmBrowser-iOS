@@ -580,7 +580,6 @@
 				220D91B71DE6BE6F007CFF2A /* Frameworks */,
 				220D91B81DE6BE6F007CFF2A /* Resources */,
 				0669018AAB2A5BAAEF0B3AA1 /* [CP] Embed Pods Frameworks */,
-				7A4D87DB07FDB9C38D5DB361 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -673,30 +672,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RealmBrowserExample/Pods-RealmBrowserExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7A4D87DB07FDB9C38D5DB361 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-RealmBrowserExample/Pods-RealmBrowserExample-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${PODS_ROOT}/Reveal-SDK/RevealServer-11/iOS/RevealServer.framework",
-				"${BUILT_PRODUCTS_DIR}/TORoundedTableView/TORoundedTableView.framework",
-				"${BUILT_PRODUCTS_DIR}/XLForm/XLForm.framework",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TORoundedTableView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLForm.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RealmBrowserExample/Pods-RealmBrowserExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9B54C2A44047A108C81E6628 /* [CP] Check Pods Manifest.lock */ = {

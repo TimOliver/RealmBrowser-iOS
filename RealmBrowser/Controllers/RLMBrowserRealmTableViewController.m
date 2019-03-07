@@ -157,17 +157,19 @@ const NSInteger kRLMBrowserRealmViewTag = 101;
 - (void)favoriteButtonTapped:(id)sender
 {
     NSInteger listIndex = [self.browserList.starredRealms indexOfObject:self.browserRealm];
+    __weak typeof(self) weakSelf = self;
+
     [self.browserList.realm transactionWithBlock:^{
         if (listIndex != NSNotFound) {
-            [self.browserList.starredRealms removeObjectAtIndex:listIndex];
-            [self.browserList.allRealms insertObject:self.browserRealm atIndex:0];
+            [weakSelf.browserList.starredRealms removeObjectAtIndex:listIndex];
+            [weakSelf.browserList.allRealms insertObject:weakSelf.browserRealm atIndex:0];
         }
         else {
-            NSInteger allRealmIndex = [self.browserList.allRealms indexOfObject:self.browserRealm];
+            NSInteger allRealmIndex = [weakSelf.browserList.allRealms indexOfObject:weakSelf.browserRealm];
             if (allRealmIndex != NSNotFound) {
-                [self.browserList.allRealms removeObjectAtIndex:allRealmIndex];
+                [weakSelf.browserList.allRealms removeObjectAtIndex:allRealmIndex];
             }
-            [self.browserList.starredRealms insertObject:self.browserRealm atIndex:0];
+            [weakSelf.browserList.starredRealms insertObject:weakSelf.browserRealm atIndex:0];
         }
     }];
 

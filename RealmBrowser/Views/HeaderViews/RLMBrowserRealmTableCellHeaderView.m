@@ -123,11 +123,11 @@
     if (self.collapseToggledHandler) {
         self.collapseToggledHandler();
     }
-
+    __weak typeof(self) weakSelf = self;
     void (^animationBlock)(void) = ^{
         CGFloat angle = _collapsed ? 0.0f : M_PI_2;
-        self.disclosureArrowView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, angle);
-        self.separatorView.alpha = collapsed ? 1.0f : 0.0f;
+        weakSelf.disclosureArrowView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, angle);
+        weakSelf.separatorView.alpha = collapsed ? 1.0f : 0.0f;
     };
 
     if (!animated) {
