@@ -8,4 +8,5 @@ target 'RealmBrowserExample' do
 	pod 'TORoundedTableView'
 	pod 'TOSplitViewController'
 	pod 'TODocumentPickerViewController'
+
 end

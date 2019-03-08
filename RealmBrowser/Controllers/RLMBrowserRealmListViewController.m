@@ -234,8 +234,9 @@ NSString * const kRLMBrowserSchemaTableViewCellIdentifier = @"SchemaTableCell";
 - (void)toggleRealmSectionProperty:(NSString *)propertyName
 {
     BOOL propertyValue = [self.realmList[propertyName] boolValue];
+    __weak typeof(self) weakSelf = self;
     [self.realmList.realm transactionWithBlock:^{
-        self.realmList[propertyName] = @(!propertyValue);
+        weakSelf.realmList[propertyName] = @(!propertyValue);
     }];
 }
 

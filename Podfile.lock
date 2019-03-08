@@ -14,6 +14,14 @@ DEPENDENCIES:
   - TORoundedTableView
   - TOSplitViewController
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Realm
+    - Reveal-SDK
+    - TODocumentPickerViewController
+    - TORoundedTableView
+    - TOSplitViewController
+
 SPEC CHECKSUMS:
   Realm: ba6144c74f835f7497791f6599d63a7755377b83
   Reveal-SDK: 7fa13d04bb55db61ff2342a990cf731d5159361d
@@ -21,6 +29,6 @@ SPEC CHECKSUMS:
   TORoundedTableView: cd1437ef81ab3888dea8c06d2dfe4795bcaac768
   TOSplitViewController: 3d59b95c3e09511cc4540bc05d1db6a7d3289eed
 
-PODFILE CHECKSUM: 73bd022f55ad8773d55b5f8c894666d07783aa35
+PODFILE CHECKSUM: 1aecb5074ff6ec1a54439612e689c2ee5365cd7d
 
-COCOAPODS: 1.4.0.beta.2
+COCOAPODS: 1.5.3
